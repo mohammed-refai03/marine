@@ -119,6 +119,15 @@
             border-top: 1px solid var(--border-light);
         }
 
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 8px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
         .btn-logout {
             width: 100%;
             display: flex;
@@ -446,7 +455,7 @@
             .menu-toggle { display: block; }
             nav { padding: 0 20px; }
             main { padding: 20px; }
-            .profile-info { display: none; }
+            nav .profile-info { display: none; }
             
             .chart-grid { grid-template-columns: 1fr; gap: 16px; }
             .chart-card.split-main, .chart-card.split-side { grid-column: unset; }
@@ -483,6 +492,13 @@
             </li>
         </ul>
         <div class="sidebar-footer">
+            <div class="sidebar-profile">
+                <div class="profile-avatar" id="sidebarAvatar">S</div>
+                <div class="profile-info" style="text-align: left;">
+                    <div class="profile-role" id="sidebarRole">System Administrator</div>
+                    <div class="profile-email" id="sidebarEmail">admin@stackly.org</div>
+                </div>
+            </div>
             <button class="btn-logout" id="btnLogout">
                 <i class="fa-solid fa-right-from-bracket"></i>Logout
             </button>
@@ -1064,6 +1080,9 @@
                     document.body.classList.remove('no-scroll');
                     }
 
+                    // Reset page scroll position to the top
+                    window.scrollTo(0, 0);
+
                     // Refresh scroll positioning markers for new tabs and execute GSAP waterfall flow
                     ScrollTrigger.refresh();
                     animateSectionEntrance(targetId);
@@ -1086,15 +1105,25 @@
             // --- USER PROFILE SESSION REGISTRY ATTACHMENT ---
             const activeUser = JSON.parse(localStorage.getItem('authenticated_active_user'));
             if (activeUser) {
-                document.getElementById('sessionRole').textContent = activeUser.role + " Profile Anchor";
+                const roleText = activeUser.role + " Profile Anchor";
+                document.getElementById('sessionRole').textContent = roleText;
                 document.getElementById('sessionEmail').textContent = activeUser.email;
+                document.getElementById('sidebarRole').textContent = roleText;
+                document.getElementById('sidebarEmail').textContent = activeUser.email;
                 if(activeUser.username) {
-                    document.getElementById('profileAvatar').textContent = activeUser.username.charAt(0).toUpperCase();
+                    const avatarChar = activeUser.username.charAt(0).toUpperCase();
+                    document.getElementById('profileAvatar').textContent = avatarChar;
+                    document.getElementById('sidebarAvatar').textContent = avatarChar;
                 }
             } else {
-                document.getElementById('sessionRole').textContent = "System Administrator";
-                document.getElementById('sessionEmail').textContent = "admin@stackly.org";
+                const defaultRole = "System Administrator";
+                const defaultEmail = "admin@stackly.org";
+                document.getElementById('sessionRole').textContent = defaultRole;
+                document.getElementById('sessionEmail').textContent = defaultEmail;
                 document.getElementById('profileAvatar').textContent = "S";
+                document.getElementById('sidebarRole').textContent = defaultRole;
+                document.getElementById('sidebarEmail').textContent = defaultEmail;
+                document.getElementById('sidebarAvatar').textContent = "S";
             }
 
             // --- LOGOUT ROUTER TRIGGER ---
