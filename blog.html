@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly Journal | Marine Conservation & Ocean Science Insights</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --deep-navy: #06283D;
+            --ocean-blue: #0A4D68;
+            --sea-green: #1B9C85;
+            --coral-accent: #FF8C42;
+            --bg-light: #F5FAFC;
+            --text-dark: #1E293B;
+            --text-light: #FFFFFF;
+            --radius-md: 16px;
+            --radius-lg: 32px;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* RESET & FOUNDATION ARCHITECTURE */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: initial; } /* GSAP ScrollTrigger manages timeline velocity updates */
+        body { 
+            background-color: var(--bg-light); 
+            color: var(--text-dark); 
+            font-family: var(--font-body); 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .container { width: 100%; max-width: 1400px; margin: 0 auto; padding: 0 32px; position: relative; }
+        .section-padding { padding: clamp(70px, 10vw, 140px) 0; position: relative; }
+        
+        h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--deep-navy); line-height: 1.2; }
+        p { line-height: 1.7; color: #475569; }
+        a { text-decoration: none; color: inherit; }
+
+        /* REUSABLE EDITORIAL HEADER COMPONENT */
+        .editorial-header { max-width: 800px; margin-bottom: clamp(40px, 6vw, 75px); }
+        .editorial-header .journal-lbl { color: var(--sea-green); font-weight: 700; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-bottom: 12px; display: block; }
+        .editorial-header h2 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); font-weight: 800; margin-bottom: 20px; letter-spacing: -0.03em; }
+        .editorial-header p { font-size: 1.15rem; color: #475569; }
+
+        /* COMPONENT OPTIMIZATION GLASS SYSTEM */
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 20px 50px rgba(6, 40, 61, 0.04); }
+
+        /* BUTTON DESIGN PATTERNS */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 14px 32px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; gap: 12px; font-size: 0.95rem; font-family: var(--font-heading); position: relative; overflow: hidden; }
+        .btn-primary { background: var(--coral-accent); color: white; box-shadow: 0 10px 25px rgba(255, 140, 66, 0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 140, 66, 0.45); }
+        .btn-secondary { background: var(--ocean-blue); color: white; box-shadow: 0 10px 25px rgba(10, 77, 104, 0.2); }
+        .btn-secondary:hover { background: var(--deep-navy); transform: translateY(-3px); }
+        .btn-outline { background: transparent; color: var(--deep-navy); border: 2px solid var(--deep-navy); }
+        .btn-outline:hover { background: var(--deep-navy); color: white; transform: translateY(-3px); }
+
+        /* ANCHORED STICKY NAVIGATION */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 24px 0; transition: var(--transition); background: rgba(6, 40, 61, 0.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .navbar.scrolled { padding: 16px 0; background: rgba(6, 40, 61, 0.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.12); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; justify-content: flex-start; width: 100%; max-width: 170px; text-decoration: none; }
+        .responsive-logo { width: auto; max-width: 100%; height: 38px; object-fit: contain; }
+        .nav-menu { display: flex; gap: 32px; list-style: none; align-items: center; }
+        .nav-link { color: rgba(255,255,255,0.8); font-weight: 500; font-size: 0.95rem; position: relative; padding: 4px 0; text-decoration: none; transition: var(--transition); }
+        .nav-link:hover, .nav-link.active { color: white; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--coral-accent); transition: var(--transition); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .menu-toggle { display: none; color: white; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
+        @media (max-width: 1023px) {
+            .menu-toggle { display: block; }
+            .nav-menu {
+                position: fixed; top: 0; right: -100%;
+                width: 100%; height: 100vh;
+                background-color: rgba(6, 40, 61, 0.98);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                flex-direction: column; justify-content: center;
+                align-items: center;
+                gap: 40px;
+                transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 1000;
+            }
+            .nav-menu.active { right: 0; }
+        }
+
+        /* Page Hero Banner */
+        .page-hero-banner { position: relative; width: 100%; min-height: 420px; display: flex; align-items: center; justify-content: center; padding: 120px 24px 80px; box-sizing: border-box; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; color: white; }
+        .banner-overlay-mask { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(6, 40, 61, 0.9) 0%, rgba(2, 14, 23, 0.9) 100%); z-index: 1; }
+        .banner-container { position: relative; z-index: 2; width: 100%; max-width: 900px; margin: 0 auto; text-align: center; }
+        .page-denotation { display: inline-flex; align-items: center; gap: 8px; font-family: 'Inter', sans-serif; font-size: 13px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 24px; padding: 6px 16px; background-color: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; }
+        .page-denotation .root-node { color: rgba(255,255,255,0.5); }
+        .page-denotation .divider { color: rgba(255,255,255,0.2); }
+        .page-denotation .current-page { color: var(--sea-green); font-weight: 600; }
+        .hero-sentence { font-family: 'Inter', sans-serif; font-size: 22px; line-height: 1.7; color: #FFFFFF; font-weight: 400; }
+        .hero-sentence .highlight-text { font-family: 'Poppins', sans-serif; font-size: 24px; font-weight: 700; color: var(--sea-green); letter-spacing: -0.3px; }
+        /* Newsletter & Footer */
+        .cta-newsletter { background-color: #0E2938; padding: 80px 40px; color: white; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .cta-box { max-width: 650px; margin: 0 auto; text-align: center; }
+        .cta-box h2 { color: white; font-size: 2.3rem; margin-bottom: 16px; font-family: var(--font-heading); }
+        .cta-box p { color: rgba(255,255,255,0.8); margin-bottom: 30px; }
+        .newsletter-form { display: flex; gap: 12px; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .newsletter-form input { flex: 1; background: transparent; border: none; padding: 12px 16px; color: white; font-size: 1rem; outline: none; }
+
+        /* SECTION 1: HERO DISPLAY OVERLAY WITH FLOATING MARINE ELEMENTS */
+        .hero { min-height: 100vh; position: relative; display: flex; align-items: center; background: radial-gradient(circle at 80% 20%, rgba(27, 156, 133, 0.15) 0%, transparent 50%), radial-gradient(circle at 10% 80%, rgba(255, 140, 66, 0.08) 0%, transparent 40%); padding-top: 100px; }
+        .hero-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; }
+        .hero-tag { display: inline-block; padding: 6px 16px; background: rgba(27, 156, 133, 0.12); color: var(--sea-green); font-weight: 700; border-radius: 20px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; }
+        .hero h1 { font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 800; margin-bottom: 24px; letter-spacing: -0.04em; color: var(--deep-navy); }
+        .hero p { font-size: 1.25rem; margin-bottom: 40px; color: #475569; max-width: 680px; }
+        .hero-btn-group { display: flex; gap: 16px; flex-wrap: wrap; }
+        
+        .hero-visual-frame { position: relative; width: 100%; height: 550px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 30px 70px rgba(6, 40, 61, 0.15); }
+        .hero-visual-frame img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); }
+        
+        /* Floating Marine Elements */
+        .floating-element { position: absolute; pointer-events: none; z-index: 3; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)); }
+        .float-1 { top: 15%; right: 45%; width: 90px; opacity: 0.7; }
+        .float-2 { bottom: 20%; left: 5%; width: 130px; opacity: 0.6; }
+
+        /* Wave Divider Design Component */
+        .wave-divider { position: absolute; bottom: 0; left: 0; width: 100%; overflow: hidden; line-height: 0; transform: rotate(180deg); }
+        .wave-divider svg { position: relative; display: block; width: calc(100% + 1.3px); height: 75px; fill: var(--bg-light); }
+
+        /* SECTION 2: EDITORIAL FEATURED ARTICLE VIEWPORT */
+        .editorial-showcase { background: #FFFFFF; }
+        .featured-wrapper { display: grid; grid-template-columns: 1fr; gap: 50px; border-radius: var(--radius-lg); overflow: hidden; background: var(--bg-light); border: 1px solid rgba(6, 40, 61, 0.05); }
+        .featured-img-container { height: 100%; min-height: 400px; overflow: hidden; position: relative; }
+        .featured-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .featured-wrapper:hover .featured-img-container img { transform: scale(1.04); }
+        .featured-meta-panel { padding: clamp(40px, 6vw, 70px); display: flex; flex-direction: column; justify-content: center; }
+        .badge-row { display: flex; gap: 12px; align-items: center; margin-bottom: 24px; }
+        .badge { background: var(--ocean-blue); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .badge.accent-badge { background: var(--coral-accent); }
+        .read-time { font-size: 0.85rem; color: #64748B; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+        .featured-meta-panel h3 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; margin-bottom: 20px; letter-spacing: -0.02em; }
+        .featured-meta-panel p { font-size: 1.1rem; margin-bottom: 32px; color: #475569; }
+        
+        .author-box { display: flex; align-items: center; gap: 16px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 24px; margin-bottom: 32px; }
+        .author-box img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+        .author-info h4 { font-size: 1rem; font-weight: 600; }
+        .author-info span { font-size: 0.85rem; color: #64748B; }
+
+        /* SECTION 3: DYNAMIC FILTER CHIPS */
+        .category-filter-section { background: var(--bg-light); text-align: center; padding-bottom: 0; }
+        .filter-track { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; }
+        .filter-chip { padding: 12px 26px; background: white; border: 1px solid rgba(6, 40, 61, 0.08); border-radius: 30px; font-weight: 500; font-size: 0.95rem; cursor: pointer; transition: var(--transition); color: var(--text-dark); }
+        .filter-chip:hover, .filter-chip.active { background: var(--deep-navy); color: white; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(6, 40, 61, 0.1); }
+
+        /* SECTION 4: BENTO-GRID TRENDING ARTICLES MATRIX */
+        .trending-matrix { background: var(--bg-light); }
+        .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 32px; }
+        .bento-card { grid-column: span 12; border-radius: var(--radius-lg); overflow: hidden; background: #FFFFFF; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(6, 40, 61, 0.05); box-shadow: 0 15px 40px rgba(6, 40, 61, 0.02); transition: var(--transition); }
+        .bento-card-media { position: relative; height: 240px; overflow: hidden; }
+        .bento-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .bento-card:hover .bento-card-media img { transform: scale(1.06); }
+        .bento-card-body { padding: 32px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .bento-card h3 { font-size: 1.35rem; font-weight: 700; margin: 16px 0 12px 0; line-height: 1.3; transition: color 0.3s ease; }
+        .bento-card:hover h3 { color: var(--sea-green); }
+        .bento-card p { font-size: 0.95rem; color: #64748B; margin-bottom: 24px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .card-link { font-weight: 600; color: var(--deep-navy); font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px; transition: var(--transition); }
+        .card-link i { transition: transform 0.3s ease; }
+        .bento-card:hover .card-link { color: var(--sea-green); }
+        .bento-card:hover .card-link i { transform: translateX(6px); }
+
+        /* Bento Matrix Sizing Variations */
+        @media (min-width: 768px) {
+            .bento-card.span-4 { grid-column: span 4; }
+            .bento-card.span-6 { grid-column: span 6; }
+            .bento-card.span-8 { grid-column: span 8; }
+            .featured-wrapper { grid-template-columns: 1.1fr 0.9fr; }
+        }
+
+        /* SECTION 5: HORIZONTAL RESEARCH INSIGHTS (ALTERNATING BLOCKS) */
+        .research-insights { background: #FFFFFF; }
+        .insight-row { display: grid; grid-template-columns: 1fr; gap: 50px; align-items: center; margin-bottom: 100px; }
+        .insight-row:last-child { margin-bottom: 0; }
+        .insight-visual { position: relative; height: 480px; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.06); }
+        .insight-visual img { width: 100%; height: 100%; object-fit: cover; }
+        .insight-content { padding: 20px; }
+        .insight-content h3 { font-size: 2rem; font-weight: 700; margin: 14px 0 20px 0; letter-spacing: -0.02em; }
+        .data-fact-box { display: flex; gap: 24px; margin-top: 32px; background: var(--bg-light); padding: 24px; border-radius: var(--radius-md); border-left: 4px solid var(--sea-green); }
+        .data-fact-metric { font-size: 2.2rem; font-weight: 800; color: var(--sea-green); font-family: var(--font-heading); line-height: 1; }
+        .data-fact-txt h5 { font-weight: 600; font-size: 1rem; margin-bottom: 4px; }
+        .data-fact-txt p { font-size: 0.88rem; color: #64748B; }
+
+        @media (min-width: 992px) {
+            .insight-row { grid-template-columns: repeat(2, 1fr); }
+            .insight-row.reverse .insight-visual { order: 2; }
+            .insight-row.reverse .insight-content { order: 1; }
+        }
+
+         .metric-banner { display: inline-flex; gap: 14px; background: rgba(27, 156, 133, 0.2); padding: 8px 18px; border-radius: 20px; border: 1px solid var(--sea-green); margin-top: 20px; text-align: left; }
+        .metric-banner span { font-weight: 800; color: white; font-size: 1.2rem; font-family: var(--font-heading); }
+        .metric-banner p { font-size: 0.8rem; color: #E2E8F0; line-height: 1.3; margin: 0; }
+
+        @media (max-width: 767px) {
+            .timeline-line, .timeline-progress { left: 24px; transform: none; }
+            .timeline-node { width: 100%; left: 0 !important; padding-left: 60px; padding-right: 0; text-align: left !important; }
+            .timeline-node .timeline-dot { left: 12px !important; right: auto !important; }
+        }
+
+        /* SECTION 8: AUTO-SCROLLING CAROUSEL SLIDER (EDITOR'S CHOICE) */
+        .carousel-section { background: #FFFFFF; overflow: hidden; }
+        .carousel-viewport { overflow: hidden; width: 100%; padding: 20px 0; position: relative; }
+        .carousel-track { display: flex; gap: 32px; width: max-content; }
+        .carousel-slide { width: 400px; background: var(--bg-light); border-radius: var(--radius-md); overflow: hidden; border: 1px solid rgba(6,40,61,0.05); flex-shrink: 0; transition: var(--transition); }
+        .carousel-slide:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(6,40,61,0.06); }
+        .slide-img { height: 200px; overflow: hidden; }
+        .slide-img img { width: 100%; height: 100%; object-fit: cover; }
+        .slide-body { padding: 24px; }
+        .slide-body h4 { font-size: 1.15rem; font-weight: 700; margin: 10px 0; line-height: 1.4; }
+        .slide-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 14px; margin-top: 14px; font-size: 0.8rem; color: #64748B; }
+
+   /* SECTION 11: BLOG PERFORMANCE GRAPHIC COUNTERS */
+        .impact-stats { background: #041A26; color: white; padding: 100px 0; position: relative; overflow: hidden; }
+        .stats-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; text-align: center; }
+        .stat-node .counter { font-size: clamp(2.8rem, 6vw, 4.2rem); font-weight: 800; color: var(--coral-accent); font-family: var(--font-heading); letter-spacing: -0.02em; display: block; }
+        .stat-node p { font-size: 1rem; color: rgba(255,255,255,0.7); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+
+        @media (min-width: 992px) { .stats-matrix { grid-template-columns: repeat(5, 1fr); } }
+
+        /* SECTION 12: ACCELERATED CTA PLATFORM PLATFORM BOX */
+        .final-cta { background: var(--bg-light); padding-bottom: 0; }
+        .cta-glass-panel { background: linear-gradient(135deg, #06283D 0%, #0A4D68 100%); border-radius: var(--radius-lg); padding: clamp(40px, 8vw, 90px) 32px; text-align: center; color: white; position: relative; overflow: hidden; box-shadow: 0 30px 60px rgba(6,40,61,0.15); margin-bottom: -70px; z-index: 10; }
+        .cta-glass-panel h2 { color: white; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 800; margin-bottom: 20px; letter-spacing: -0.03em; }
+        .cta-glass-panel p { color: rgba(255,255,255,0.85); font-size: 1.2rem; max-width: 700px; margin: 0 auto 40px auto; }
+        .cta-btn-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .cta-glass-panel .btn-outline { color: white; border-color: white; }
+        .cta-glass-panel .btn-outline:hover { background: white; color: var(--deep-navy); }
+
+        /* PRESTIGE GLOBAL FOOTER STRUCTURE */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @media (min-width: 768px) {
+
+
+        }
+        @media (min-width: 1200px) {
+
+        }
+
+        /* ==========================================================================
+   GLOBAL MEDIA QUERIES (THE RESPONSIVE ENGINE)
+   ========================================================================== */
+
+/* --- Laptop & Medium Desktops (Under 1200px) --- */
+@media (max-width: 1200px) {
+    .bento-grid { 
+        gap: 20px; 
+    }
+    .span-8 { 
+        grid-column: span 12; 
+    } 
+    .span-4 { 
+        grid-column: span 6; 
+    }
+}
+
+/* --- Tablets & iPads (Under 992px) --- */
+@media (max-width: 992px) {
+    .section-padding { 
+        padding: 60px 0; 
+    }
+    
+    /* Hero Section */
+    .hero { 
+        padding: 140px 0 80px 0; 
+    }
+    .hero-layout { 
+        grid-template-columns: 1fr; 
+        gap: 40px; 
+        text-align: center; 
+    }
+    .hero-btn-group { 
+        justify-content: center; 
+    }
+    .hero-visual-frame img { 
+        height: 350px; 
+    }
+
+    /* Featured Section */
+    .featured-wrapper { 
+        grid-template-columns: 1fr; 
+    }
+    .featured-img-container img { 
+        min-height: 300px; 
+        max-height: 400px; 
+    }
+
+    /* Footer Section */
+
+}
+
+/* --- Small Tablets & Portrait Views (Under 768px) --- */
+@media (max-width: 768px) {
+    /* Navbar Section */
+    .nav-links { 
+        display: none; /* Hides standard desktop links for mobile toggle menu */
+    } 
+    
+    /* Bento Grid Section */
+    .span-6 { 
+        grid-column: span 12; 
+    }
+    .span-4 { 
+        grid-column: span 12; 
+    }
+    
+    /* Final CTA Section */
+    .cta-glass-panel { 
+        padding: 40px 20px; 
+    }
+    
+    /* Footer Section */
+
+}
+
+/* --- Smart Phones (Under 480px) --- */
+@media (max-width: 480px) {
+    /* Global Container */
+    .container { 
+        padding: 0 16px; 
+    }
+    
+    /* Hero & CTA Button Rows */
+    .hero-btn-group { 
+        flex-direction: column; 
+        gap: 12px; 
+    }
+    .cta-btn-row { 
+        flex-direction: column; 
+    }
+    
+    /* Category Filter Section (Converts layout into a swipeable horizontal track) */
+    .filter-track { 
+        justify-content: flex-start; 
+        overflow-x: auto; 
+        flex-wrap: nowrap; 
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .filter-track button { 
+        flex-shrink: 0; 
+    }
+    
+    /* Footer Section */
+
+}
+
+        /* ACCESS SYSTEM CONTROL: SCROLL STAGE UP BUTTON */
+        .back-to-top { position: fixed; bottom: 32px; right: 32px; width: 52px; height: 52px; background: var(--coral-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 99; opacity: 0; visibility: hidden; transition: var(--transition); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+    
+        /* ==========================================================================
+           STANDARDIZED FOOTER STYLING (MATCHING INDEX.HTML)
+           ========================================================================== */
+        .footer a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .footer a:hover {
+            color: var(--coral-accent);
+        }
+        .footer {
+            background: linear-gradient(to bottom, #041C2B, #020E17);
+            color: rgba(255,255,255,0.7);
+            padding: 80px 0 40px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-about .logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-about p {
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background-color: var(--coral-accent);
+            transform: translateY(-3px);
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a:hover {
+            color: var(--coral-accent);
+            padding-left: 4px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; } .footer-bottom { flex-direction: column; gap: 12px; } .newsletter-form { flex-direction: column; } }
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 12px; }
+            .newsletter-form { flex-direction: column; background: transparent; border: none; padding: 0; }
+            .newsletter-form input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-sm); margin-bottom: 12px; }
+        }
+
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid { 
+                grid-template-columns: 1fr; 
+                text-align: center; 
+                gap: 40px;
+            }
+
+            .footer-about, .footer-links, .footer-about .logo {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .social-icons { justify-content: center; }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="login.html" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">Login</a></li>
+            </ul>
+            <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </nav>
+
+    <!-- Page Hero Banner -->
+    <header class="page-hero-banner" style="background-image: url('assets/images/aerial-ocean-waves-1505118380757.webp');">
+        <div class="banner-overlay-mask"></div>
+        <div class="banner-container">
+            <div class="page-denotation">
+                <span class="root-node">Stackly</span>
+                <span class="divider">/</span>
+                <span class="current-page">Journal</span>
+            </div>
+            <p class="hero-sentence">
+                Explore our <strong class="highlight-text">Research & Conservation Insights</strong> — peer-reviewed articles, field reports, and ocean science updates directly from our global network of marine scientists.
+            </p>
+        </div>
+    </header>
+
+
+    <section id="featured" class="section-padding editorial-showcase" data-aos="fade-up">
+        <div class="container">
+            <div class="editorial-header">
+                <span class="journal-lbl">Editor's Selection</span>
+                <h2>Highlighted Research Focus</h2>
+            </div>
+            
+            <div class="featured-wrapper">
+                <div class="featured-img-container">
+                    <img src="assets/images/aerial-view-rocks-each-other-surrounded-by-wavy-sea-sunlight-daytime.webp" alt="Vibrant Living Coral Reef Structure">
+                </div>
+                <div class="featured-meta-panel">
+                    <div class="badge-row">
+                        <span class="badge accent-badge">Coral Reefs</span>
+                        <span class="read-time"><i class="fa-regular fa-clock"></i> 8 Min Read</span>
+                    </div>
+                    <h3>The Future Of Coral Reef Restoration: Genetic Sequencing Arrays</h3>
+                    <p>How international biological research associations are micro-fragmenting heat-resilient coral strains inside automated offshore nurseries to fight massive macro-climate thermal events.</p>
+                    
+                    <div class="author-box">
+                        <img src="assets/images/dr-sarah-jenkins-1534528741775.webp" alt="Dr. Sarah Jenkins">
+                        <div class="author-info">
+                            <h4>Dr. Sarah Jenkins</h4>
+                            <span>Lead Specialist, Mariculture Core Alliance</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <a href="404.html" class="btn btn-secondary">Read Full Publication <i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding category-filter-section" data-aos="fade-up">
+        <div class="container">
+            <div class="editorial-header" style="margin-left: auto; margin-right: auto; text-align: center;">
+                <span class="journal-lbl">Knowledge Index</span>
+                <h2>Browse Ecosystem Topics</h2>
+            </div>
+           
+        </div>
+    </section>
+
+    <section class="section-padding trending-matrix" data-aos="fade-up">
+        <div class="container">
+            <div class="bento-grid">
+                
+                <div class="bento-card span-8 mix pollution">
+                    <div class="bento-card-media">
+                        <img src="assets/images/WhatsAppImage2026-06-17at9.29.26AM.webp" alt="Plastic Pollution">
+                    </div>
+                    <div class="bento-card-body">
+                        <div>
+                            <div class="badge-row">
+                                <span class="badge">Ocean Pollution</span>
+                                <span class="read-time">5 Min Read</span>
+                            </div>
+                            <h3>Plastic Pollution Crisis: Tracking upstream chemical signatures</h3>
+                            <p>Using autonomous sampling grids across high-yield maritime trade ports to index production liability parameters directly at source channels.</p>
+                        </div>
+                        <a href="404.html" class="card-link">Analyze Dataset <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="bento-card span-4 mix wildlife">
+                    <div class="bento-card-media">
+                        <img src="assets/images/pexels-phiraphonsrithakae-10652461.webp" alt="Sea Turtle Stabilization">
+                    </div>
+                    <div class="bento-card-body">
+                        <div>
+                            <div class="badge-row">
+                                <span class="badge">Marine Wildlife</span>
+                                <span class="read-time">6 Min Read</span>
+                            </div>
+                            <h3>Fishes Conservation Infrastructure Arrays</h3>
+                            <p>Securing vulnerable coastal nesting zones utilizing thermal tracking arrays linked to regional dispatch hubs.</p>
+                        </div>
+                        <a href="404.html" class="card-link">View Maps <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="bento-card span-4 mix reefs">
+                    <div class="bento-card-media">
+                        <img src="assets/images/coral-bleaching-survey-1553856622.webp" alt="Coral Bleaching Survey">
+                    </div>
+                    <div class="bento-card-body">
+                        <div>
+                            <div class="badge-row">
+                                <span class="badge">Coral Reefs</span>
+                                <span class="read-time">7 Min Read</span>
+                            </div>
+                            <h3>Coral Bleaching Recovery Diagnostics</h3>
+                            <p>Evaluating long-term structural survivability metrics inside historical bleaching quadrants utilizing advanced algorithmic scans.</p>
+                        </div>
+                        <a href="404.html" class="card-link">Review Models <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="bento-card span-8 mix science">
+                    <div class="bento-card-media">
+                        <img src="assets/images/pexels-kindelmedia-8824668.webp" alt="Autonomous Skimmer Technology">
+                    </div>
+                    <div class="bento-card-body">
+                        <div>
+                            <div class="badge-row">
+                                <span class="badge">Research & Science</span>
+                                <span class="read-time">9 Min Read</span>
+                            </div>
+                            <h3>Ocean Cleanup Technology: Scalable Surface Skimmers</h3>
+                            <p>Deploying smart fleet frameworks mapping trace algorithmic intercept flight lines across oceanic gyres to accelerate micro-material aggregation loops.</p>
+                        </div>
+                        <a href="404.html" class="card-link">Read Technology Specifications <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="bento-card span-6 mix sustainability">
+                    <div class="bento-card-media">
+                        <img src="assets/images/sustainable-coastlines-1507525428034.webp" alt="Sustainable Coastlines">
+                    </div>
+                    <div class="bento-card-body">
+                        <div>
+                            <div class="badge-row">
+                                <span class="badge">Sustainability</span>
+                                <span class="read-time">6 Min Read</span>
+                            </div>
+                            <h3>Sustainable Coastal Communities Strategy</h3>
+                            <p>Assisting artisanal fishing guilds with localized quota management systems to increase commercial margins while protecting local ecosystems.</p>
+                        </div>
+                        <a href="404.html" class="card-link">Examine Case Studies <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="bento-card span-6 mix climate">
+                    <div class="bento-card-media">
+                        <img src="assets/images/pexels-m-s-sunday-119585598-10299986.webp" alt="Deep Sea Life">
+                    </div>
+                    <div class="bento-card-body">
+                        <div>
+                            <div class="badge-row">
+                                <span class="badge">Climate Change</span>
+                                <span class="read-time">11 Min Read</span>
+                            </div>
+                            <h3>Marine Biodiversity Protection Targets</h3>
+                            <p>Structuring rigorous parameters for deep pelagic corridors to prevent ecosystem collapse under rapidly changing oceanic temperatures.</p>
+                        </div>
+                        <a href="404.html" class="card-link">Open Metric Dashboards <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+   
+
+    
+
+    <section class="section-padding carousel-section" data-aos="fade-up">
+        <div class="container">
+            <div class="editorial-header">
+                <span class="journal-lbl">Selected Insights</span>
+                <h2>Editor's Reading Recommendations</h2>
+            </div>
+        </div>
+
+        <div class="carousel-viewport">
+            <div class="carousel-track">
+                <div class="carousel-slide">
+                    <div class="slide-img"><img src="assets/images/pexels-emmali-5440333.webp" alt="Slide 1"></div>
+                    <div class="slide-body">
+                        <span class="badge">Ecosystem Logic</span>
+                        <h4>KelpHabitat Resilience Frameworks</h4>
+                        <div class="slide-footer"><span>By Mark Vance</span><span>4.8k Reads</span></div>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="slide-img"><img src="assets/images/slide-2-1518877593221.webp" alt="Slide 2"></div>
+                    <div class="slide-body">
+                        <span class="badge">Legal Panels</span>
+                        <h4>Ecosystem Baseline Verification Rules</h4>
+                        <div class="slide-footer"><span>By Elena Rostova</span><span>3.9k Reads</span></div>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="slide-img"><img src="assets/images/diver-in-deep-ocean-1682687220063.webp" alt="Slide 3"></div>
+                    <div class="slide-body">
+                        <span class="badge">Tech Arrays</span>
+                        <h4>Micro-Acoustic Buffer Arrays</h4>
+                        <div class="slide-footer"><span>By Dave Kincaid</span><span>5.1k Reads</span></div>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="slide-img"><img src="assets/images/slide-4-1504384308090.webp" alt="Slide 4"></div>
+                    <div class="slide-body">
+                        <span class="badge">Sovereignty</span>
+                        <h4>Regulating Extraterritorial Mining</h4>
+                        <div class="slide-footer"><span>By Prof. J. Stern</span><span>6.2k Reads</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ 
+
+
+    <!-- Newsletter Section -->
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="404.html" class="logo">
+                        <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+                    </a>
+                    <p>Stackly is a registered international non-profit organization dedicated to deploying scalable scientific strategies, direct cleanup action loops, and strict policy protection Frameworks across major global marine coordinates.</p>
+                    <div class="social-icons">
+                        <a href="404.html" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+
+                        <a href="404.html" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="404.html">Volunteer Network</a></li>
+                        <li><a href="404.html">Donation Portal</a></li>
+                        <li><a href="404.html">Corporate Packages</a></li>
+                        <li><a href="404.html">Media Kit Access</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Global Head Office</h4>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-location-dot" style="margin-right: 8px;"></i> 742 Marine Boulevard, Suite 100, San Francisco, CA</p>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-phone" style="margin-right: 8px;"></i> +1 (800) 555-BLUE</p>
+                    <p style="font-size: 0.95rem;"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> actions@stacklyconservation.org</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Stackly Marine Conservation. All Rights Reserved across global territories.</p>
+                <div style="display:flex; gap: 20px;">
+                    <a href="404.html">Privacy Framework</a>
+                    <a href="404.html">Terms of Deployment</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="back-to-top"><i class="fa-solid fa-chevron-up"></i></div>
+
+    <script>
+        // Synchronous Global State Configurations
+        const navbar = document.querySelector('.navbar');
+        const backToTopBtn = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', () => {
+            // Navbar Transition Mapping
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Back-To-Top Control Activation
+            if (window.scrollY > 600) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile Navigation Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        if (menuToggle && navMenu) {
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-xmark');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-xmark'); }
+                });
+            });
+        }
+
+        // Interactive Category Filter Logic Engine
+        const filterChips = document.querySelectorAll('.filter-chip');
+        const mixCards = document.querySelectorAll('.bento-grid .mix');
+
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                // Adjust Active Button States
+                filterChips.forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+
+                const selectedScope = chip.getAttribute('data-filter');
+
+                // GSAP Transition Grid Content Swaps Safely
+                gsap.to('.bento-grid .mix', {
+                    opacity: 0,
+                    scale: 0.9,
+                    y: 20,
+                    duration: 0.3,
+                    stagger: 0.05,
+                    onComplete: () => {
+                        mixCards.forEach(card => {
+                            if (selectedScope === 'all' || card.classList.contains(selectedScope)) {
+                                card.style.display = 'flex';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+
+                        // Reveal Selected Components cleanly
+                        gsap.to('.bento-grid .mix:background', { /* dummy target adjustment */ });
+                        mixCards.forEach(card => {
+                            if (selectedScope === 'all' || card.classList.contains(selectedScope)) {
+                                gsap.to(card, {
+                                    opacity: 1,
+                                    scale: 1,
+                                    y: 0,
+                                    duration: 0.5,
+                                    clearProps: 'transform,opacity'
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        // HIGH-END COMPONENT ANIMATIONS ENGINE (GSAP + ScrollTrigger Frameworks)
+        window.addEventListener('load', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // SECTION 1: HERO VIEWPORT SEQUENCE ANIMATION TIMELINES
+            const heroTL = gsap.timeline();
+            heroTL.fromTo('.hero-tag', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' })
+                  .fromTo('.hero h1', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power4.out' }, '-=0.3')
+                  .fromTo('.hero p', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4')
+                  .fromTo('.hero-btn-group', { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.4')
+                  .fromTo('.hero-visual-frame', { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.8, ease: 'power3.out' }, '-=0.6')
+                  .fromTo('.float-1, .float-2', { opacity: 0, scale: 0.8 }, { opacity: 0.7, scale: 1, duration: 1, stagger: 0.2 }, '-=0.4');
+
+            // Floating Micro Loop Animation
+            gsap.to('.float-1', { y: '+=15', rotation: 3, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            gsap.to('.float-2', { y: '-=20', rotation: -4, duration: 4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
+            // Hero Section Parallax Background Effect 
+            gsap.to('.hero-visual-frame img', {
+                yPercent: 12,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // GENERAL STAGGER REVEAL ENGINE FOR ARTICLE CARDS MATRIX
+            gsap.utils.toArray('.bento-card').forEach((card) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    y: 40,
+                    duration: 0.6,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            });
+
+            // INDUSTRIAL ALTERNATING INSIGHTS REVEAL
+            gsap.utils.toArray('.insight-row').forEach(row => {
+                const visual = row.querySelector('.insight-visual');
+                const content = row.querySelector('.insight-content');
+
+                gsap.from(visual, {
+                    opacity: 0,
+                    x: row.classList.contains('reverse') ? 50 : -50,
+                    duration: 0.7,
+                    scrollTrigger: { trigger: row, start: 'top 80%' }
+                });
+
+                gsap.from(content, {
+                    opacity: 0,
+                    x: row.classList.contains('reverse') ? -50 : 50,
+                    duration: 0.7,
+                    scrollTrigger: { trigger: row, start: 'top 80%' }
+                });
+            });
+
+            // EDITORIAL TIMELINE SEQUENCING PROGRESS CAPTURES
+            const timelineTL = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '.timeline-container',
+                    start: 'top 70%',
+                    end: 'bottom 60%',
+                    scrub: true
+                }
+            });
+            timelineTL.to('.timeline-progress', { height: '100%', ease: 'none' });
+
+            gsap.utils.toArray('.timeline-node').forEach(node => {
+                gsap.from(node, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.5,
+                    scrollTrigger: {
+                        trigger: node,
+                        start: 'top 80%'
+                    }
+                });
+            });
+
+            // AUTOMATIC CAROUSEL RUNNER COMPONENT LOGIC
+            const track = document.querySelector('.carousel-track');
+            const cloneNode = track.innerHTML;
+            track.innerHTML += cloneNode; // Duplicated structural loop optimization
+
+            let scrollOffset = 0;
+            function autoScrollCarouselAnimation() {
+                scrollOffset -= 0.6; // Speed index baseline step adjustment
+                if (Math.abs(scrollOffset) >= track.scrollWidth / 2) {
+                    scrollOffset = 0;
+                }
+                track.style.transform = `translateX(${scrollOffset}px)`;
+                requestAnimationFrame(autoScrollCarouselAnimation);
+            }
+            autoScrollCarouselAnimation();
+
+            // FAST-RENDERING INCREMENTAL HIGHLIGHT PERFORMANCE STAT COUNTERS
+            const statElements = document.querySelectorAll('.counter');
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const targetValue = parseInt(element.getAttribute('data-limit'), 10);
+                        let trackingVal = 0;
+                        const totalSteps = 35;
+                        const incrementDelta = targetValue / totalSteps;
+
+                        const countRunner = setInterval(() => {
+                            trackingVal += incrementDelta;
+                            if (trackingVal >= targetValue) {
+                                element.innerText = targetValue + "+";
+                                clearInterval(countRunner);
+                            } else {
+                                element.innerText = Math.floor(trackingVal) + "+";
+                            }
+                        }, 30);
+                        statsObserver.unobserve(element);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            statElements.forEach(stat => statsObserver.observe(stat));
+        });
+    </script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-quad'
+        });
+    </script>
+</body>
+</html>

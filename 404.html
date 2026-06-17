@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Coordinates Lost | Stackly Marine Conservation</title>
+    <meta name="description" content="The requested marine asset or operational data matrix could not be resolved. Deep sea navigation coordinates lost.">
+    
+    <!-- Typography & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animation Engines -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+       /* ==========================================================================
+          1. DESIGN SYSTEM TOKENS (MODERN NGO LIGHT LUXE)
+          ========================================================================== */
+        :root {
+            --deep-navy: #06283D;
+            --ocean-blue: #0A4D68;
+            --sea-green: #1B9C85;
+            --coral-accent: #FF8C42;
+            --bg-light: #F5FAFC;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --pure-white: #FFFFFF;
+            
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --inner-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
+            --soft-shadow: 0 20px 50px -12px rgba(10, 77, 104, 0.08);
+            
+            --font-display: 'Poppins', sans-serif;
+            --font-sans: 'Inter', sans-serif;
+            --ease-elegant: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Ambient Dynamic Background Waves */
+        .ambient-fluid-blur {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .blur-node-1 { width: 600px; height: 600px; background: rgba(27, 156, 133, 0.12); top: -10%; left: -10%; }
+        .blur-node-2 { width: 500px; height: 500px; background: rgba(10, 77, 104, 0.08); bottom: -10%; right: -10%; }
+
+        /* Structural Framework Container */
+        .error-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px;
+            position: relative;
+            z-index: 2;
+            min-height: calc(100vh - 40px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glass-scaffold {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--soft-shadow), var(--inner-shadow);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 40px 60px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Typography Hierarchy */
+        .error-badge {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--coral-accent);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-badge i {
+            font-size: 0.75rem;
+        }
+
+        .error-code {
+            font-family: var(--font-display);
+            font-size: 6.5rem;
+            font-weight: 800;
+            line-height: 1;
+            color: var(--deep-navy);
+            letter-spacing: -3px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--deep-navy), var(--ocean-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.25rem;
+            color: var(--deep-navy);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .error-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 44px;
+            line-height: 1.7;
+        }
+
+        /* Premium Micro-UI Buttons */
+        .btn-cluster {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 32px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.4s var(--ease-elegant);
+            border: 1px solid transparent;
+        }
+
+        .btn-ocean {
+            background-color: var(--ocean-blue);
+            color: var(--pure-white);
+            box-shadow: 0 10px 25px -5px rgba(10, 77, 104, 0.25);
+        }
+
+        .btn-ocean:hover {
+            background-color: var(--deep-navy);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(6, 40, 61, 0.35);
+        }
+
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(10, 77, 104, 0.15);
+            color: var(--ocean-blue);
+        }
+
+        .btn-glass:hover {
+            background: var(--pure-white);
+            border-color: var(--ocean-blue);
+            color: var(--deep-navy);
+            transform: translateY(-3px);
+        }
+
+        /* Floating Dynamic Graphic Engine Frame */
+        .graphic-workspace {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Morphing Abstract Subsurface Marine Shape */
+        .marine-morph-blob {
+            width: 340px;
+            height: 340px;
+            background: linear-gradient(135deg, rgba(27, 156, 133, 0.15), rgba(10, 77, 104, 0.05));
+            border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+            position: absolute;
+            animation: shapeShift Fluid 12s ease-in-out infinite alternate;
+            border: 2px dashed rgba(27, 156, 133, 0.25);
+        }
+
+        @keyframes shapeShift {
+            0% { border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%; transform: rotate(0deg); }
+            100% { border-radius: 60% 40% 40% 60% / 60% 60% 40% 40%; transform: rotate(180deg); }
+        }
+
+        /* Floating Compass/Anchor Component Structural Asset */
+        .nautical-lost-asset {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background: var(--pure-white);
+            border-radius: 50%;
+            box-shadow: 0 30px 60px -15px rgba(6, 40, 61, 0.15), var(--inner-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nautical-lost-asset i {
+            font-size: 5rem;
+            color: var(--sea-green);
+        }
+
+        /* Minor Floating Coordinate Tags Elements */
+        .coordinates-tag {
+            position: absolute;
+            padding: 10px 16px;
+            font-size: 0.78rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(10, 77, 104, 0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .tag-lat { top: 15%; right: 0; }
+        .tag-long { bottom: 15%; left: 0; }
+
+        /* ==========================================================================
+           RESPONSIVE MATRIX BREAKPOINTS
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .glass-scaffold {
+                grid-template-columns: 1fr;
+                padding: 30px 24px;
+                text-align: center;
+                gap: 20px;
+            }
+            .error-container {
+                max-width: 650px;
+                padding: 16px;
+            }
+            .btn-cluster {
+                justify-content: center;
+            }
+            .graphic-workspace {
+                height: 180px;
+                order: -1;
+            }
+            .marine-morph-blob {
+                width: 200px;
+                height: 200px;
+            }
+            .nautical-lost-asset {
+                width: 120px;
+                height: 120px;
+            }
+            .nautical-lost-asset i {
+                font-size: 3rem;
+            }
+            .error-code {
+                font-size: 4rem;
+            }
+            h1 {
+                font-size: 1.75rem;
+                margin-bottom: 10px;
+            }
+            .error-desc {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .glass-scaffold {
+                padding: 20px 16px;
+                border-radius: 24px;
+                gap: 15px;
+            }
+            .graphic-workspace {
+                height: 130px;
+            }
+            .marine-morph-blob {
+                width: 140px;
+                height: 140px;
+            }
+            .nautical-lost-asset {
+                width: 90px;
+                height: 90px;
+            }
+            .nautical-lost-asset i {
+                font-size: 2.2rem;
+            }
+            .error-code {
+                font-size: 3.2rem;
+            }
+            h1 {
+                font-size: 1.4rem;
+            }
+            .error-desc {
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+            }
+            .btn-cluster {
+                flex-direction: row;
+                gap: 8px;
+            }
+            .btn-action {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Visual Elements -->
+    <div class="ambient-fluid-blur blur-node-1"></div>
+    <div class="ambient-fluid-blur blur-node-2"></div>
+
+    <!-- Main 404 Wrapper Shell Frame -->
+    <main class="error-container">
+        <div class="glass-scaffold">
+            
+            <!-- Left Module Configuration: Error Text Framework Metrics -->
+            <div class="text-workspace">
+                <div class="error-badge" id="errBadge">
+                    <i class="fa-solid fa-circle-exclamation"></i> Telemetry Offline
+                </div>
+                <div class="error-code" id="errCode">404</div>
+                <h1 id="errTitle">Navigation Coordinates Lost</h1>
+                <p class="error-desc" id="errText">The marine asset, telemetry data stream, or tracking log entry you are searching for has drifted outside our unmapped operational domain framework boundaries.</p>
+                
+                <div class="btn-cluster" id="errButtons">
+                    <a href="javascript:history.back();" class="btn-action btn-ocean">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Previous Page
+                    </a>
+                    <a href="index.html" class="btn-action btn-glass">
+                        <i class="fa-solid fa-house"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Module Configuration: Animated Fluid Floating Abstract Vector Workspace -->
+            <div class="graphic-workspace" id="errGraphicMount">
+                <div class="marine-morph-blob"></div>
+                
+                <div class="nautical-lost-asset" id="mainCompassIcon">
+                    <i class="fa-solid fa-compass-drafting"></i>
+                </div>
+
+                <div class="coordinates-tag tag-lat" id="latTag">Lat: 0.000° N</div>
+                <div class="coordinates-tag tag-long" id="longTag">Long: 0.000° W</div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SYSTEM ENTRANCE TIMELINE TRANSFORMS SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Initializing Smooth UI Components Micro Timelines
+            const tl = gsap.timeline();
+
+            tl.fromTo("#errBadge", 
+                { opacity: 0, x: -20 }, 
+                { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" }
+            );
+
+            tl.fromTo("#errCode", 
+                { opacity: 0, y: 30 }, 
+                { opacity: 1, y: 0, duration: 0.8, ease: "power4.out" },
+                "-=0.4"
+            );
+
+            tl.fromTo("#errTitle", 
+                { opacity: 0, y: 20 }, 
+                { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" },
+                "-=0.5"
+            );
+
+            tl.fromTo("#errText", 
+                { opacity: 0, y: 15 }, 
+                { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" },
+                "-=0.4"
+            );
+
+            tl.fromTo("#errButtons", 
+                { opacity: 0, y: 10 }, 
+                { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+                "-=0.3"
+            );
+
+            tl.fromTo("#errGraphicMount", 
+                { opacity: 0, scale: 0.93 }, 
+                { opacity: 1, scale: 1, duration: 0.9, ease: "power3.out" },
+                "-=0.75"
+            );
+
+            // Independent Endless Subtle Drift Floating Mechanics Loops
+            gsap.to("#mainCompassIcon", {
+                y: -12,
+                rotation: 4,
+                duration: 4,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+
+            gsap.to("#latTag", {
+                y: -6,
+                x: 4,
+                duration: 3.5,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: -1,
+                delay: 0.5
+            });
+
+            gsap.to("#longTag", {
+                y: 6,
+                x: -4,
+                duration: 4.5,
+                ease: "sine.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        });
+    </script>
+</body>
+</html>

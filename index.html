@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stackly Marine Conservation | Protecting Oceans For Future Generations</title>
+    <meta name="description" content="Join Stackly Marine Conservation in protecting our oceans, restoring coral reefs, combating plastic pollution, and preserving marine biodiversity worldwide.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+    <style>
+        :root {
+            --deep-navy: #06283D;
+            --ocean-blue: #0A4D68;
+            --sea-green: #1B9C85;
+            --coral-accent: #FF8C42;
+            --bg-light: #F5FAFC;
+            --text-dark: #1E293B;
+            --text-light: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--deep-navy);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding {
+            padding: 100px 24px; /* Standardized page section safety gutters */
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header p {
+            color: #64748B;
+            font-size: 1.1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--coral-accent);
+            color: var(--text-light);
+            box-shadow: 0 4px 14px rgba(255, 140, 66, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--text-light);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-light);
+            color: var(--deep-navy);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--ocean-blue);
+            border: 2px solid var(--ocean-blue);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--ocean-blue);
+            color: var(--text-light);
+            transform: translateY(-3px);
+        }
+
+
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 0;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(6, 40, 61, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 14px 0;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--coral-accent);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-light);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--coral-accent);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* FIX: Increased z-index to stay accessible on top of full-width mobile layout */
+        .menu-toggle {
+            display: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            z-index: 1001; 
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            min-height: 100dvh;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            padding-top: 80px; /* FIX: Top padding prevents navbar content crash overlay */
+            padding-bottom: 120px; /* Safety padding to prevent overlapping with wave container */
+        }
+
+        .hero-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(6, 40, 61, 0.8), rgba(6, 40, 61, 0.5), rgba(6, 40, 61, 0.9));
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.2;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 650px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Floating Icons & Wave */
+        .floating-icon {
+            position: absolute;
+            z-index: 3;
+            color: rgba(27, 156, 133, 0.4);
+            pointer-events: none;
+        }
+
+        .wave-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 4;
+            line-height: 0;
+        }
+
+        .wave-container svg {
+            width: 100%;
+            height: 60px;
+        }
+
+        /* Carousel Controls */
+        .carousel-nav {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-dot.active {
+            background-color: var(--coral-accent);
+            transform: scale(1.3);
+        }
+
+        /* Section 2: Ocean Threats (Zig-Zag Layout) */
+        .threat-item {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-bottom: 100px;
+        }
+
+        .threat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .threat-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .threat-image {
+            flex: 1;
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .threat-image img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .threat-item:hover .threat-image img {
+            transform: scale(1.05);
+        }
+
+        .threat-info {
+            flex: 1;
+            padding: 20px 0; /* Clear layout track buffer spacing */
+        }
+
+        .threat-icon {
+            font-size: 2.5rem;
+            color: var(--sea-green);
+            margin-bottom: 20px;
+        }
+
+        .threat-info h3 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .threat-info p {
+            color: #475569;
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+        }
+
+        /* Section 3: Bento Grid Layout */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: 213px 213px 300px;
+            gap: 24px;
+        }
+
+        .bento-card {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            color: var(--text-light);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bento-1 {
+            grid-column: span 3;
+            grid-row: span 2;
+        }
+
+        .bento-2 {
+            grid-column: span 2;
+        }
+
+        .bento-3 {
+            grid-column: span 2;
+        }
+
+        .bento-4 {
+            grid-column: span 2;
+        }
+
+        .bento-5 {
+            grid-column: span 3;
+        }
+
+        .bento-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(6, 40, 61, 0.85) 0%, rgba(6, 40, 61, 0.2) 50%, transparent 100%);
+            z-index: 1;
+        }
+
+        .bento-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 24px;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        .bento-card h3 {
+            color: var(--text-light);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .bento-card p {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.85);
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .bento-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .bento-card:hover p {
+            opacity: 1;
+            max-height: 80px;
+            margin-top: 8px;
+        }
+
+        /* Section 4: Impact Statistics */
+        .stats-section {
+            background: linear-gradient(135deg, var(--deep-navy) 0%, var(--ocean-blue) 100%);
+            color: var(--text-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-card {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--coral-accent);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+        }
+
+        /* Section 5: Species Grid Grid (No Sliders) */
+        .species-grid-fixed {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%;
+        }
+
+        .species-card {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .species-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        .species-image {
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .species-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .species-info {
+            padding: 24px;
+            flex-grow: 1;
+        }
+
+        .species-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--deep-navy);
+        }
+
+        .species-info p {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Section 6: Success Stories Timeline */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--ocean-blue);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            padding: 20px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--coral-accent);
+            top: 30px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left { left: 0; box-sizing: border-box;}
+        .right { left: 50%; box-sizing: border-box;}
+
+        .right::after { left: -10px; }
+
+        .timeline-content {
+            padding: 30px;
+            background: white;
+            position: relative;
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .timeline-content h3 {
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .comparison-box {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .comp-img {
+            flex: 1;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .comp-img span {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Section 7: Get Involved */
+        .get-involved {
+            background-image: linear-gradient(rgba(6, 40, 61, 0.85), rgba(6, 40, 61, 0.85)), url('assets/images/scientific-scuba-divers-1544551763.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .get-involved .section-header h2 { color: white; }
+        .get-involved .section-header p { color: rgba(255,255,255,0.7); }
+
+        .involved-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .involved-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 40px 30px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .involved-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .involved-icon {
+            font-size: 3rem;
+            color: var(--coral-accent);
+            margin-bottom: 24px;
+        }
+
+        .involved-card h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .involved-card p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+            font-size: 0.98rem;
+        }
+
+        /* Section 8: Latest Blogs */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .blog-img-box {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .blog-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .blog-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: var(--sea-green);
+            color: white;
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .blog-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .blog-date {
+            font-size: 0.85rem;
+            color: #64748B;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .blog-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 14px;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
+        /* Section 9: Newsletter & Action CTA */
+        .cta-newsletter {
+            background-color: #0E2938;
+            padding: 80px 0;
+            color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .cta-box {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            color: white;
+            font-size: 2.3rem;
+            margin-bottom: 16px;
+        }
+
+        .cta-box p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 16px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+        }
+
+        /* Footer */
+        .footer a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .footer a:hover {
+            color: var(--coral-accent);
+        }
+        .footer {
+            background: linear-gradient(to bottom, #041C2B, #020E17);
+            color: rgba(255,255,255,0.7);
+            padding: 80px 0 40px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-about .logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-about p {
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background-color: var(--coral-accent);
+            transform: translateY(-3px);
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a:hover {
+            color: var(--coral-accent);
+            padding-left: 4px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top & Utility */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background-color: var(--coral-accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 170px;
+            text-decoration: none;
+        }
+
+        .responsive-logo {
+            width: auto;
+            max-width: 100%;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .test-arrow:hover {
+            background-color: var(--deep-navy) !important;
+            color: var(--text-light) !important;
+            border-color: var(--deep-navy) !important;
+        }
+        .test-dot.active {
+            background-color: var(--coral-accent) !important;
+            transform: scale(1.3);
+        }
+
+        /* --- MEDIA QUERIES FOR TRUE RESPONSIVENESS --- */
+        @media (max-width: 1100px) {
+            .species-grid-fixed {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 3rem; }
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: auto;
+                gap: 20px;
+            }
+            .bento-1 {
+                grid-column: span 2;
+                height: 350px;
+            }
+            .bento-2, .bento-3, .bento-4, .bento-5 {
+                grid-column: span 1;
+                height: 280px;
+            }
+            .involved-grid, .blog-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .threat-item { gap: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            
+            /* FIX: Mobile menu canvas spans 100% full screen width seamlessly */
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%; 
+                height: 100vh;
+                background-color: rgba(6, 40, 61, 0.98);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                flex-direction: column;
+                justify-content: center;
+                transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 1000;
+                gap: 40px;
+            }
+            .footer-grid { 
+        grid-template-columns: 1fr; 
+        text-align: center; 
+        gap: 40px;
+    }
+
+    .footer-about, .footer-links, .footer-about .logo {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .social-icons { justify-content: center; }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+            
+            .nav-menu.active { right: 0; }
+            .threat-item, .threat-item:nth-child(even) { flex-direction: column; }
+            .timeline::after { left: 20px; }
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 0; }
+            .timeline-item.right { left: 0; }
+            .timeline-item::after { left: 10px; }
+            .involved-grid, .blog-grid, .footer-grid { grid-template-columns: 1fr; }
+            .bento-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 16px;
+            }
+            .bento-1, .bento-2, .bento-3, .bento-4, .bento-5 {
+                grid-column: span 1;
+                height: 250px;
+            }
+            .hero h1 { font-size: 2.3rem; }
+            .hero-content { margin-top: 30px; }
+            .hero p { font-size: 1.1rem; margin-bottom: 24px; }
+            .hero-buttons { flex-direction: column; gap: 12px; }
+            .hero-buttons .btn { width: 100%; max-width: 280px; }
+            .newsletter-form { flex-direction: column; background: transparent; border: none; padding: 0; }
+            .newsletter-form input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-sm); margin-bottom: 12px; }
+        }
+
+        @media (max-width: 600px) {
+            .species-grid-fixed {
+                grid-template-columns: 1fr;
+            }
+        }
+    
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+</style>
+</head>
+<body>
+
+
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="login.html" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">Login</a></li>
+            </ul>
+            <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-carousel">
+            <div class="carousel-slide active" style="background-image: url('assets/images/pexels-francesco-ungaro-3172279.webp');"></div>
+            <div class="carousel-slide" style="background-image: url('assets/images/sea-turtle-swimming-1437622368342.webp');"></div>
+            <div class="carousel-slide" style="background-image: url('assets/images/sunlit-underwater-ocean-1484755560693.webp');"></div>
+            <div class="carousel-slide" style="background-image: url('assets/images/aerial-ocean-waves-1505118380757.webp');"></div>
+        </div>
+        
+        <div class="container" style="position:relative; z-index:3;">
+            <div class="hero-content">
+                <h1>Protecting Oceans For Future Generations</h1>
+                <p>Together we can reduce ocean pollution, restore vital marine ecosystems, and preserve fragile biodiversity for generations to come.</p>
+                <div class="hero-buttons">
+                    <a href="#get-involved" class="btn btn-primary">Join The Mission <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#programs" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-nav">
+            <div class="carousel-dot active" data-index="0"></div>
+            <div class="carousel-dot" data-index="1"></div>
+            <div class="carousel-dot" data-index="2"></div>
+            <div class="carousel-dot" data-index="3"></div>
+        </div>
+
+        <div class="wave-container">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path fill="#F5FAFC" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,58.7C1200,64,1320,64,1380,64L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z"></path>
+            </svg>
+        </div>
+    </header>
+
+    <section id="threats" class="section-padding container" data-aos="fade-up">
+        <div class="section-header">
+            <h2>Critical Threats to Our Oceans</h2>
+            <p>Human activity has pushed marine ecosystems to the brink. Understanding these major crises is the first critical step toward global restoration.</p>
+        </div>
+
+        <div class="threat-list">
+            <div class="threat-item">
+                <div class="threat-image">
+                    <img src="assets/images/WhatsAppImage2026-06-17at9.29.28AM.webp" alt="Plastic Pollution">
+                </div>
+                <div class="threat-info">
+                    <div class="threat-icon"><i class="fa-solid fa-bottle-water"></i></div>
+                    <h3>Plastic Pollution Crisis</h3>
+                    <p>Over 11 million metric tons of plastic enter our oceans annually. This non-biodegradable waste destroys marine habitats, enters the food chain, and fatally traps thousands of marine animals daily.</p>
+                    <a href="404.html" class="btn btn-outline">Read Threat Analysis</a>
+                </div>
+            </div>
+            <div class="threat-item">
+                <div class="threat-image">
+                    <img src="assets/images/pexels-francesco-ungaro-17941856.webp" alt="Coral Reef Destruction">
+                </div>
+                <div class="threat-info">
+                    <div class="threat-icon"><i class="fa-solid fa-burst"></i></div>
+                    <h3>Coral Reef Destruction</h3>
+                    <p>Rising temperatures and destructive fishing practices trigger massive coral bleaching events. We have already lost half of our global coral reefs, threatening 25% of all ocean species.</p>
+                    <a href="404.html" class="btn btn-outline">Read Threat Analysis</a>
+                </div>
+            </div>
+            <div class="threat-item">
+                <div class="threat-image">
+                    <img src="assets/images/pexels-cliff-wu-136931749-10248815.webp" alt="Overfishing">
+                </div>
+                <div class="threat-info">
+                    <div class="threat-icon"><i class="fa-solid fa-ship"></i></div>
+                    <h3>Commercial Overfishing</h3>
+                    <p>Industrial fleets systematically deplete global fish stocks faster than populations can recover. Destructive practices like bottom trawling decimate entire sea floor habitats indiscriminately.</p>
+                    <a href="404.html" class="btn btn-outline">Read Threat Analysis</a>
+                </div>
+            </div>
+            <div class="threat-item">
+                <div class="threat-image">
+                    <img src="assets/images/beautiful-jokulsarlon-glacier-lagoon-iceland-with-sun-beams-from-dark-cloudy-sky.webp" alt="Climate Change">
+                </div>
+                <div class="threat-info">
+                    <div class="threat-icon"><i class="fa-solid fa-temperature-arrow-up"></i></div>
+                    <h3>Accelerating Climate Change</h3>
+                    <p>Oceans absorb roughly 90% of atmospheric excess heat. This causes rapid acidification and extreme thermal fluctuations, altering critical currents and historical migration patterns.</p>
+                    <a href="404.html" class="btn btn-outline">Read Threat Analysis</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-overview" class="section-padding" style="background-color: #FFFFFF; border-top: 1px solid rgba(6, 40, 61, 0.05); border-bottom: 1px solid rgba(6, 40, 61, 0.05);" data-aos="fade-up">
+        <div class="container">
+            <div class="threat-item" style="margin-bottom: 0;">
+                <div class="threat-info">
+                    <span class="label" style="color: var(--sea-green); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 12px; display: block;">Who We Are</span>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--deep-navy);">Pioneering Scientific Restoration & Activism</h2>
+                    <p style="color: #475569; margin-bottom: 24px; font-size: 1.1rem; line-height: 1.7;">
+                        Stackly is a global network of marine scientists, conservationists, and volunteers. We believe that saving our oceans requires a combination of real-time monitoring technology and direct local community action. 
+                    </p>
+                    <p style="color: #475569; margin-bottom: 30px; font-size: 1.05rem; line-height: 1.7;">
+                        Through our custom ecosystem data networks and coral propagation programs, we are actively turning the tide against coral bleaching, plastic pollution, and overfishing in critical marine sectors globally.
+                    </p>
+                    <div style="display: flex; gap: 24px; margin-bottom: 30px;">
+                        <div style="flex: 1;">
+                            <h4 style="color: var(--deep-navy); font-size: 1.1rem; margin-bottom: 8px;"><i class="fa-solid fa-flask" style="color: var(--sea-green); margin-right: 8px;"></i> Empirical Science</h4>
+                            <p style="color: #64748B; font-size: 0.95rem;">Collecting ocean biometrics to drive evidence-based environmental lobbying.</p>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="color: var(--deep-navy); font-size: 1.1rem; margin-bottom: 8px;"><i class="fa-solid fa-people-group" style="color: var(--sea-green); margin-right: 8px;"></i> Direct Action</h4>
+                            <p style="color: #64748B; font-size: 0.95rem;">Empowering local networks to sweep coastlines and manage nurseries.</p>
+                        </div>
+                    </div>
+                    <a href="about.html" class="btn btn-outline">Learn More About Our NGO</a>
+                </div>
+                <div class="threat-image">
+                    <img src="assets/images/about-stackly-team-researching-coral-reefs-1582967788606.webp" alt="About Stackly team researching coral reefs">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="programs" class="section-padding" style="background-color: #EBF4F6;" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Conservation Programs</h2>
+                <p>Deploying direct, strategic initiatives globally to neutralize threats and orchestrate ecological recovery loops.</p>
+            </div>
+
+            <div class="bento-grid">
+                <div class="bento-card bento-1">
+                    <img src="assets/images/WhatsAppImage2026-06-17at9.29.28AM1.webp" alt="Beach Cleanups">
+                    <div class="bento-content">
+                        <h3>Beach Cleanup Initiatives</h3>
+                        <p>Mobilizing thousands of volunteers to intercept coastal plastic and clean shorelines before debris enters deep ocean channels.</p>
+                    </div>
+                </div>
+
+                <div class="bento-card bento-2">
+                    <img src="assets/images/coral-restoration-1522069169874.webp" alt="Coral Restoration">
+                    <div class="bento-content">
+                        <h3>Coral Restoration Projects</h3>
+                        <p>Cultivating heat-resilient coral fragments inside specialized ocean nurseries to restore dying reefs.</p>
+                    </div>
+                </div>
+
+                <div class="bento-card bento-3">
+                    <img src="assets/images/aerial-view-rocks-each-other-surrounded-by-wavy-sea-sunlight-daytime.webp" alt="Marine Research">
+                    <div class="bento-content">
+                        <h3>Advanced Marine Research</h3>
+                        <p>Tracking vital ocean biometrics to engineer data-driven protection strategies.</p>
+                    </div>
+                </div>
+
+                <div class="bento-card bento-4">
+                    <img src="assets/images/environmental-education-1509062522246.webp" alt="Environmental Education">
+                    <div class="bento-content">
+                        <h3>Environmental Education</h3>
+                        <p>Inspiring the next generation of ocean stewards by embedding marine literacy curriculum directly into global schools.</p>
+                    </div>
+                </div>
+
+                <div class="bento-card bento-5">
+                    <img src="assets/images/scientific-diving-1544551763.webp" alt="Wildlife Protection">
+                    <div class="bento-content">
+                        <h3>Wildlife Protection & Sustainable Advocacy</h3>
+                        <p>Enforcing designated marine protected zones and lobbying industries globally for fully traceable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding stats-section" data-aos="fade-up">
+        <div class="container stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="50000">0</div>
+                <div class="stat-label">Kg Waste Safely Removed</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number" data-target="150">0</div>
+                <div class="stat-label">Coordinated Cleanup Events</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="35">0</div>
+                <div class="stat-label">Active Marine Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">Schools Educated Globally</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="species" class="section-padding container" data-aos="fade-up">
+        <div class="section-header">
+            <h2>Marine Species Under Our Watch</h2>
+            <p>Every organism plays a vital role. By safeguarding these cornerstone species, we secure the structural integrity of the global marine food web.</p>
+        </div>
+        
+        <div class="species-grid-fixed">
+            <div class="species-card">
+                <div class="species-image"><img src="assets/images/sea-turtle-1437622368342.webp" alt="Sea Turtle"></div>
+                <div class="species-info">
+                    <h3>Sea Turtles</h3>
+                    <p>Crucial for maintaining healthy seagrass beds and coral ecosystems, now threatened dramatically by plastic ingestion and nesting site degradation.</p>
+                </div>
+            </div>
+            <div class="species-card">
+                <div class="species-image"><img src="assets/images/dolphin-1570481662006.webp" alt="Dolphin"></div>
+                <div class="species-info">
+                    <h3>Oceanic Dolphins</h3>
+                    <p>As apex predators, dolphins serve as key indicators of broader ecosystem stability. They face persistent dangers from commercial gillnets.</p>
+                </div>
+            </div>
+            <div class="species-card">
+                <div class="species-image"><img src="assets/images/pexels-francesco-ungaro-17941856.webp" alt="Coral Reefs"></div>
+                <div class="species-info">
+                    <h3>Cornerstone Corals</h3>
+                    <p>Providing essential nursery structures and safety zones for over a quarter of all known marine life forms globally.</p>
+                </div>
+            </div>
+            <div class="species-card">
+                <div class="species-image"><img src="assets/images/whale-ai-image.webp" alt="Whale"></div>
+                <div class="species-info">
+                    <h3>Great Whales</h3>
+                    <p>Whales play a massive role in global carbon capture systems and fertilizing phytoplankton layers across ocean currents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stories" class="section-padding" style="background-color: #F0F4F8;" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Operational Milestones</h2>
+                <p>Verifiable proof that rigorous local conservation models deliver lasting global environmental impact loops.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item left">
+                    <div class="timeline-content">
+                        <h3>Coastal Cleanup Success</h3>
+                        <p>Restored over 45 kilometers of high-risk nesting beaches, resulting in an immediate 40% drop in local plastics.</p>
+                        <div class="comparison-box">
+                            <div class="comp-img"><img src="assets/images/WhatsAppImage2026-06-17at9.29.27AM.webp" alt="Before"><span>Before</span></div>
+                            <div class="comp-img"><img src="assets/images/after-1507525428034.webp" alt="After"><span>After</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item right">
+                    <div class="timeline-content">
+                        <h3>Coral Reef Recovery</h3>
+                        <p>Successfully grafted 12,000 heat-resilient coral clusters, documenting a substantial return of endemic fish species.</p>
+                        <div class="comparison-box">
+                            <div class="comp-img"><img src="assets/images/before-1546026423.webp" alt="Before"><span>Bleached</span></div>
+                            <div class="comp-img"><img src="assets/images/underwater-portrait-scuba-diver-exploring-sea-world.webp" alt="After"><span>Restored</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section-padding" style="background-color: #FFFFFF; border-bottom: 1px solid rgba(6, 40, 61, 0.05);" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="label" style="color: var(--sea-green); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 12px; display: block; text-align: center;">Testimonials</span>
+                <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 20px;">Voices from the Frontlines</h2>
+                <p style="text-align: center; color: #64748B; max-width: 700px; margin: 0 auto;">Hear from the local communities, researchers, and partners who work with Stackly to protect our oceans.</p>
+            </div>
+
+            <div class="testimonials-slider-container" style="position: relative; max-width: 900px; margin: 0 auto; overflow: hidden; padding: 20px 0;">
+                <div class="testimonials-track" style="display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 100%;">
+                    
+                    <div class="testimonial-slide" style="min-width: 100%; box-sizing: border-box; padding: 10px 40px;">
+                        <div class="testimonial-card" style="background: #F8FAFC; padding: 40px; border-radius: var(--radius-lg); box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center; border: 1px solid rgba(6, 40, 61, 0.05);">
+                            <div style="font-size: 3rem; color: var(--coral-accent); margin-bottom: 20px; line-height: 1;"><i class="fa-solid fa-quote-left"></i></div>
+                            <p style="font-size: 1.25rem; font-style: italic; color: #334155; margin-bottom: 24px; line-height: 1.7;">"Partnering with Stackly's sustainable fishing initiative completely transformed our cooperative. By tracking stock replenishment in real-time, our fishermen protect spawning zones while raising our annual market yields by 20%."</p>
+                            <h4 style="font-size: 1.15rem; color: var(--deep-navy); font-weight: 700; margin-bottom: 4px;">Chief Carlos Mendoza</h4>
+                            <span style="font-size: 0.85rem; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Fishermen Syndicate Coordinator</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-slide" style="min-width: 100%; box-sizing: border-box; padding: 10px 40px;">
+                        <div class="testimonial-card" style="background: #F8FAFC; padding: 40px; border-radius: var(--radius-lg); box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center; border: 1px solid rgba(6, 40, 61, 0.05);">
+                            <div style="font-size: 3rem; color: var(--coral-accent); margin-bottom: 20px; line-height: 1;"><i class="fa-solid fa-quote-left"></i></div>
+                            <p style="font-size: 1.25rem; font-style: italic; color: #334155; margin-bottom: 24px; line-height: 1.7;">"The thermal stress nurseries developed by Stackly have saved our local reef sectors. Their team introduced heat-resilient coral fragment lines that show an incredible 88% survival rate in warming summer waters."</p>
+                            <h4 style="font-size: 1.15rem; color: var(--deep-navy); font-weight: 700; margin-bottom: 4px;">Dr. Aris Thorne</h4>
+                            <span style="font-size: 0.85rem; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Lead Marine Biologist</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-slide" style="min-width: 100%; box-sizing: border-box; padding: 10px 40px;">
+                        <div class="testimonial-card" style="background: #F8FAFC; padding: 40px; border-radius: var(--radius-lg); box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center; border: 1px solid rgba(6, 40, 61, 0.05);">
+                            <div style="font-size: 3rem; color: var(--coral-accent); margin-bottom: 20px; line-height: 1;"><i class="fa-solid fa-quote-left"></i></div>
+                            <p style="font-size: 1.25rem; font-style: italic; color: #334155; margin-bottom: 24px; line-height: 1.7;">"Volunteering with the coastal cleanup network gave me a concrete way to fight plastic pollution. We don't just pick up trash; we log data to hold plastic manufacturers accountable."</p>
+                            <h4 style="font-size: 1.15rem; color: var(--deep-navy); font-weight: 700; margin-bottom: 4px;">Sarah Jenkins</h4>
+                            <span style="font-size: 0.85rem; color: #94A3B8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Coastal Sweep Coordinator</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button class="test-arrow test-left" aria-label="Previous Testimonial" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(6, 40, 61, 0.1); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--deep-navy); transition: var(--transition); z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.05);"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="test-arrow test-right" aria-label="Next Testimonial" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(6, 40, 61, 0.1); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--deep-navy); transition: var(--transition); z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.05);"><i class="fa-solid fa-chevron-right"></i></button>
+                
+                <div class="test-dots" style="display: flex; justify-content: center; gap: 8px; margin-top: 24px;">
+                    <div class="test-dot active" data-slide="0" style="width: 10px; height: 10px; border-radius: 50%; background-color: rgba(6, 40, 61, 0.2); cursor: pointer; transition: var(--transition);"></div>
+                    <div class="test-dot" data-slide="1" style="width: 10px; height: 10px; border-radius: 50%; background-color: rgba(6, 40, 61, 0.2); cursor: pointer; transition: var(--transition);"></div>
+                    <div class="test-dot" data-slide="2" style="width: 10px; height: 10px; border-radius: 50%; background-color: rgba(6, 40, 61, 0.2); cursor: pointer; transition: var(--transition);"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="get-involved" class="section-padding get-involved" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <h2>Join the Protection Network</h2>
+                <p>Whether committing field hours, funding critical expeditions, or sharing resources—your direct choices write the future of the ocean.</p>
+            </div>
+
+            <div class="involved-grid">
+                <div class="involved-card">
+                    <div class="involved-icon"><i class="fa-solid fa-hands-holding-child"></i></div>
+                    <h3>Become A Volunteer</h3>
+                    <p>Deploy directly to baseline operational fronts during beach sweeps, educational workshops, or critical reef deployment windows.</p>
+                    <a href="404.html" class="btn btn-primary">Apply Now</a>
+                </div>
+                <div class="involved-card">
+                    <div class="involved-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    <h3>Fund Expeditions</h3>
+                    <p>Directly support field operations, ocean cleanup vessels, purchasing nursery technology, and scaling localized field operations.</p>
+                    <a href="404.html" class="btn btn-primary">Donate Funds</a>
+                </div>
+                <div class="involved-card">
+                    <div class="involved-icon"><i class="fa-solid fa-handshake"></i></div>
+                    <h3>Corporate Alliances</h3>
+                    <p>Align your brand infrastructure with zero-plastic initiatives, sustainable supply tracking, and verified biodiversity sponsorships.</p>
+                    <a href="404.html" class="btn btn-primary">Partner With Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding container" data-aos="fade-up">
+        <div class="section-header">
+            <h2>Dispatches From The Field</h2>
+            <p>Stay informed with breaking ecological reports, scientific insights, and policy analysis directly from our active marine biologists.</p>
+        </div>
+
+        <div class="blog-grid">
+            <div class="blog-card">
+                <div class="blog-img-box">
+                    <img src="assets/images/small-plastic-pieces-spoon.webp" alt="Blog Ocean Pollution">
+                    <span class="blog-badge">Pollution</span>
+                </div>
+                <div class="blog-content">
+                    <span class="blog-date">June 12, 2026</span>
+                    <h3>The Microplastic Dilemma: Navigating Invisible Ocean Threats</h3>
+                    <a href="404.html" class="btn btn-outline" style="padding: 8px 16px; font-size:0.9rem; margin-top:15px;">Read Full Article</a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-img-box">
+                    <img src="assets/images/pexels-stephan-ernst-2151845602-31895961.webp" alt="Blog Coral Recovery">
+                    <span class="blog-badge">Restoration</span>
+                </div>
+                <div class="blog-content">
+                    <span class="blog-date">May 28, 2026</span>
+                    <h3>Hope Deep Down: New Heat-Resistant Coral Strains Found</h3>
+                    <a href="404.html" class="btn btn-outline" style="padding: 8px 16px; font-size:0.9rem; margin-top:15px;">Read Full Article</a>
+                </div>
+            </div>
+            <div class="blog-card">
+                <div class="blog-img-box">
+                    <img src="assets/images/plastic-waste-polluting-ocean.webp" alt="Blog Sustainable Living">
+                    <span class="blog-badge">Sustainability</span>
+                </div>
+                <div class="blog-content">
+                    <span class="blog-date">May 15, 2026</span>
+                    <h3>The Conscious Consumer: 5 Daily Swaps to Prevent Marine Waste</h3>
+                    <a href="404.html" class="btn btn-outline" style="padding: 8px 16px; font-size:0.9rem; margin-top:15px;">Read Full Article</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="404.html" class="logo">
+                        <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+                    </a>
+                    <p>Stackly is a registered international non-profit organization dedicated to deploying scalable scientific strategies, direct cleanup action loops, and strict policy protection Frameworks across major global marine coordinates.</p>
+                    <div class="social-icons">
+                        <a href="404.html" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+
+                        <a href="404.html" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="404.html">Volunteer Network</a></li>
+                        <li><a href="404.html">Donation Portal</a></li>
+                        <li><a href="404.html">Corporate Packages</a></li>
+                        <li><a href="404.html">Media Kit Access</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Global Head Office</h4>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-location-dot" style="margin-right: 8px;"></i> 742 Marine Boulevard, Suite 100, San Francisco, CA</p>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-phone" style="margin-right: 8px;"></i> +1 (800) 555-BLUE</p>
+                    <p style="font-size: 0.95rem;"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> actions@stacklyconservation.org</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Stackly Marine Conservation. All Rights Reserved across global territories.</p>
+                <div style="display:flex; gap: 20px;">
+                    <a href="404.html">Privacy Framework</a>
+                    <a href="404.html">Terms of Deployment</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="back-to-top"><i class="fa-solid fa-arrow-up"></i></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // 1. Remove Loader when everything is parsed
+        window.addEventListener('load', () => {
+            // Register GSAP ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero content reveal animations
+            gsap.from(".hero-content h1", {
+                opacity: 0,
+                y: 40,
+                duration: 1,
+                ease: "power4.out",
+                delay: 0.6
+            });
+            gsap.from(".hero-content p", {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                ease: "power3.out",
+                delay: 0.8
+            });
+            gsap.from(".hero-content .btn-group", {
+                opacity: 0,
+                y: 25,
+                duration: 1,
+                ease: "power3.out",
+                delay: 1.0
+            });
+
+            // Section headers scroll-reveal
+            gsap.utils.toArray('.section-header').forEach(header => {
+                gsap.fromTo(header,
+                    { opacity: 0, y: 30 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: header, start: 'top 85%', toggleActions: 'play none none none' } }
+                );
+            });
+
+            // Threat items reveal
+            gsap.utils.toArray('.threat-item').forEach(item => {
+                gsap.fromTo(item,
+                    { opacity: 0, y: 50 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: item, start: 'top 80%', toggleActions: 'play none none none' } }
+                );
+            });
+
+            // Bento cards reveal
+            gsap.utils.toArray('.bento-card').forEach(card => {
+                gsap.fromTo(card,
+                    { opacity: 0, y: 45 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' } }
+                );
+            });
+
+            // Stat items reveal
+            gsap.utils.toArray('.stat-item').forEach(item => {
+                gsap.fromTo(item,
+                    { opacity: 0, y: 30 },
+                    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', scrollTrigger: { trigger: item, start: 'top 85%', toggleActions: 'play none none none' } }
+                );
+            });
+
+            // Blog cards reveal
+            gsap.utils.toArray('.blog-card').forEach(card => {
+                gsap.fromTo(card,
+                    { opacity: 0, y: 40 },
+                    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' } }
+                );
+            });
+
+            // Testimonial slides reveal
+            gsap.from(".testimonials-container", {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: ".testimonials-section",
+                    start: "top 80%"
+                }
+            });
+        });
+
+        // 2. Sticky Navbar Styling & Back to Top Toggle
+        const navbar = document.querySelector('.navbar');
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 500) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 3. Mobile Navigation Menu Toggle Handling
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-xmark');
+            });
+        });
+
+        // 4. Clean Auto-Sliding Hero Carousel
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        let currentSlide = 0;
+        const slideInterval = 5000;
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        let autoSlide = setInterval(nextSlide, slideInterval);
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                clearInterval(autoSlide);
+                slides[currentSlide].classList.remove('active');
+                dots[currentSlide].classList.remove('active');
+                currentSlide = parseInt(e.target.getAttribute('data-index'));
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+                autoSlide = setInterval(nextSlide, slideInterval);
+            });
+        });
+
+        // 5. Impact Counter Animation via Native IntersectionObserver
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const countOptions = { threshold: 0.5, rootMargin: "0px" };
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    const target = entry.target;
+                    const targetValue = parseInt(target.getAttribute('data-target'));
+                    let currentValue = 0;
+                    const duration = 2000;
+                    const steps = 50;
+                    const increment = targetValue / steps;
+                    const stepTime = duration / steps;
+
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= targetValue) {
+                            target.innerText = targetValue.toLocaleString() + "+";
+                            clearInterval(timer);
+                        } else {
+                            target.innerText = Math.floor(currentValue).toLocaleString() + "+";
+                        }
+                    }, stepTime);
+
+                    observer.unobserve(target);
+                }
+            });
+        }, countOptions);
+
+        statNumbers.forEach(num => counterObserver.observe(num));
+
+        // Testimonials Auto & Manual Slider
+        const testTrack = document.querySelector('.testimonials-track');
+        const testSlides = document.querySelectorAll('.testimonial-slide');
+        const testDots = document.querySelectorAll('.test-dot');
+        const testLeft = document.querySelector('.test-left');
+        const testRight = document.querySelector('.test-right');
+        let testCurrent = 0;
+        const testIntervalTime = 6000;
+
+        function updateTestimonials() {
+            testTrack.style.transform = `translateX(-${testCurrent * 100}%)`;
+            testDots.forEach((dot, idx) => {
+                if (idx === testCurrent) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        function testNext() {
+            testCurrent = (testCurrent + 1) % testSlides.length;
+            updateTestimonials();
+        }
+
+        let testAutoSlide = setInterval(testNext, testIntervalTime);
+
+        function resetTestTimer() {
+            clearInterval(testAutoSlide);
+            testAutoSlide = setInterval(testNext, testIntervalTime);
+        }
+
+        if (testRight && testLeft) {
+            testRight.addEventListener('click', () => {
+                testCurrent = (testCurrent + 1) % testSlides.length;
+                updateTestimonials();
+                resetTestTimer();
+            });
+
+            testLeft.addEventListener('click', () => {
+                testCurrent = (testCurrent - 1 + testSlides.length) % testSlides.length;
+                updateTestimonials();
+                resetTestTimer();
+            });
+        }
+
+        testDots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                testCurrent = parseInt(e.target.getAttribute('data-slide'));
+                updateTestimonials();
+                resetTestTimer();
+            });
+        });
+    </script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-quad'
+        });
+    </script>
+</body>
+</html>

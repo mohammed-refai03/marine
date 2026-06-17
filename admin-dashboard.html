@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Operations — Stackly Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-base: #F4F7F9;
+            --bg-card: #FFFFFF;
+            --deep-ocean: #0A324D;
+            --clear-aqua: #00A896;
+            --coral-accent: #FF8243;
+            --coral-hover: #E66F32;
+            --text-dark: #0A2233;
+            --text-muted: #5A7383;
+            --border-light: #E2EAF0;
+            
+            --sidebar-width: 260px;
+            --navbar-height: 70px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius: 12px;
+            
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-base);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- SIDEBAR STRUCTURE --- */
+        aside {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background-color: #FFFFFF;
+            border-right: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .sidebar-header {
+            height: var(--navbar-height);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .responsive-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .menu-item a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .menu-item:hover a, .menu-item.active a {
+            color: var(--deep-ocean);
+            background-color: #F0F4F8;
+        }
+
+        .menu-item.active a i {
+            color: var(--clear-aqua);
+        }
+
+        .menu-item a i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .btn-logout {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            color: #E74C3C;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .btn-logout:hover {
+            background-color: #FDF2F2;
+        }
+
+        /* --- CONTAINER WORKSPACE --- */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+
+        /* --- STICKY TOP NAVBAR --- */
+        nav {
+            position: sticky;
+            top: 0;
+            height: var(--navbar-height);
+            background-color: #FFFFFF;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 90;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--deep-ocean);
+            cursor: pointer;
+        }
+
+        nav h1 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-info {
+            text-align: right;
+        }
+
+        .profile-role {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+            line-height: 1.2;
+        }
+
+        .profile-email {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.2;
+        }
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #E2EAF0;
+            border: 2px solid var(--clear-aqua);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-ocean);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* --- MAIN LAYOUT SPACING --- */
+        main {
+            padding: 32px;
+            flex-grow: 1;
+        }
+
+        .dashboard-section {
+            display: none;
+            /* Handled elegantly by GSAP now instead of CSS keyframes */
+        }
+
+        .dashboard-section.active-view {
+            display: block;
+        }
+
+        .section-header-title {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+            margin-bottom: 24px;
+        }
+
+        /* --- COMPONENT LAYOUT CARDS & GRIDS --- */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(10, 50, 77, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(10, 50, 77, 0.08);
+        }
+
+        .stat-details h3 {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--deep-ocean);
+        }
+
+        .stat-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .icon-coral { background-color: #FFF0E6; color: var(--coral-accent); }
+        .icon-plastic { background-color: #E6F7F6; color: var(--clear-aqua); }
+        .icon-volunteer { background-color: #EBF3F9; color: var(--deep-ocean); }
+        .icon-funds { background-color: #EAFAF1; color: #27AE60; }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .chart-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(10, 50, 77, 0.03);
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .chart-card.split-main { grid-column: span 8; }
+        .chart-card.split-side { grid-column: span 4; }
+
+        .table-card, .map-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(10, 50, 77, 0.03);
+            margin-bottom: 32px;
+        }
+
+        .chart-card h4, .table-card h4, .map-card h4 {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-container-inner {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            flex-grow: 1;
+        }
+
+        .module-sub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* --- RESPONSIVE TABLES --- */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #F8FAFC;
+            color: var(--text-muted);
+            padding: 14px 16px;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        td {
+            padding: 14px 16px;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        /* Framework Badges & Progress Utilities */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .badge-success { background: #E8F8F5; color: #27AE60; }
+        .badge-warning { background: #FEF9E7; color: #F39C12; }
+        .badge-danger { background: #FDEDEC; color: #E74C3C; }
+        .badge-info { background: #EBF5FB; color: #2980B9; }
+
+        .progress-bar-container {
+            width: 120px;
+            background-color: #E2EAF0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .progress-fill { height: 100%; background-color: var(--clear-aqua); border-radius: 4px; }
+
+        .map-placeholder {
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(rgba(244, 247, 249, 0.88), rgba(244, 247, 249, 0.88)), 
+                        url('assets/images/ocean-satellite-map-1524661135.webp') no-repeat center center/cover;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border: 1px dashed #CBD5E1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .map-placeholder i { font-size: 38px; color: var(--clear-aqua); margin-bottom: 12px; }
+        .map-placeholder p { font-size: 14px; font-weight: 500; color: var(--deep-ocean); }
+
+        /* --- RESPONSIVE BREAKPOINTS --- */
+        @media (max-width: 1024px) {
+            .chart-grid { gap: 20px; }
+            .chart-card.split-main, .chart-card.split-side { grid-column: span 12; }
+        }
+
+        @media (max-width: 768px) {
+            aside { transform: translateX(-100%); }
+            aside.sidebar-open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; }
+            .menu-toggle { display: block; }
+            nav { padding: 0 20px; }
+            main { padding: 20px; }
+            .profile-info { display: none; }
+            
+            .chart-grid { grid-template-columns: 1fr; gap: 16px; }
+            .chart-card.split-main, .chart-card.split-side { grid-column: unset; }
+            .chart-container-inner { height: 240px; }
+        }
+    
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+</style>
+</head>
+<body>
+
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-item active" data-target="dashboard-overview">
+                <a><i class="fa-solid fa-chart-pie"></i>Dashboard Overview</a>
+            </li>
+            <li class="menu-item" data-target="coral-reef-reports">
+                <a><i class="fa-solid fa-shrimp"></i>Coral Reef Reports</a>
+            </li>
+            <li class="menu-item" data-target="cleanup-campaigns">
+                <a><i class="fa-solid fa-ship"></i>Cleanup Campaigns</a>
+            </li>
+            <li class="menu-item" data-target="volunteer-management">
+                <a><i class="fa-solid fa-users"></i>Volunteer Management</a>
+            </li>
+            <li class="menu-item" data-target="donation-analytics">
+                <a><i class="fa-solid fa-hand-holding-dollar"></i>Donation Analytics</a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <button class="btn-logout" id="btnLogout">
+                <i class="fa-solid fa-right-from-bracket"></i>Logout
+            </button>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <nav>
+            <div class="nav-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 id="navTitle">Dashboard Overview</h1>
+            </div>
+            
+            <div class="profile-container">
+                <div class="profile-info">
+                    <div class="profile-role" id="sessionRole">Admin Access</div>
+                    <div class="profile-email" id="sessionEmail">loading_profile@gmail.com</div>
+                </div>
+                <div class="profile-avatar" id="profileAvatar">A</div>
+            </div>
+        </nav>
+
+        <main>
+            <section id="dashboard-overview" class="dashboard-section active-view">
+                <h2 class="section-header-title">Operational Snapshot</h2>
+                
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Coral Replanted</h3>
+                            <div class="stat-number">14,285</div>
+                        </div>
+                        <div class="stat-icon-box icon-coral"><i class="fa-solid fa-seedling"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Plastic Removed (kg)</h3>
+                            <div class="stat-number">842,190</div>
+                        </div>
+                        <div class="stat-icon-box icon-plastic"><i class="fa-solid fa-trash-can"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Active Volunteers</h3>
+                            <div class="stat-number">3,840</div>
+                        </div>
+                        <div class="stat-icon-box icon-volunteer"><i class="fa-solid fa-heart"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Total Funds Raised</h3>
+                            <div class="stat-number">$1,245,600</div>
+                        </div>
+                        <div class="stat-icon-box icon-funds"><i class="fa-solid fa-dollar-sign"></i></div>
+                    </div>
+                </div>
+
+                <div class="chart-grid">
+                    <div class="chart-card split-main">
+                        <h4>Monthly Cleanup Trends (Metric Tons)</h4>
+                        <div class="chart-container-inner"><canvas id="lineChart"></canvas></div>
+                    </div>
+                    <div class="chart-card split-side">
+                        <h4>Donation Channels Split</h4>
+                        <div class="chart-container-inner"><canvas id="doughnutChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <h4><i class="fa-solid fa-bell" style="color:var(--coral-accent);"></i> Recent Real-time Platform Alerts</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Event ID</th>
+                                    <th>Source Area</th>
+                                    <th>Metric Category</th>
+                                    <th>Timestamp Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>**EV-8032**</td>
+                                    <td>Salem Coastal Node</td>
+                                    <td>Silt Intrusion Risk Detected</td>
+                                    <td><span class="badge badge-warning">Reviewing Now</span></td>
+                                </tr>
+                                <tr>
+                                    <td>**EV-7911**</td>
+                                    <td>Great Barrier Reef (B)</td>
+                                    <td>Thermal Anomalies Exceeded +1.8°C</td>
+                                    <td><span class="badge badge-danger">Immediate Action</span></td>
+                                </tr>
+                                <tr>
+                                    <td>**EV-7850**</td>
+                                    <td>Pacific Gyre Fleet V</td>
+                                    <td>Capacity Milestone Approaching (84%)</td>
+                                    <td><span class="badge badge-success">Optimized Logs</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="map-card">
+                    <h4>Protected Marine Zones Overview</h4>
+                    <div class="map-placeholder">
+                        <i class="fa-solid fa-earth-oceania"></i>
+                        <p>Satellite Hydrographic Radar Mapping Infrastructure Pending Core Server Authorization</p>
+                        <span style="font-size:12px; margin-top:6px;">Displaying Live Global Tracking Coordinates</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="coral-reef-reports" class="dashboard-section">
+                <h2 class="section-header-title">Coral Reef Bleaching & Cultivation Ledger</h2>
+                
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Monitored Reef Zones</h3>
+                            <div class="stat-number">48 Area Blocks</div>
+                        </div>
+                        <div class="stat-icon-box icon-volunteer"><i class="fa-solid fa-border-all"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Average Growth Rate</h3>
+                            <div class="stat-number">+4.2% / yr</div>
+                        </div>
+                        <div class="stat-icon-box icon-funds"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Critically Endangered</h3>
+                            <div class="stat-number">12 Zones</div>
+                        </div>
+                        <div class="stat-icon-box icon-coral"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <h4>Detailed Ecosystem Health Registry</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Zone ID</th>
+                                    <th>Reef Location</th>
+                                    <th>Bleaching Index</th>
+                                    <th>Cultivation Status</th>
+                                    <th>Last Inspected</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>**CR-904**</td>
+                                    <td>Great Barrier Reef (Sector B)</td>
+                                    <td><span class="badge badge-danger">High (74%)</span></td>
+                                    <td>Active Injections</td>
+                                    <td>June 15, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td>**CR-211**</td>
+                                    <td>Fiji Marine Park</td>
+                                    <td><span class="badge badge-warning">Moderate (32%)</span></td>
+                                    <td>Monitoring Protocol</td>
+                                    <td>June 11, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td>**CR-540**</td>
+                                    <td>Lakshadweep Atolls</td>
+                                    <td><span class="badge badge-success">Stable (12%)</span></td>
+                                    <td>Nursery Migration Complete</td>
+                                    <td>June 08, 2026</td>
+                                </tr>
+                                <tr>
+                                    <td>**CR-712**</td>
+                                    <td>Belize Barrier Reef</td>
+                                    <td><span class="badge badge-danger">Critical (81%)</span></td>
+                                    <td>Emergency Shading Array</td>
+                                    <td>June 16, 2026</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="module-sub-grid">
+                    <div class="chart-card">
+                        <h4>Genotype Survival Variance Matrix</h4>
+                        <div style="font-size:13px; line-height:1.6; color:var(--text-muted);">
+                            Our research logs demonstrate a clear survivability benefit when micro-fragmented structures are introduced.
+                            <div style="margin-top:12px;">
+                                <strong>Acropora Cervicornis:</strong> <span class="badge badge-success">68% Resilient</span><br>
+                                <div class="progress-bar-container" style="width:100%; margin-top:4px;"><div class="progress-fill" style="width:68%; background-color:#27AE60;"></div></div>
+                            </div>
+                            <div style="margin-top:12px;">
+                                <strong>Porites Lobata:</strong> <span class="badge badge-info">82% Resilient</span><br>
+                                <div class="progress-bar-container" style="width:100%; margin-top:4px;"><div class="progress-fill" style="width:82%; background-color:#2980B9;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Lab Nursery Stocks</h4>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Incubator</th>
+                                        <th>Batch Count</th>
+                                        <th>Optimization Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tank Delta-1</td>
+                                        <td>4,500 Frags</td>
+                                        <td><span class="badge badge-success">Ready</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tank Delta-4</td>
+                                        <td>2,100 Frags</td>
+                                        <td><span class="badge badge-warning">Acclimatizing</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cleanup-campaigns" class="dashboard-section">
+                <h2 class="section-header-title">Marine Plastic Extraction Fleet Command</h2>
+                
+                <div class="module-sub-grid">
+                    <div class="table-card">
+                        <h4>Active Fleet Deployments</h4>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Vessel Name</th>
+                                        <th>Target Sector</th>
+                                        <th>Payload Cap</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Ocean Interceptor I</td>
+                                        <td>North Pacific Gyre</td>
+                                        <td>
+                                            <div class="progress-bar-container"><div class="progress-fill" style="width: 84%;"></div></div>84%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Stackly Skimmer V</td>
+                                        <td>Indian Coastline Delta</td>
+                                        <td>
+                                            <div class="progress-bar-container"><div class="progress-fill" style="width: 35%;"></div></div>35%
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>EcoHarvester XII</td>
+                                        <td>Tasman Reef Perimeter</td>
+                                        <td>
+                                            <div class="progress-bar-container"><div class="progress-fill" style="width: 12%;"></div></div>12%
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="map-card">
+                        <h4>Trajectory Visualizer Engine</h4>
+                        <div class="map-placeholder" style="height:210px;">
+                            <i class="fa-solid fa-route"></i>
+                            <p style="font-size:12px;">Securing Live Fleet Marine Autopilot Telemetry...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <h4>Historical Campaign Auditing Records</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Campaign Assignment</th>
+                                    <th>Primary Agent</th>
+                                    <th>Debris Breakdown Profile</th>
+                                    <th>Total Extraction Metrics</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Operation Shore Rescue</td>
+                                    <td>M. Vance</td>
+                                    <td>Micro-plastics / Abandoned Nylon Lines</td>
+                                    <td>**14.2 Metric Tons**</td>
+                                </tr>
+                                <tr>
+                                    <td>Estuary Trash Intercept</td>
+                                    <td>S. Jenkins</td>
+                                    <td>High-Density Polyethylene Containers</td>
+                                    <td>**8.7 Metric Tons**</td>
+                                </tr>
+                                <tr>
+                                    <td>Deep Pelagic Sweep Array</td>
+                                    <td>A. Kumar</td>
+                                    <td>Commercial Grade Ghost Nets</td>
+                                    <td>**41.9 Metric Tons**</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="volunteer-management" class="dashboard-section">
+                <h2 class="section-header-title">Global NGO Human Capital Deployment</h2>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Onboarded Divers</h3>
+                            <div class="stat-number">412 Certified</div>
+                        </div>
+                        <div class="stat-icon-box icon-plastic"><i class="fa-solid fa-person-swimming"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Total Training Hours</h3>
+                            <div class="stat-number">18,400 Hrs</div>
+                        </div>
+                        <div class="stat-icon-box icon-volunteer"><i class="fa-solid fa-graduation-cap"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Countries Represented</h3>
+                            <div class="stat-number">34 Nations</div>
+                        </div>
+                        <div class="stat-icon-box icon-funds"><i class="fa-solid fa-globe"></i></div>
+                    </div>
+                </div>
+                
+                <div class="table-card">
+                    <h4>Roster & Security Clearances Matrix</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Volunteer Professional</th>
+                                    <th>Deployment Operations Field</th>
+                                    <th>Credentials Status</th>
+                                    <th>Hours Accounted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Elena Rostova</td>
+                                    <td>Northern Reef Mapping Sub-team</td>
+                                    <td><span class="badge badge-success">Verified Clearance</span></td>
+                                    <td>142 Hours</td>
+                                </tr>
+                                <tr>
+                                    <td>Tariq Mahmood</td>
+                                    <td>Mangrove Silt Mitigation Crew</td>
+                                    <td><span class="badge badge-success">Verified Clearance</span></td>
+                                    <td>88 Hours</td>
+                                </tr>
+                                <tr>
+                                    <td>Dr. Julian Vance</td>
+                                    <td>Deep Ocean Deep-Dive Labs</td>
+                                    <td><span class="badge badge-warning">Awaiting Renewal</span></td>
+                                    <td>310 Hours</td>
+                                </tr>
+                                <tr>
+                                    <td>Kaito Sato</td>
+                                    <td>Coastal Ingestion Traps Squad</td>
+                                    <td><span class="badge badge-danger">Processing Check</span></td>
+                                    <td>0 Hours</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h4>Volunteer Contingent Regional Distribution Allocations</h4>
+                    <div style="display:flex; flex-wrap:wrap; gap:16px; justify-content:space-around; align-items:center; min-height:80px;">
+                        <div style="text-align:center;"><h5>Asia-Pacific</h5><span class="stat-number" style="font-size:20px; color:var(--clear-aqua)">52%</span></div>
+                        <div style="text-align:center;"><h5>North America</h5><span class="stat-number" style="font-size:20px; color:var(--deep-ocean)">24%</span></div>
+                        <div style="text-align:center;"><h5>Europe Union</h5><span class="stat-number" style="font-size:20px; color:var(--coral-accent)">14%</span></div>
+                        <div style="text-align:center;"><h5>Latin America</h5><span class="stat-number" style="font-size:20px; color:#27AE60">10%</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="donation-analytics" class="dashboard-section">
+                <h2 class="section-header-title">Financial Flow Auditing System</h2>
+                
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Corporate Grants</h3>
+                            <div class="stat-number">$560,500</div>
+                        </div>
+                        <div class="stat-icon-box icon-funds"><i class="fa-solid fa-building-columns"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Public Pledges</h3>
+                            <div class="stat-number">$435,900</div>
+                        </div>
+                        <div class="stat-icon-box icon-coral"><i class="fa-solid fa-users-line"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-details">
+                            <h3>Endowments</h3>
+                            <div class="stat-number">$249,200</div>
+                        </div>
+                        <div class="stat-icon-box icon-plastic"><i class="fa-solid fa-gavel"></i></div>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <h4>Major Corporate Endowment Tranches</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Funding Entity</th>
+                                    <th>Target Allocation Program</th>
+                                    <th>Tranche Amount</th>
+                                    <th>Audit Verification Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Global Eco-Systems Trust</td>
+                                    <td>Autonomous Plastic Catchers Fleet</td>
+                                    <td>**$250,000**</td>
+                                    <td><span class="badge badge-success">Escrow Released</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Horizon Maritime Corp</td>
+                                    <td>Reef Bio-Resilience Injections</td>
+                                    <td>**$125,000**</td>
+                                    <td><span class="badge badge-success">Escrow Released</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Apex Ventures Eco-Fund</td>
+                                    <td>Coastal Community Reforestation</td>
+                                    <td>**$85,000**</td>
+                                    <td><span class="badge badge-warning">Pending Audit Signature</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h4>Budget Allocation Efficiency Metrics</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Capital Destination Expense</th>
+                                    <th>Percentage</th>
+                                    <th>Resource Allocation Bar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Field Operations & Vessel Support</td>
+                                    <td>65%</td>
+                                    <td><div class="progress-bar-container" style="width:100%;"><div class="progress-fill" style="width:65%;"></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td>Nursery Labs and Breeding Systems</td>
+                                    <td>20%</td>
+                                    <td><div class="progress-bar-container" style="width:100%;"><div class="progress-fill" style="width:20%; background-color:var(--coral-accent);"></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td>Administrative & Community Training</td>
+                                    <td>15%</td>
+                                    <td><div class="progress-bar-container" style="width:100%;"><div class="progress-fill" style="width:15%; background-color:var(--deep-ocean);"></div></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Register GSAP ScrollTrigger plugin extension
+            gsap.registerPlugin(ScrollTrigger);
+
+            // --- ANIMATION CONTROLLER FRAMEWORK ---
+            // Function to animate sections sequentially when initialized/switched
+            function animateSectionEntrance(sectionId) {
+                const targetSection = document.getElementById(sectionId);
+                if (!targetSection) return;
+
+                // Select target children elements for cascading animation
+                const title = targetSection.querySelector('.section-header-title');
+                const statCards = targetSection.querySelectorAll('.stat-card');
+                const gridItems = targetSection.querySelectorAll('.chart-grid > *, .module-sub-grid > *');
+                const tablesAndMaps = targetSection.querySelectorAll('.table-card, .map-card');
+
+                // Kill any active running tweens on these items to prevent animation overlapping
+                gsap.killTweensOf([title, statCards, gridItems, tablesAndMaps]);
+
+                // Master staggered timeline config
+                const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+
+                if (title) {
+                    tl.fromTo(title, { opacity: 0, y: -15 }, { opacity: 1, y: 0, duration: 0.4 });
+                }
+                if (statCards.length > 0) {
+                    tl.fromTo(statCards, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.08 }, "-=0.2");
+                }
+                if (gridItems.length > 0) {
+                    tl.fromTo(gridItems, { opacity: 0, scale: 0.96, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, stagger: 0.1 }, "-=0.2");
+                }
+                
+                // Initialize Scroll-to-Reveal behaviors for longer elements lower on the layout viewport page
+                tablesAndMaps.forEach(card => {
+                    gsap.fromTo(card, 
+                        { opacity: 0, y: 40 },
+                        { 
+                            opacity: 1, 
+                            y: 0, 
+                            duration: 0.6,
+                            scrollTrigger: {
+                                trigger: card,
+                                start: "top 88%", // Triggers reveal when card top reaches 88% down screen viewport height
+                                toggleActions: "play none none none"
+                            }
+                        }
+                    );
+                });
+            }
+
+            // Run initial entrance animation on default home snapshot view
+            animateSectionEntrance('dashboard-overview');
+
+
+            // --- SIDEBAR TABS VIEW CONTROL LAYER ---
+            const menuItems = document.querySelectorAll('.menu-item');
+            const sections = document.querySelectorAll('.dashboard-section');
+            const navTitle = document.getElementById('navTitle');
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetId = item.getAttribute('data-target');
+                    
+                    if(document.getElementById(targetId).classList.contains('active-view')) return;
+
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active-view'));
+                    
+                    item.classList.add('active');
+                    document.getElementById(targetId).classList.add('active-view');
+                    
+                    const linkText = item.textContent.trim();
+                    navTitle.textContent = linkText;
+
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('sidebar-open');
+                    document.body.classList.remove('no-scroll');
+                    }
+
+                    // Refresh scroll positioning markers for new tabs and execute GSAP waterfall flow
+                    ScrollTrigger.refresh();
+                    animateSectionEntrance(targetId);
+                });
+            });
+
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sidebar.classList.toggle('sidebar-open');
+                document.body.classList.toggle('no-scroll', sidebar.classList.contains('sidebar-open'));
+            });
+
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768 && !sidebar.contains(e.target) && e.target !== menuToggle) {
+                    sidebar.classList.remove('sidebar-open');
+                    document.body.classList.remove('no-scroll');
+                }
+            });
+
+            // --- USER PROFILE SESSION REGISTRY ATTACHMENT ---
+            const activeUser = JSON.parse(localStorage.getItem('authenticated_active_user'));
+            if (activeUser) {
+                document.getElementById('sessionRole').textContent = activeUser.role + " Profile Anchor";
+                document.getElementById('sessionEmail').textContent = activeUser.email;
+                if(activeUser.username) {
+                    document.getElementById('profileAvatar').textContent = activeUser.username.charAt(0).toUpperCase();
+                }
+            } else {
+                document.getElementById('sessionRole').textContent = "System Administrator";
+                document.getElementById('sessionEmail').textContent = "admin@stackly.org";
+                document.getElementById('profileAvatar').textContent = "S";
+            }
+
+            // --- LOGOUT ROUTER TRIGGER ---
+            document.getElementById('btnLogout').addEventListener('click', () => {
+                localStorage.removeItem('authenticated_active_user');
+                window.location.href = 'login.html';
+            });
+
+            // --- DATA CHARTS RENDER ENGINE ---
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Garbage Extracted (Tons)',
+                        data: [65, 78, 72, 95, 110, 142],
+                        borderColor: '#00A896',
+                        backgroundColor: 'rgba(0, 168, 150, 0.08)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#0A324D',
+                        pointBorderColor: '#FFFFFF',
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    resizeDelay: 100, 
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: '#E2EAF0' }, ticks: { color: '#5A7383', font: { family: 'Inter' } } },
+                        x: { grid: { display: false }, ticks: { color: '#5A7383', font: { family: 'Inter' } } }
+                    }
+                }
+            });
+
+            const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+            new Chart(doughnutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Gov Allocations', 'Corporate Partnerships', 'Individual Pledges'],
+                    datasets: [{
+                        data: [45, 35, 20],
+                        backgroundColor: ['#0A324D', '#00A896', '#FF8243'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { boxWidth: 12, padding: 16, color: '#5A7383', font: { family: 'Inter', size: 12 } }
+                        }
+                    },
+                    cutout: '75%'
+                }
+            });
+        });
+    </script>
+</body>
+</html>

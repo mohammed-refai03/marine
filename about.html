@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Stackly Marine Conservation</title>
+    <meta name="description" content="Discover the story, mission, global team, and historical milestones of Stackly Marine Conservation. Explore how we restore ecosystems worldwide.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+    <style>
+        :root {
+            --deep-navy: #06283D;
+            --ocean-blue: #0A4D68;
+            --sea-green: #1B9C85;
+            --coral-accent: #FF8C42;
+            --bg-light: #F5FAFC;
+            --text-dark: #1E293B;
+            --text-light: #FFFFFF;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* -------------------------------------------------------------
+           GLOBAL RESETS & UTILITIES
+        ------------------------------------------------------------- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--deep-navy);
+            line-height: 1.25;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: clamp(60px, 8vw, 120px) 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto clamp(40px, 5vw, 60px) auto;
+        }
+
+        .section-header .label {
+            color: var(--sea-green);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 20px;
+        }
+
+        .section-header p {
+            color: #64748B;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+        }
+
+        /* BUTTONS ENGINE */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--coral-accent);
+            color: var(--text-light);
+            box-shadow: 0 4px 14px rgba(255, 140, 66, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 140, 66, 0.5);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--text-light);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-light);
+            color: var(--deep-navy);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--ocean-blue);
+            border: 2px solid var(--ocean-blue);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--ocean-blue);
+            color: var(--text-light);
+            transform: translateY(-3px);
+        }
+
+
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 24px 0;
+            transition: var(--transition);
+            background: rgba(6, 40, 61, 0.72);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(6, 40, 61, 0.97);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 14px 0;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1001;
+        }
+
+        .logo span {
+            color: var(--coral-accent);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-light);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--coral-accent);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 170px;
+            text-decoration: none;
+        }
+
+        .responsive-logo {
+            width: auto;
+            max-width: 100%;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        /* --- HERO BANNER COMPONENT --- */
+        .page-hero-banner {
+            position: relative;
+            width: 100%;
+            min-height: 450px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 24px 80px;
+            box-sizing: border-box;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            color: white;
+        }
+
+        .banner-overlay-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(6, 40, 61, 0.9) 0%, rgba(2, 14, 23, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .banner-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .page-denotation {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            padding: 6px 16px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+        }
+
+        .page-denotation .root-node {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .page-denotation .divider {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .page-denotation .current-page {
+            color: var(--sea-green);
+            font-weight: 600;
+        }
+
+        .hero-sentence {
+            font-family: 'Inter', sans-serif;
+            font-size: 22px;
+            line-height: 1.7;
+            color: #FFFFFF;
+            font-weight: 400;
+        }
+
+        .hero-sentence .highlight-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--sea-green);
+            letter-spacing: -0.3px;
+        }
+
+        @media (max-width: 768px) {
+            .page-hero-banner {
+                min-height: 380px;
+                margin-top: 0;
+                padding: 100px 20px 60px;
+            }
+            .hero-sentence {
+                font-size: 18px;
+                line-height: 1.6;
+            }
+            .hero-sentence .highlight-text {
+                font-size: 20px;
+            }
+        }
+
+        /* -------------------------------------------------------------
+           SECTION 2: OUR STORY COLLAGE
+        ------------------------------------------------------------- */
+        .story-split {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+            padding:40px;
+        }
+
+        .story-collage {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            height: clamp(280px, 45vh, 480px);
+        }
+
+        .collage-img {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .collage-img img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .img-1 { grid-column: 1 / 9; grid-row: 1 / 10; z-index: 3; }
+        .img-2 { grid-column: 5 / 13; grid-row: 4 / 13; z-index: 2; }
+        .img-3 { grid-column: 2 / 6; grid-row: 8 / 12; z-index: 4; }
+
+        .story-content {
+            border-top: 3px solid var(--ocean-blue);
+            padding-top: 24px;
+        }
+
+        .story-content h3 {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            margin-bottom: 20px;
+        }
+
+        .story-content p {
+            color: #475569;
+            margin-bottom: 16px;
+        }
+
+        /* -------------------------------------------------------------
+           SECTION 3: MISSION, VISION & VALUES
+        ------------------------------------------------------------- */
+        .mvv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 30px;
+        }
+
+        .mvv-card {
+            background: var(--text-light);
+            border-radius: var(--radius-lg);
+            padding: clamp(24px, 4vw, 40px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            border: 1px solid rgba(6, 40, 61, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .mvv-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--ocean-blue);
+        }
+
+        .mvv-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(6, 40, 61, 0.08);
+        }
+
+        .mvv-icon {
+            font-size: 2.5rem;
+            color: var(--sea-green);
+            margin-bottom: 24px;
+        }
+
+        .mvv-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .values-list {
+            list-style: none;
+        }
+
+        .values-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .values-list li i {
+            position: absolute;
+            left: 0; top: 4px;
+            color: var(--coral-accent);
+        }
+
+        /* -------------------------------------------------------------
+           SECTION 4: TIMELINE (100% Responsive Grid/Flex Hybrid)
+        ------------------------------------------------------------- */
+        .timeline-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* Spine defaults to far-left for absolute mobile rendering */
+        .timeline-line {
+            position: absolute;
+            top: 0; bottom: 0; left: 20px;
+            width: 4px;
+            background: rgba(10, 77, 104, 0.1);
+        }
+
+        .timeline-line-progress {
+            position: absolute;
+            top: 0; left: 20px;
+            width: 4px;
+            background: var(--sea-green);
+            height: 0%;
+            transition: height 0.1s linear;
+        }
+
+        .timeline-item {
+            position: relative;
+            width: 100%;
+            padding-left: 50px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 25px; left: 12px;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: var(--text-light);
+            border: 4px solid var(--ocean-blue);
+            z-index: 5;
+            transition: var(--transition);
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: var(--coral-accent);
+            border-color: var(--sea-green);
+            transform: scale(1.15);
+        }
+
+        .timeline-year {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--ocean-blue);
+            margin-bottom: 6px;
+        }
+
+        .timeline-box {
+            background: var(--text-light);
+            padding: 24px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.02);
+            border: 1px solid rgba(6, 40, 61, 0.05);
+        }
+
+        /* -------------------------------------------------------------
+           SECTION 5: MEET OUR TEAM (Bento Framework)
+        ------------------------------------------------------------- */
+        .team-bento {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .team-card {
+            background: var(--text-light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            border: 1px solid rgba(6, 40, 61, 0.05);
+            transition: var(--transition);
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+        }
+
+        .team-img-wrapper {
+            height: 320px;
+            overflow: hidden;
+        }
+
+        .team-img-wrapper img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .team-info {
+            padding: 24px;
+        }
+
+        .team-info .role {
+            color: var(--sea-green);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .team-socials {
+            display: flex; gap: 12px; margin-top: 16px;
+        }
+
+        .team-socials a {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--bg-light);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--ocean-blue);
+        }
+        .team-socials a:hover {
+            background: var(--coral-accent); color: var(--text-light);
+        }
+
+        /* -------------------------------------------------------------
+           SECTION 6: OUR ACHIEVEMENTS STATS
+        ------------------------------------------------------------- */
+        .stats-section {
+            background: linear-gradient(135deg, var(--deep-navy) 0%, var(--ocean-blue) 100%);
+            color: var(--text-light);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-card .num {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            color: var(--coral-accent);
+            margin-bottom: 6px;
+        }
+
+        /* -------------------------------------------------------------
+           SECTION 7: GLOBAL PARTNERS MARQUEE
+        ------------------------------------------------------------- */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .marquee-container::before, .marquee-container::after {
+            content: ''; position: absolute; top: 0; width: 80px; height: 100%; z-index: 2;
+        }
+        .marquee-container::before { left: 0; background: linear-gradient(to right, var(--bg-light), transparent); }
+        .marquee-container::after { right: 0; background: linear-gradient(to left, var(--bg-light), transparent); }
+
+        .marquee-track {
+            display: inline-flex;
+            gap: 60px;
+            animation: marquee 20s linear infinite;
+        }
+
+        .partner-logo {
+            display: flex; align-items: center;
+            font-family: var(--font-heading);
+            font-size: 1.2rem; font-weight: 700;
+            color: rgba(6, 40, 61, 0.4); gap: 10px;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* -------------------------------------------------------------
+           SECTION 8: WHY MARINE CONSERVATION MATTERS
+        ------------------------------------------------------------- */
+        .matters-block {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .matters-block:last-child { margin-bottom: 0; }
+
+        .matters-img {
+            width: 100%;
+            height: clamp(240px, 35vh, 400px);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .matters-img img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .matters-info h3 {
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            margin-bottom: 16px;
+        }
+
+        .matters-info p {
+            color: #475569;
+            margin-bottom: 24px;
+        }
+
+        /* Section 9: Newsletter & Action CTA */
+        .cta-newsletter {
+            background-color: #0E2938;
+            padding: 80px 0;
+            color: white;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .cta-box {
+            max-width: 650px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            color: white;
+            font-size: 2.3rem;
+            margin-bottom: 16px;
+        }
+
+        .cta-box p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 30px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 16px;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+        }
+
+        /* PREMIUM SYSTEM FOOTER ARCHITECTURE */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Floating Back-to-Top Unit */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            width: 45px; height: 45px;
+            background-color: var(--coral-accent); color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 99;
+            opacity: 0; visibility: hidden;
+            transition: var(--transition);
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+
+        /* -------------------------------------------------------------
+           TARGETED MEDIA BREAKPOINTS (Upward Desktop Adaptation Engine)
+        ------------------------------------------------------------- */
+        
+        /* Tablets, Widescreens & Desktops (768px and up) */
+        @media (min-width: 768px) {
+            .story-split {
+                grid-template-columns: 1fr 1fr;
+            }
+            .story-content {
+                border-top: none; padding-top: 0;
+                border-left: 3px solid var(--ocean-blue); padding-left: 30px;
+            }
+
+            /* FIXED DESKTOP TIMELINE CONFIGURATION */
+            .timeline-line { left: 50%; transform: translateX(-50%); }
+            .timeline-line-progress { left: 50%; transform: translateX(-50%); }
+            
+            .timeline-item { 
+                width: 50%; 
+                padding-left: 0; 
+            }
+            
+            /* Alternating items positioning */
+            .timeline-item.left { 
+                left: 0; 
+                text-align: right; 
+                padding-right: 45px; 
+            }
+            .timeline-item.right { 
+                left: 50%; 
+                padding-left: 45px; 
+                text-align: left;
+            }
+            
+            /* Pin dots directly into the center path line */
+            .timeline-dot { left: auto; }
+            .timeline-item.left .timeline-dot { right: -12px; top: 25px; }
+            .timeline-item.right .timeline-dot { left: -12px; top: 25px; }
+
+            .matters-block {
+                flex-direction: row;
+                gap: 50px;
+            }
+            .matters-block:nth-child(even) { flex-direction: row-reverse; }
+            .matters-img { flex: 1; }
+            .matters-info { flex: 1; }
+
+
+
+        }
+
+        /* Large Screen Media Optimization Breakpoint (1024px and up) */
+        @media (min-width: 1024px) {
+            .menu-toggle { display: none; }
+
+        }
+
+        /* Mobile Slide-out Menu Specifics (Triggered Under 1024px) */
+        @media (max-width: 1023px) {
+            .menu-toggle { display: block; z-index: 1001; }
+            .nav-menu {
+                position: fixed; top: 0; right: -100%;
+                width: 100%; height: 100vh;
+                background-color: rgba(6, 40, 61, 0.98);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                flex-direction: column; justify-content: center;
+                align-items: center;
+                gap: 40px;
+                transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 1000;
+            }
+            .nav-menu.active { right: 0; }
+        }
+
+        /* Dense Viewport Tweaks (Below 480px) */
+        @media (max-width: 480px) {
+            .hero-buttons .btn, .cta-buttons .btn { width: 100%; }
+            .story-collage { height: 240px; }
+        }
+    
+        /* ==========================================================================
+           STANDARDIZED FOOTER STYLING (MATCHING INDEX.HTML)
+           ========================================================================== */
+        .footer a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .footer a:hover {
+            color: var(--coral-accent);
+        }
+        .footer {
+            background: linear-gradient(to bottom, #041C2B, #020E17);
+            color: rgba(255,255,255,0.7);
+            padding: 80px 0 40px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-about .logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-about p {
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background-color: var(--coral-accent);
+            transform: translateY(-3px);
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a:hover {
+            color: var(--coral-accent);
+            padding-left: 4px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid { 
+                grid-template-columns: 1fr; 
+                text-align: center; 
+                gap: 40px;
+            }
+
+            .footer-about, .footer-links, .footer-about .logo {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .social-icons { justify-content: center; }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .newsletter-form { flex-direction: column; background: transparent; border: none; padding: 0; }
+            .newsletter-form input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-sm); margin-bottom: 12px; }
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+</style>
+</head>
+<body>
+
+
+
+    <nav class="navbar">
+        <div class="container nav-container">
+           <a href="index.html" class="logo">
+    <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="login.html" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">Login</a></li>
+            </ul>
+            <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </nav>
+
+  <header class="page-hero-banner" style="background-image: url('assets/images/deep-sea-jellyfish-1583212292454.webp');">
+    <div class="banner-overlay-mask"></div>
+    <div class="banner-container">
+        <div class="page-denotation">
+            <span class="root-node">Stackly</span> 
+            <span class="divider">/</span> 
+            <span class="current-page">About Us</span>
+        </div>
+        <p class="hero-sentence">
+            Driven by a <strong class="highlight-text">Core Conservation Mandate</strong>, we deploy global teams and active data networks to protect marine biodiversity, restore coral structures, and build resilient ocean ecosystems for future generations.
+        </p>
+    </div>
+  </header>
+
+    <section class="section-padding container"  data-aos="fade-up">
+        <div class="story-split">
+            <div class="story-collage">
+                <div class="collage-img img-1"><img src="assets/images/pexels-yudi-ding-2155130552-34839848.webp" alt="Ocean Cleanup Frontlines"></div>
+                <div class="collage-img img-2"><img src="assets/images/pexels-tomfisk-4610202.webp" alt="Resilient Coral Restoration"></div>
+                <div class="collage-img img-3"><img src="assets/images/pexels-printexstar-11632275.webp" alt="Deep Marine Research"></div>
+            </div>
+            <div class="story-content">
+                <h3>Our Genesis: Turning Tide Against Ecosystem Collapse</h3>
+                <p>Founded by a cohesive alliance of marine biologists, environmental strategists, and deep-sea divers, Stackly emerged in response to the staggering rate of coral bleaching and plastic accumulation across our global channels.</p>
+                <p>What began as a localized marine monitoring team in the Pacific quickly scaled into an international network. Today, we address complex challenges like commercial overfishing and microplastic streams using verifiable, data-driven methodology.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="mission" class="section-padding" style="background-color: #EBF4F6;" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="label">Our Foundation</span>
+                <h2>The Principles Driving Global Impact</h2>
+                <p>Establishing actionable metrics and absolute transparency across all validation frameworks.</p>
+            </div>
+            <div class="mvv-grid">
+                <div class="mvv-card">
+                    <div class="mvv-icon"><i class="fa-solid fa-bullseye"></i></div>
+                    <h3>Our Mission</h3>
+                    <p>To implement rigorous, scalable marine restoration operations and scientifically sound protection zones to safeguard vulnerable aquatic wildlife populations globally.</p>
+                </div>
+                <div class="mvv-card">
+                    <div class="mvv-icon"><i class="fa-solid fa-eye"></i></div>
+                    <h3>Our Vision</h3>
+                    <p>A thriving, stable ocean biosphere where healthy coral networks and marine wildlife naturally adapt alongside conscious global industrial supply lines.</p>
+                </div>
+                <div class="mvv-card">
+                    <div class="mvv-icon"><i class="fa-solid fa-anchor"></i></div>
+                    <h3>Core Values</h3>
+                    <ul class="values-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Scientific Rigor</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Absolute Transparency</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Inclusive Collaboration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Rapid Innovation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="background-color: #F0F4F8;" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="label">The Critical Scope</span>
+                <h2>Why Our Survival Hinges On The Depths</h2>
+                <p>Oceans regulate global systems. Disruption down here triggers cascading biosphere collapse everywhere else.</p>
+            </div>
+
+            <div class="matters-block">
+                <div class="matters-img"><img src="assets/images/pexels-leonardo-lamas-32247393-7001622.webp" alt="Biodiversity under the sea"></div>
+                <div class="matters-info">
+                    <h3>Securing Global Biological Diversity</h3>
+                    <p>Marine structures sustain over 250,000 documented animal species. Coral architecture serves as the foundation for complex global aquatic trophic levels; its collapse risks systemic structural starvation across human and ecological dependants alike.</p>
+                    <a href="404.html" class="btn btn-outline">Read Technical Data</a>
+                </div>
+            </div>
+
+            <div class="matters-block">
+                <div class="matters-img"><img src="assets/images/iceberg-sea-cloudy-sky-antarctica.webp" alt="Atmospheric stabilization via oceans"></div>
+                <div class="matters-info">
+                    <h3>The Primary Planet Thermal Regulator</h3>
+                    <p>Marine phytoplankton populations sequence over 50% of earthly atmospheric oxygen layers while absorbing catastrophic levels of industrial carbon. Protecting this unseen biological biological filter remains our single most effective barrier against systemic climate shift.</p>
+                    <a href="404.html" class="btn btn-outline">Examine Climate Models</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section class="section-padding stats-section" data-aos="fade-up">
+        <div class="container stats-grid">
+            <div class="stat-card">
+                <div class="num" data-target="52000">0</div>
+                <p>Kg Waste Extracted</p>
+            </div>
+            <div class="stat-card">
+                <div class="num" data-target="24000">0</div>
+                <p>Registered Volunteers</p>
+            </div>
+            <div class="stat-card">
+                <div class="num" data-target="180">0</div>
+                <p>Deployments</p>
+            </div>
+            <div class="stat-card">
+                <div class="num" data-target="42">0</div>
+                <p>Sanctuaries Managed</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="journey" class="section-padding container" data-aos="fade-up">
+        <div class="section-header">
+            <span class="label">Historical Record</span>
+            <h2>Our Operational Milestones</h2>
+            <p>From a localized collective to a global authority in coastal ecological health tracking.</p>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-line">
+                <div class="timeline-line-progress"></div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2018</div>
+                <div class="timeline-box">
+                    <h4>Organization Founded</h4>
+                    <p>Stackly launches with 12 senior researchers targeting illegal dumping areas in northern marine channels.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2019</div>
+                <div class="timeline-box">
+                    <h4>First Beach Cleanup Campaign</h4>
+                    <p>Coordinated 2,500 active volunteers across 30 coastal sectors, securely intercepting 15 metric tons of plastic waste.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2021</div>
+                <div class="timeline-box">
+                    <h4>Marine Awareness Programs</h4>
+                    <p>Distributed standardized marine conservation curriculum modules to over 50 international coastal school systems.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2023</div>
+                <div class="timeline-box">
+                    <h4>Coral Nurseries Launched</h4>
+                    <p>Engineered proprietary offshore climate-resilient coral micro-fragmenting systems with a 92% survival rate.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <section class="section-padding container" data-aos="fade-up">
+        <div class="section-header">
+            <span class="label">Alliance Network</span>
+            <h2>Collaborative Environmental Matrix</h2>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <div class="partner-logo"><i class="fa-solid fa-university"></i> Oceanic Institute</div>
+                <div class="partner-logo"><i class="fa-solid fa-leaf"></i> EcoStream Alliance</div>
+                <div class="partner-logo"><i class="fa-solid fa-flask"></i> BioMarine Labs</div>
+                <div class="partner-logo"><i class="fa-solid fa-globe"></i> Terra-True NGO</div>
+                <div class="partner-logo"><i class="fa-solid fa-university"></i> Oceanic Institute</div>
+                <div class="partner-logo"><i class="fa-solid fa-leaf"></i> EcoStream Alliance</div>
+                <div class="partner-logo"><i class="fa-solid fa-flask"></i> BioMarine Labs</div>
+                <div class="partner-logo"><i class="fa-solid fa-globe"></i> Terra-True NGO</div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section-padding" style="background-color: #EBF4F6;" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="label">The Guardians</span>
+                <h2>Our Leadership & Science Directorate</h2>
+                <p>Meet the veteran field operational engineers and taxonomists coordinating our global deep-sea restoration assets.</p>
+            </div>
+            <div class="team-bento">
+                <div class="team-card">
+                    <div class="team-img-wrapper"><img src="assets/images/dr-elena-vance-1534528741775.webp" alt="Dr. Elena Vance"></div>
+                    <div class="team-info">
+                        <h3>Dr. Elena Vance</h3>
+                        <span class="role">Founder & Executive Director</span>
+                        <p>Elena steers our central political legislative lobbying efforts across high-level commissions.</p>
+                        <div class="team-socials"><a href="404.html"><i class="fa-brands fa-linkedin-in"></i></a><a href="404.html"><i class="fa-brands fa-x-twitter"></i></a></div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-img-wrapper"><img src="assets/images/uifaces-popular-avatar (2) (1).webp" alt="Marcus Thorne"></div>
+                    <div class="team-info">
+                        <h3>Marcus Thorne</h3>
+                        <span class="role">Chief Marine Biologist</span>
+                        <p>Marcus directs the offshore nursery systems, innovating strains of resilient coral matrices.</p>
+                        <div class="team-socials"><a href="404.html"><i class="fa-brands fa-linkedin-in"></i></a><a href="404.html"><i class="fa-brands fa-researchgate"></i></a></div>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-img-wrapper"><img src="assets/images/uifaces-popular-avatar (4) (1).webp" alt="Sarah Jenkins"></div>
+                    <div class="team-info">
+                        <h3>Rithik Roshan</h3>
+                        <span class="role">Lead Conservation Coordinator</span>
+                        <p>Sarah anchors baseline logistics, mobilizing critical localized rapid response hazard teams.</p>
+                        <div class="team-socials"><a href="404.html"><i class="fa-brands fa-linkedin-in"></i></a><a href="404.html"><i class="fa-solid fa-envelope"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="404.html" class="logo">
+                        <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+                    </a>
+                    <p>Stackly is a registered international non-profit organization dedicated to deploying scalable scientific strategies, direct cleanup action loops, and strict policy protection Frameworks across major global marine coordinates.</p>
+                    <div class="social-icons">
+                        <a href="404.html" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+
+                        <a href="404.html" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="404.html">Volunteer Network</a></li>
+                        <li><a href="404.html">Donation Portal</a></li>
+                        <li><a href="404.html">Corporate Packages</a></li>
+                        <li><a href="404.html">Media Kit Access</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Global Head Office</h4>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-location-dot" style="margin-right: 8px;"></i> 742 Marine Boulevard, Suite 100, San Francisco, CA</p>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-phone" style="margin-right: 8px;"></i> +1 (800) 555-BLUE</p>
+                    <p style="font-size: 0.95rem;"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> actions@stacklyconservation.org</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Stackly Marine Conservation. All Rights Reserved across global territories.</p>
+                <div style="display:flex; gap: 20px;">
+                    <a href="404.html">Privacy Framework</a>
+                    <a href="404.html">Terms of Deployment</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="back-to-top"><i class="fa-solid fa-chevron-up"></i></div>
+
+    <script>
+        window.addEventListener('load', () => {
+            initIntersectionObservers();
+        });
+
+        const navbar = document.querySelector('.navbar');
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 500) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+
+            updateTimelineProgress();
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+                const icon = menuToggle.querySelector('i');
+                if(icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-xmark');
+                }
+            });
+        });
+
+        function updateTimelineProgress() {
+            const container = document.querySelector('.timeline-container');
+            if (!container) return;
+            const line = document.querySelector('.timeline-line-progress');
+            const items = document.querySelectorAll('.timeline-item');
+            
+            const rect = container.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+            
+            if (rect.top < viewHeight && rect.bottom > 0) {
+                const totalHeight = rect.height;
+                const scrolledPast = viewHeight - rect.top;
+                let percent = (scrolledPast / (totalHeight + viewHeight * 0.1)) * 100;
+                percent = Math.min(Math.max(percent, 0), 100);
+                line.style.height = `${percent}%`;
+
+                items.forEach(item => {
+                    const itemRect = item.getBoundingClientRect();
+                    if (itemRect.top < viewHeight * 0.75) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        function initIntersectionObservers() {
+            const counters = document.querySelectorAll('.num');
+            const options = { threshold: 0.3 };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalVal = parseInt(target.getAttribute('data-target'));
+                        let currentVal = 0;
+                        const steps = 30;
+                        const stepValue = finalVal / steps;
+
+                        const timer = setInterval(() => {
+                            currentVal += stepValue;
+                            if (currentVal >= finalVal) {
+                                target.innerText = finalVal.toLocaleString() + "+";
+                                clearInterval(timer);
+                            } else {
+                                target.innerText = Math.floor(currentVal).toLocaleString() + "+";
+                            }
+                        }, 40);
+
+                        observer.unobserve(target);
+                    }
+                });
+            }, options);
+
+            counters.forEach(counter => observer.observe(counter));
+        }
+    </script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-quad'
+        });
+    </script>
+</body>
+</html>

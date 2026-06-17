@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — Stackly Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --deep-ocean: #031B29;
+            --clear-aqua: #00A896;
+            --coral-soft: #FF7A5A;
+            --text-dark: #1C2D37;
+            --text-muted: #5A6E79;
+            --glass-bg: rgba(255, 255, 255, 0.82); /* Clean light theme glass */
+            --glass-border: rgba(3, 27, 41, 0.1);
+            --radius-sm: 10px;
+            --radius-lg: 20px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --color-error: #E74C3C;
+            --color-success: #27AE60;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        /* Custom UI Scrollbar Rules */
+        html, body {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 168, 150, 0.3) transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 168, 150, 0.2);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 168, 150, 0.4);
+        }
+
+        body {
+            font-family: var(--font-body);
+            /* Matching crisp light theme landscape layout */
+            background: linear-gradient(rgba(230, 244, 242, 0.2), rgba(210, 235, 231, 0.2)), 
+                        url('assets/images/pristine-beach-coast-1507525428034.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 12px;
+            overflow-y: auto;
+        }
+
+        .auth-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 400px;
+            padding: 32px 36px;
+            box-shadow: 0 20px 50px rgba(3, 27, 41, 0.15);
+            animation: fadeIn 1s var(--transition);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .responsive-logo {
+            height: 38px;
+            object-fit: contain;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+
+        .auth-header h2 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+            margin-bottom: 2px;
+            color: var(--deep-ocean);
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 14px;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--deep-ocean);
+            letter-spacing: 0.3px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 14px;
+            color: #8A9EA7;
+            font-size: 14px;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .form-control {
+            width: 100%;
+            height: 38px;
+            padding: 0 40px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(3, 27, 41, 0.15);
+            border-radius: var(--radius-sm);
+            color: var(--text-dark);
+            font-family: var(--font-body);
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            background: #FFFFFF;
+            border-color: var(--clear-aqua);
+            box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.15);
+        }
+
+        .form-control:focus + i.input-icon {
+            color: var(--clear-aqua);
+        }
+
+        select.form-control {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .input-wrapper::after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 14px;
+            color: #8A9EA7;
+            pointer-events: none;
+            font-size: 13px;
+        }
+        .input-wrapper.no-arrow::after { display: none; }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            color: #8A9EA7;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+        .toggle-password:hover { color: var(--text-dark); }
+
+        .form-control.is-invalid {
+            border-color: var(--color-error) !important;
+            background: rgba(231, 76, 60, 0.03);
+        }
+
+        .form-control.is-valid {
+            border-color: var(--color-success) !important;
+        }
+
+        .error-message {
+            color: var(--color-error);
+            font-size: 10px;
+            margin-top: 3px;
+            display: none;
+        }
+
+        .utility-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 12px 0 16px 0;
+            font-size: 12px;
+        }
+
+        .remember-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+        .remember-box input { 
+            accent-color: var(--clear-aqua); 
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .forgot-link:hover { color: var(--coral-soft); text-decoration: underline; }
+
+        .btn-submit {
+            width: 100%;
+            height: 42px;
+            background: var(--clear-aqua);
+            color: #FFFFFF;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-heading);
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 168, 150, 0.15);
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            background-color: #009686;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 168, 150, 0.25);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .auth-footer a {
+            color: var(--clear-aqua);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .auth-footer a:hover { color: var(--deep-ocean); text-decoration: underline; }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFFFFF;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .back-home-btn {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--deep-ocean);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 4px 12px rgba(3, 27, 41, 0.05);
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .back-home-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(3, 27, 41, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            body { flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 8px 16px; }
+            .back-home-btn { position: relative; top: 0; left: 0; margin-bottom: 20px; }
+            .auth-container { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-home-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+            <h2>Welcome Back</h2>
+            <p>Log in to access your ocean guardian account</p>
+        </div>
+
+        <form id="loginForm" novalidate>
+            <div class="form-group">
+                <label for="role">Account Ecosystem Role</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user-shield input-icon"></i>
+                    <select id="role" class="form-control" required>
+                        <option value="" disabled selected hidden>Choose role profile...</option>
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                </div>
+                <span class="error-message" id="roleError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper no-arrow">
+                    <i class="fa-solid fa-envelope input-icon"></i>
+                    <input type="email" id="email" class="form-control" placeholder="username@gmail.com" required>
+                </div>
+                <span class="error-message" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper no-arrow">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                    <i class="fa-solid fa-eye toggle-password" data-target="password"></i>
+                </div>
+                <span class="error-message" id="passwordError"></span>
+            </div>
+
+            <div class="utility-row">
+                <label class="remember-box">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-link" onclick="alert('Please contact your administrator to reset your password.')">Forgot password?</a>
+            </div>
+
+            <button type="submit" id="btnSubmit" class="btn-submit">
+                <span class="spinner" id="btnSpinner"></span>
+                <span id="btnText">Sign In</span>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            New to the portal? <a href="signup.html">Create an account</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('loginForm');
+            const role = document.getElementById('role');
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const btnSubmit = document.getElementById('btnSubmit');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const btnText = document.getElementById('btnText');
+
+            function validateRole() {
+                const isValid = role.value === "Admin" || role.value === "User";
+                updateUIState(role, document.getElementById('roleError'), isValid, "Please select an access profile role.");
+                return isValid;
+            }
+
+            function validateEmail() {
+                const val = email.value.trim();
+                // Strict regex checking exclusively for @gmail.com domains
+                const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                const isValid = gmailRegex.test(val);
+                updateUIState(email, document.getElementById('emailError'), isValid, "Please provide a valid @gmail.com email address.");
+                return isValid;
+            }
+
+            function validatePassword() {
+                const isValid = password.value.length >= 6;
+                updateUIState(password, document.getElementById('passwordError'), isValid, "Password must be at least 6 characters.");
+                return isValid;
+            }
+
+            document.querySelectorAll('.toggle-password').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const input = document.getElementById(this.getAttribute('data-target'));
+                    if(input.type === 'password') {
+                        input.type = 'text';
+                        this.classList.replace('fa-eye', 'fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        this.classList.replace('fa-eye-slash', 'fa-eye');
+                    }
+                });
+            });
+
+            function updateUIState(input, errorEl, isValid, message = "") {
+                if(isValid) {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                    errorEl.style.display = 'none';
+                } else {
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                    errorEl.textContent = message;
+                    errorEl.style.display = 'block';
+                }
+            }
+
+            role.addEventListener('change', validateRole);
+            email.addEventListener('input', validateEmail);
+            password.addEventListener('input', validatePassword);
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Force individual inline checks instantly on submit tap
+                const isRoleValid = validateRole();
+                const isEmailValid = validateEmail();
+                const isPasswordValid = validatePassword();
+
+                if (!isRoleValid || !isEmailValid || !isPasswordValid) {
+                    if (!isRoleValid) role.focus();
+                    else if (!isEmailValid) email.focus();
+                    else if (!isPasswordValid) password.focus();
+                    return;
+                }
+
+                btnSubmit.disabled = true;
+                btnSpinner.style.display = 'inline-block';
+                btnText.textContent = "Connecting...";
+
+                setTimeout(() => {
+                    const enteredRole = role.value;
+                    const enteredEmail = email.value.trim().toLowerCase();
+                    const enteredPassword = password.value;
+
+                    const database = JSON.parse(localStorage.getItem('users_database')) || [];
+                    
+                    // Look up an account matching BOTH email and the selected access role
+                    const userAccount = database.find(u => u.email === enteredEmail);
+
+                    if(!userAccount) {
+                        btnSpinner.style.display = 'none';
+                        btnText.textContent = "Sign In";
+                        btnSubmit.disabled = false;
+                        updateUIState(email, document.getElementById('emailError'), false, "Account environment not found.");
+                        email.focus();
+                        return;
+                    }
+
+                    if(userAccount.role !== enteredRole) {
+                        btnSpinner.style.display = 'none';
+                        btnText.textContent = "Sign In";
+                        btnSubmit.disabled = false;
+                        updateUIState(role, document.getElementById('roleError'), false, "Role access tier mismatch for this account.");
+                        role.focus();
+                        return;
+                    }
+
+                    if(userAccount.password !== enteredPassword) {
+                        btnSpinner.style.display = 'none';
+                        btnText.textContent = "Sign In";
+                        btnSubmit.disabled = false;
+                        updateUIState(password, document.getElementById('passwordError'), false, "Incorrect password authentication anchor.");
+                        password.focus();
+                        return;
+                    }
+
+                    localStorage.setItem('authenticated_active_user', JSON.stringify({
+                        username: userAccount.username,
+                        email: userAccount.email,
+                        role: userAccount.role
+                    }));
+
+                    btnText.textContent = "Success!";
+                    btnSpinner.style.display = 'none';
+
+                    setTimeout(() => {
+                        if(userAccount.role === "Admin") {
+                            window.location.href = 'admin-dashboard.html';
+                        } else {
+                            window.location.href = 'user-dashboard.html';
+                        }
+                    }, 1000);
+
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

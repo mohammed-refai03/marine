@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account — Stackly Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --deep-ocean: #031B29;
+            --clear-aqua: #00A896;
+            --coral-soft: #FF7A5A;
+            --text-dark: #1C2D37;
+            --text-muted: #5A6E79;
+            --glass-bg: rgba(255, 255, 255, 0.82); /* Enhanced opacity for text legibility over bg images */
+            --glass-border: rgba(3, 27, 41, 0.1);
+            --radius-sm: 10px;
+            --radius-lg: 20px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --color-error: #E74C3C;
+            --color-success: #27AE60;
+            --color-warning: #F39C12;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 168, 150, 0.3) transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 168, 150, 0.2);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 168, 150, 0.4);
+        }
+
+        body {
+            font-family: var(--font-body);
+            /* Crisp landscape background image integration */
+            background: linear-gradient(rgba(230, 244, 242, 0.2), rgba(210, 235, 231, 0.2)), 
+                        url('assets/images/pristine-beach-coast-1507525428034.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 12px;
+            overflow-y: auto;
+        }
+
+        .auth-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 440px;
+            padding: 24px 32px;
+            box-shadow: 0 20px 50px rgba(3, 27, 41, 0.15);
+            animation: fadeIn 1s var(--transition);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .responsive-logo {
+            height: 38px;
+            object-fit: contain;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        .auth-header h2 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+            margin-bottom: 2px;
+            color: var(--deep-ocean);
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--deep-ocean);
+            letter-spacing: 0.3px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i.input-icon {
+            position: absolute;
+            left: 14px;
+            color: #8A9EA7;
+            font-size: 14px;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .form-control {
+            width: 100%;
+            height: 38px;
+            padding: 0 40px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(3, 27, 41, 0.15);
+            border-radius: var(--radius-sm);
+            color: var(--text-dark);
+            font-family: var(--font-body);
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            background: #FFFFFF;
+            border-color: var(--clear-aqua);
+            box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.15);
+        }
+
+        .form-control:focus + i.input-icon {
+            color: var(--clear-aqua);
+        }
+
+        select.form-control {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .input-wrapper::after {
+            content: '\f107';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 14px;
+            color: #8A9EA7;
+            pointer-events: none;
+            font-size: 13px;
+        }
+        .input-wrapper.no-arrow::after { display: none; }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            color: #8A9EA7;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+        .toggle-password:hover { color: var(--text-dark); }
+
+        .form-control.is-invalid {
+            border-color: var(--color-error) !important;
+            background: rgba(231, 76, 60, 0.03);
+        }
+
+        .form-control.is-valid {
+            border-color: var(--color-success) !important;
+        }
+
+        .error-message {
+            color: var(--color-error);
+            font-size: 10px;
+            margin-top: 3px;
+            display: none;
+        }
+
+        .strength-container {
+            margin-top: 5px;
+            display: none;
+        }
+        .strength-meter {
+            height: 3px;
+            background: rgba(3, 27, 41, 0.08);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 2px;
+            display: flex;
+            gap: 2px;
+        }
+        .strength-bar {
+            height: 100%;
+            flex: 1;
+            background: transparent;
+            transition: var(--transition);
+        }
+        .strength-text {
+            font-size: 10px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .terms-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin: 12px 0 16px 0;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        .terms-container.is-invalid {
+            background: rgba(231, 76, 60, 0.08);
+            outline: 1px solid var(--color-error);
+        }
+        .terms-container input {
+            margin-top: 2px;
+            accent-color: var(--clear-aqua);
+            cursor: pointer;
+        }
+        .terms-container label {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.3;
+            user-select: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            height: 42px;
+            background: var(--clear-aqua);
+            color: #FFFFFF;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: var(--font-heading);
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 168, 150, 0.15);
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            background-color: #009686;
+            transform: translateY(-1px);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .auth-footer a {
+            color: var(--clear-aqua);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .auth-footer a:hover { color: var(--deep-ocean); text-decoration: underline; }
+
+        .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFFFFF;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .back-home-btn {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--deep-ocean);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: var(--radius-sm);
+            box-shadow: 0 4px 12px rgba(3, 27, 41, 0.05);
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .back-home-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(3, 27, 41, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            body { flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px 8px 16px; }
+            .back-home-btn { position: relative; top: 0; left: 0; margin-bottom: 20px; }
+            .auth-container { padding: 20px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-home-btn">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+            <h2>Join the Platform</h2>
+            <p>Setup a production profile container instantly</p>
+        </div>
+
+        <form id="signupForm" novalidate>
+            <div class="form-group">
+                <label for="role">Account Ecosystem Role</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user-shield input-icon"></i>
+                    <select id="role" class="form-control" required>
+                        <option value="" disabled selected hidden>Choose role profile...</option>
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                </div>
+                <span class="error-message" id="roleError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-wrapper no-arrow">
+                    <i class="fa-solid fa-user input-icon"></i>
+                    <input type="text" id="username" class="form-control" placeholder="e.g. John Doe" required>
+                </div>
+                <span class="error-message" id="usernameError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-wrapper no-arrow">
+                    <i class="fa-solid fa-envelope input-icon"></i>
+                    <input type="email" id="email" class="form-control" placeholder="username@gmail.com" required>
+                </div>
+                <span class="error-message" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper no-arrow">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                    <i class="fa-solid fa-eye toggle-password" data-target="password"></i>
+                </div>
+                <div class="strength-container" id="strengthContainer">
+                    <div class="strength-meter">
+                        <div class="strength-bar" id="bar1"></div>
+                        <div class="strength-bar" id="bar2"></div>
+                        <div class="strength-bar" id="bar3"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText">Weak</div>
+                </div>
+                <span class="error-message" id="passwordError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-wrapper no-arrow">
+                    <i class="fa-solid fa-lock-open input-icon"></i>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="••••••••" required>
+                    <i class="fa-solid fa-eye toggle-password" data-target="confirmPassword"></i>
+                </div>
+                <span class="error-message" id="confirmPasswordError"></span>
+            </div>
+
+            <div class="terms-container" id="termsWrapper">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I accept the Terms and Conditions and consent to the Privacy Policy.</label>
+            </div>
+
+            <button type="submit" id="btnSubmit" class="btn-submit">
+                <span class="spinner" id="btnSpinner"></span>
+                <span id="btnText">Create Account</span>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already mapping profile anchors? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('signupForm');
+            const role = document.getElementById('role');
+            const username = document.getElementById('username');
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const terms = document.getElementById('terms');
+            const termsWrapper = document.getElementById('termsWrapper');
+            const btnSubmit = document.getElementById('btnSubmit');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const btnText = document.getElementById('btnText');
+
+            function validateRole() {
+                const isValid = role.value === "Admin" || role.value === "User";
+                updateFieldUI(role, document.getElementById('roleError'), isValid, "Please select an access profile role.");
+                return isValid;
+            }
+
+            function validateUsername() {
+                const val = username.value.trim();
+                const alphaSpaceRegex = /^[A-Za-z]+( [A-Za-z]+)*$/;
+                const isValid = alphaSpaceRegex.test(val) && val.length >= 3;
+                updateFieldUI(username, document.getElementById('usernameError'), isValid, "Enter a valid full name (min 3 characters).");
+                return isValid;
+            }
+
+            function validateEmail() {
+                const val = email.value.trim();
+                // Strict regex checking exclusively for @gmail.com domains
+                const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                const isValid = gmailRegex.test(val);
+                updateFieldUI(email, document.getElementById('emailError'), isValid, "Please provide a valid @gmail.com email address.");
+                return isValid;
+            }
+
+            function validatePassword() {
+                const val = password.value;
+                const isValid = val.length >= 6 && /[A-Z]/.test(val) && /[a-z]/.test(val) && /[0-9]/.test(val) && /[^A-Za-z0-9]/.test(val);
+                updateFieldUI(password, document.getElementById('passwordError'), isValid, "Requires 6+ units with mixed cases, numbers, and symbols.");
+                return isValid;
+            }
+
+            function validateConfirmPassword() {
+                const match = confirmPassword.value === password.value && confirmPassword.value.length > 0;
+                updateFieldUI(confirmPassword, document.getElementById('confirmPasswordError'), match, "Passwords do not match.");
+                return match;
+            }
+
+            function validateTerms() {
+                if (terms.checked) {
+                    termsWrapper.classList.remove('is-invalid');
+                    return true;
+                } else {
+                    termsWrapper.classList.add('is-invalid');
+                    return false;
+                }
+            }
+
+            document.querySelectorAll('.toggle-password').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const targetInput = document.getElementById(this.getAttribute('data-target'));
+                    if(targetInput.type === 'password') {
+                        targetInput.type = 'text';
+                        this.classList.replace('fa-eye', 'fa-eye-slash');
+                    } else {
+                        targetInput.type = 'password';
+                        this.classList.replace('fa-eye-slash', 'fa-eye');
+                    }
+                });
+            });
+
+            function updateFieldUI(input, errorEl, isValid, message = "") {
+                if(isValid) {
+                    input.classList.remove('is-invalid');
+                    input.classList.add('is-valid');
+                    errorEl.style.display = 'none';
+                } else {
+                    input.classList.remove('is-valid');
+                    input.classList.add('is-invalid');
+                    errorEl.textContent = message;
+                    errorEl.style.display = 'block';
+                }
+            }
+
+            role.addEventListener('change', validateRole);
+            username.addEventListener('input', validateUsername);
+            email.addEventListener('input', validateEmail);
+            
+            password.addEventListener('input', () => {
+                const val = password.value;
+                const container = document.getElementById('strengthContainer');
+                container.style.display = val.length > 0 ? 'block' : 'none';
+
+                let score = 0;
+                if(val.length >= 6) score++;
+                if(/[A-Z]/.test(val)) score++;
+                if(/[a-z]/.test(val)) score++;
+                if(/[0-9]/.test(val)) score++;
+                if(/[^A-Za-z0-9]/.test(val)) score++;
+
+                const b1 = document.getElementById('bar1');
+                const b2 = document.getElementById('bar2');
+                const b3 = document.getElementById('bar3');
+                const text = document.getElementById('strengthText');
+
+                if(score <= 2) {
+                    b1.style.background = 'var(--color-error)'; b2.style.background = 'transparent'; b3.style.background = 'transparent';
+                    text.textContent = "Weak"; text.style.color = 'var(--color-error)';
+                } else if(score === 3 || score === 4) {
+                    b1.style.background = 'var(--color-warning)'; b2.style.background = 'var(--color-warning)'; b3.style.background = 'transparent';
+                    text.textContent = "Medium"; text.style.color = 'var(--color-warning)';
+                } else if(score >= 5) {
+                    b1.style.background = 'var(--color-success)'; b2.style.background = 'var(--color-success)'; b3.style.background = 'var(--color-success)';
+                    text.textContent = "Strong"; text.style.color = 'var(--color-success)';
+                }
+                validatePassword();
+                if(confirmPassword.value.length > 0) validateConfirmPassword();
+            });
+
+            confirmPassword.addEventListener('input', validateConfirmPassword);
+            terms.addEventListener('change', validateTerms);
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const isRoleValid = validateRole();
+                const isUserValid = validateUsername();
+                const isEmailValid = validateEmail();
+                const isPassValid = validatePassword();
+                const isConfirmValid = validateConfirmPassword();
+                const isTermsValid = validateTerms();
+
+                const isFormValid = isRoleValid && isUserValid && isEmailValid && isPassValid && isConfirmValid && isTermsValid;
+
+                if(!isFormValid) {
+                    if(!isRoleValid) role.focus();
+                    else if(!isUserValid) username.focus();
+                    else if(!isEmailValid) email.focus();
+                    else if(!isPassValid) password.focus();
+                    else if(!isConfirmValid) confirmPassword.focus();
+                    else if(!isTermsValid) terms.focus();
+                    return;
+                }
+
+                btnSubmit.disabled = true;
+                btnSpinner.style.display = 'inline-block';
+                btnText.textContent = "Processing Profile...";
+
+                setTimeout(() => {
+                    const payload = {
+                        role: role.value,
+                        username: username.value.trim(),
+                        email: email.value.trim().toLowerCase(),
+                        password: password.value
+                    };
+
+                    let usersDb = JSON.parse(localStorage.getItem('users_database')) || [];
+                    const exists = usersDb.some(u => u.email === payload.email);
+                    
+                    if(exists) {
+                        btnSpinner.style.display = 'none';
+                        btnText.textContent = "Create Account";
+                        btnSubmit.disabled = false;
+                        updateFieldUI(email, document.getElementById('emailError'), false, "This email environment is already registered.");
+                        email.focus();
+                        return;
+                    }
+
+                    usersDb.push(payload);
+                    localStorage.setItem('users_database', JSON.stringify(usersDb));
+
+                    btnText.textContent = "Registration Clear!";
+                    btnSpinner.style.display = 'none';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1000);
+
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>

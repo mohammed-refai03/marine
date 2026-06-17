@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Console — Stackly Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-base: #F4F7F9;
+            --bg-card: #FFFFFF;
+            --deep-ocean: #0A324D;
+            --clear-aqua: #00A896;
+            --coral-accent: #FF8243;
+            --coral-hover: #E66F32;
+            --text-dark: #0A2233;
+            --text-muted: #5A7383;
+            --border-light: #E2EAF0;
+            
+            --sidebar-width: 260px;
+            --navbar-height: 70px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius: 16px;
+            --radius-sm: 8px;
+            
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-base);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- SIDEBAR BARRIER --- */
+        aside {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background-color: #FFFFFF;
+            border-right: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform var(--transition);
+        }
+
+        .sidebar-header {
+            height: var(--navbar-height);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .responsive-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .menu-item a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .menu-item:hover a, .menu-item.active a {
+            color: var(--deep-ocean);
+            background-color: #F0F4F8;
+        }
+
+        .menu-item.active a i { color: var(--clear-aqua); }
+        .menu-item a i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+        }
+
+        .btn-logout {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            color: #E74C3C;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            text-decoration: none;
+        }
+        .btn-logout:hover { background-color: #FDF2F2; }
+
+        /* --- CONTENT WRAPPER FRAMEWORK --- */
+        .main-container {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: margin-left var(--transition);
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            height: var(--navbar-height);
+            background-color: #FFFFFF;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 900;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--deep-ocean);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        nav h1 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .profile-info { text-align: right; }
+        .profile-role { font-size: 13px; font-weight: 600; color: var(--deep-ocean); line-height: 1.2; }
+        .profile-email { font-size: 11px; color: var(--text-muted); line-height: 1.2; }
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: #E2EAF0;
+            border: 2px solid var(--clear-aqua);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-ocean);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* --- MOBILE OVERLAY SHIELD --- */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 34, 51, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 950;
+            opacity: 0;
+            transition: opacity var(--transition);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* --- MAIN DISPLAY FRAMES --- */
+        main {
+            padding: 32px;
+            flex-grow: 1;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-section {
+            display: none;
+        }
+
+        .dashboard-section.active-view { 
+            display: block; 
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+            margin-bottom: 4px;
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+        }
+
+        .sub-block-title {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+            margin: 32px 0 16px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 8px;
+        }
+
+        /* --- CARDS & GRIDS --- */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(10, 50, 77, 0.02);
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--deep-ocean);
+            margin-top: 4px;
+        }
+
+        .stat-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        .icon-aqua { background-color: #EAF5F4; color: var(--clear-aqua); }
+        .icon-blue { background-color: #EBF3F9; color: var(--deep-ocean); }
+        .icon-coral { background-color: #FFF2EB; color: var(--coral-accent); }
+        .icon-gold { background-color: #FAF4E7; color: #D4AF37; }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1.2fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .chart-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            min-width: 0;
+        }
+
+        .chart-container-inner {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            margin-top: 16px;
+        }
+
+        .grid-two-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* --- CONTENT MASONRY CARDS --- */
+        .campaigns-masonry {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 24px;
+        }
+
+        .campaign-node {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(10, 50, 77, 0.02);
+            transition: var(--transition);
+        }
+
+        .campaign-node:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(10, 50, 77, 0.06);
+        }
+
+        .node-meta-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .node-title {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+            margin-bottom: 8px;
+        }
+
+        .node-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .node-specifications {
+            list-style: none;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .node-specifications li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+        }
+
+        .node-specifications li i { color: var(--clear-aqua); width: 16px; }
+
+        /* --- ECO-MAP FLOW --- */
+        .eco-map-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            background: #F8FAFC;
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+        }
+
+        .map-cell {
+            background: #FFFFFF;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .map-cell-title { font-size: 12px; font-weight: 600; color: var(--deep-ocean); }
+        .map-cell-status { font-size: 11px; margin-top: 4px; font-weight: 500; }
+
+        /* --- TABLE CONFIGURATIONS --- */
+        .table-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(10, 50, 77, 0.02);
+            margin-bottom: 24px;
+        }
+
+        .table-card h4 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+            margin-bottom: 16px;
+        }
+
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; min-width: 600px; }
+        th { background-color: #F8FAFC; color: var(--text-muted); padding: 12px 16px; font-weight: 600; border-bottom: 1px solid var(--border-light); white-space: nowrap; }
+        td { padding: 12px 16px; border-bottom: 1px solid var(--border-light); color: var(--text-dark); }
+
+        /* --- CREDENTIAL SYSTEMS --- */
+        .credential-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .cert-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .cert-icon-frame {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background-color: #FAF4E7;
+            color: #D4AF37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            border: 1px solid #F1E4B3;
+        }
+
+        .cert-info h5 { font-family: var(--font-heading); font-size: 14px; font-weight: 600; color: var(--deep-ocean); }
+        .cert-info p { font-size: 12px; color: var(--text-muted); margin: 2px 0 8px 0; }
+        .cert-download-link { font-size: 12px; font-weight: 600; color: var(--clear-aqua); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+
+        .badge-mosaic {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .badge-node {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+        }
+        .badge-node i { font-size: 32px; margin-bottom: 12px; display: inline-block; }
+        .badge-node h6 { font-family: var(--font-heading); font-size: 13px; font-weight: 600; color: var(--deep-ocean); }
+        .badge-node p { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+        /* --- PIPELINE VISUAL CONTAINER --- */
+        .pipeline-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 10px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .pipeline-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 10px;
+            position: relative;
+            min-width: 650px;
+        }
+
+        .pipeline-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background-color: var(--border-light);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+
+        .pipeline-step {
+            position: relative;
+            z-index: 2;
+            background: #FFFFFF;
+            padding: 8px 16px;
+            border: 2px solid var(--clear-aqua);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--deep-ocean);
+        }
+        .pipeline-step.complete { background: var(--clear-aqua); color: #FFFFFF; }
+
+        /* --- LEARNING MATRIX --- */
+        .learning-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .course-tag { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--clear-aqua); margin-bottom: 8px; display: block; }
+        .course-card h4 { font-family: var(--font-heading); font-size: 15px; font-weight: 600; color: var(--deep-ocean); margin-bottom: 8px; }
+        .course-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+
+        .progress-container { margin-bottom: 20px; }
+        .progress-label-row { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+        .progress-bar-track { background-color: var(--border-light); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background-color: var(--clear-aqua); border-radius: 3px; }
+
+        /* --- BADGES --- */
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block; }
+        .badge-confirmed { background-color: #E6F7F0; color: #27AE60; }
+        .badge-pending { background-color: #FFF8E6; color: #F1C40F; }
+        .badge-critical { background-color: #FDF2F2; color: #E74C3C; }
+        .badge-info { background-color: #EBF3F9; color: var(--deep-ocean); }
+
+        .btn-action-primary {
+            background-color: var(--clear-aqua);
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 16px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn-action-primary:hover { background-color: var(--deep-ocean); }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 1024px) {
+            .chart-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            aside { transform: translateX(-100%); }
+            aside.sidebar-active { transform: translateX(0); }
+            .main-container { margin-left: 0; }
+            .menu-toggle { display: block; }
+            nav { padding: 0 20px; }
+            main { padding: 24px 16px; }
+            .profile-info { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .section-title { font-size: 21px; }
+            .stat-card { padding: 18px; }
+            .table-card { padding: 16px; }
+            .cert-card { flex-direction: column; text-align: center; }
+            .cert-icon-frame { margin: 0 auto; }
+        }
+    
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+</style>
+</head>
+<body>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-item active" data-view="my-impact">
+                <a><i class="fa-solid fa-seedling"></i>My Impact</a>
+            </li>
+            <li class="menu-item" data-view="join-campaigns">
+                <a><i class="fa-solid fa-circle-plus"></i>Join Campaigns</a>
+            </li>
+            <li class="menu-item" data-view="donation-history">
+                <a><i class="fa-solid fa-clock-rotate-left"></i>Donation History</a>
+            </li>
+            <li class="menu-item" data-view="certificates-badges">
+                <a><i class="fa-solid fa-award"></i>Certificates & Badges</a>
+            </li>
+            <li class="menu-item" data-view="learning-resources">
+                <a><i class="fa-solid fa-graduation-cap"></i>Learning Resources</a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="login.html" class="btn-logout" id="btnLogout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>Logout
+            </a>
+        </div>
+    </aside>
+
+    <div class="main-container">
+        <nav>
+            <div class="nav-left">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 id="navHeaderTitle">My Impact</h1>
+            </div>
+            <div class="nav-right-controls">
+                <div class="profile-container">
+                    <div class="profile-info">
+                        <div class="profile-role" id="sessionRole">Guardian Member</div>
+                        <div class="profile-email" id="sessionEmail">guardian_user@stackly.org</div>
+                    </div>
+                    <div class="profile-avatar" id="profileAvatar">U</div>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            
+            <section id="my-impact" class="dashboard-section active-view">
+                <h2 class="section-title">Overview Dashboard</h2>
+                <div class="section-subtitle">Real-time tracking profile of your ecological footprint contribution metrics.</div>
+                
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">ACTIVE DEPLOYMENTS</span>
+                            <div class="stat-number">6</div>
+                        </div>
+                        <div class="stat-icon-box icon-aqua"><i class="fa-solid fa-water"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">VOLUNTEER HOURS</span>
+                            <div class="stat-number">42 hrs</div>
+                        </div>
+                        <div class="stat-icon-box icon-blue"><i class="fa-solid fa-hourglass-half"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">PLASTIC MITIGATED</span>
+                            <div class="stat-number">118 kg</div>
+                        </div>
+                        <div class="stat-icon-box icon-coral"><i class="fa-solid fa-recycle"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">ECO POINTS BAL</span>
+                            <div class="stat-number">2,450</div>
+                        </div>
+                        <div class="stat-icon-box icon-gold"><i class="fa-solid fa-star"></i></div>
+                    </div>
+                </div>
+
+                <div class="chart-grid">
+                    <div class="chart-card">
+                        <span style="font-size:14px; font-weight:600; color:var(--deep-ocean);">Monthly Field Output Distribution</span>
+                        <div class="chart-container-inner"><canvas id="barChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <span style="font-size:14px; font-weight:600; color:var(--deep-ocean);">Operational Focus Allocation</span>
+                        <div class="chart-container-inner"><canvas id="pieChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-cloud-sun"></i> Carbon Offsetting & Sequestration Metrics</div>
+                <div class="stat-grid target-scroll-reveal">
+                    <div class="stat-card" style="border-left: 4px solid #27AE60;">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">ESTIMATED CO2 ABSORPTION</span>
+                            <div class="stat-number" style="color:#27AE60;">1.4 Tons</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--clear-aqua);">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">MANGROVE STOCKS SECURED</span>
+                            <div class="stat-number" style="color:var(--clear-aqua);">28 Units</div>
+                        </div>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--coral-accent);">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">PROJECTED 10-YR YIELD</span>
+                            <div class="stat-number" style="color:var(--coral-accent);">14.2 Tons</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-border-all"></i> Regional Ecosystem Recovery Grid Matrix</div>
+                <div class="eco-map-grid target-scroll-reveal">
+                    <div class="map-cell"><div class="map-cell-title">Sector A-1</div><div class="map-cell-status" style="color:#27AE60;"><i class="fa-solid fa-circle-check"></i> Stable</div></div>
+                    <div class="map-cell"><div class="map-cell-title">Sector A-2</div><div class="map-cell-status" style="color:#F1C40F;"><i class="fa-solid fa-circle-exclamation"></i> Algae Warning</div></div>
+                    <div class="map-cell"><div class="map-cell-title">Sector B-1</div><div class="map-cell-status" style="color:#27AE60;"><i class="fa-solid fa-circle-check"></i> Planted</div></div>
+                    <div class="map-cell"><div class="map-cell-title">Sector B-2</div><div class="map-cell-status" style="color:#E74C3C;"><i class="fa-solid fa-radiation"></i> Acid Critical</div></div>
+                    <div class="map-cell"><div class="map-cell-title">Sector C-1</div><div class="map-cell-status" style="color:#5A7383;"><i class="fa-solid fa-spinner"></i> Survey Pending</div></div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-calendar-check"></i> Upcoming Deployment Roster</div>
+                <div class="table-card target-scroll-reveal">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Operation Node</th>
+                                    <th>Target Date</th>
+                                    <th>Field Base Area</th>
+                                    <th>Status Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Marina Coast Recovery Drive</strong></td>
+                                    <td>June 20, 2026</td>
+                                    <td>Chennai Sector Alpha</td>
+                                    <td><span class="badge badge-confirmed">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Coral Spawning Monitor Node</strong></td>
+                                    <td>July 04, 2026</td>
+                                    <td>Andaman Outer Reef</td>
+                                    <td><span class="badge badge-confirmed">Confirmed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="join-campaigns" class="dashboard-section">
+                <h2 class="section-title">Open Enlistment Matrix</h2>
+                <div class="section-subtitle">Enroll in tactical active relief initiatives, local surveys, and ecosystem restoration assignments.</div>
+                
+                <div class="campaigns-masonry">
+                    <div class="campaign-node">
+                        <div class="node-meta-top">
+                            <span class="badge badge-critical">High Urgency</span>
+                            <div style="font-size: 13px; font-weight:600; color:var(--clear-aqua);"><i class="fa-solid fa-users"></i> 14 Left</div>
+                        </div>
+                        <h5 class="node-title">Kovalam Reef Survey</h5>
+                        <p class="node-desc">Partner with marine biologists to map and log coral bleaching coordinates along unstable shallow rocky shoals.</p>
+                        <ul class="node-specifications">
+                            <li><i class="fa-solid fa-calendar"></i> Sept 12, 2026</li>
+                            <li><i class="fa-solid fa-location-dot"></i> Kovalam Outpost</li>
+                        </ul>
+                        <a href="404.html" class="btn-action-primary">Enlist Online</a>
+                    </div>
+
+                    <div class="campaign-node">
+                        <div class="node-meta-top">
+                            <span class="badge badge-pending">Filling Fast</span>
+                            <div style="font-size: 13px; font-weight:600; color:var(--clear-aqua);"><i class="fa-solid fa-users"></i> 2 Left</div>
+                        </div>
+                        <h5 class="node-title">Vembanad Filtration Run</h5>
+                        <p class="node-desc">Deploy regional filtration barriers to catch and separate microplastic particulate streams inside the lake delta.</p>
+                        <ul class="node-specifications">
+                            <li><i class="fa-solid fa-calendar"></i> Nov 19, 2026</li>
+                            <li><i class="fa-solid fa-location-dot"></i> Vembanad Basin</li>
+                        </ul>
+                        <a href="404.html" class="btn-action-primary">Enlist Online</a>
+                    </div>
+
+                    <div class="campaign-node">
+                        <div class="node-meta-top">
+                            <span class="badge badge-info">Standard Entry</span>
+                            <div style="font-size: 13px; font-weight:600; color:var(--clear-aqua);"><i class="fa-solid fa-users"></i> 40 Slots</div>
+                        </div>
+                        <h5 class="node-title">Sundarbans Reforestation</h5>
+                        <p class="node-desc">Hand-plant high-salinity mangrove root variations across tidal zones facing intense mud-bank erosion.</p>
+                        <ul class="node-specifications">
+                            <li><i class="fa-solid fa-calendar"></i> Feb 10, 2027</li>
+                            <li><i class="fa-solid fa-location-dot"></i> Sundarbans Delta</li>
+                        </ul>
+                        <a href="404.html" class="btn-action-primary">Enlist Online</a>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-house-laptop"></i> Regional Logistics Base Hub Centers</div>
+                <div class="grid-two-col target-scroll-reveal">
+                    <div class="table-card" style="margin-bottom:0;">
+                        <h4>Eastern Seaboard Dispatch Array</h4>
+                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Primary deployment channels for open water containment operations.</p>
+                        <ul style="list-style:none; font-size:13px; display:flex; flex-direction:column; gap:10px;">
+                            <li><i class="fa-solid fa-building" style="color:var(--clear-aqua);"></i> Hub Chennai: <strong>Active Fleet Deployment Status</strong></li>
+                            <li><i class="fa-solid fa-building" style="color:var(--clear-aqua);"></i> Hub Vizag: <strong>Supply Checkpoint Maintenance Run</strong></li>
+                        </ul>
+                    </div>
+                    <div class="table-card" style="margin-bottom:0;">
+                        <h4>Western Peninsula Dispatch Array</h4>
+                        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Coastal preservation hubs handling structural beach waste operations.</p>
+                        <ul style="list-style:none; font-size:13px; display:flex; flex-direction:column; gap:10px;">
+                            <li><i class="fa-solid fa-building" style="color:var(--coral-accent);"></i> Hub Kochi: <strong>Operational Standby Configuration</strong></li>
+                            <li><i class="fa-solid fa-building" style="color:var(--coral-accent);"></i> Hub Mumbai: <strong>Emergency Silt Containment Assembly</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-clipboard-list"></i> Micro-Shift Allocation Roster</div>
+                <div class="table-card target-scroll-reveal">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Shift Reference</th>
+                                    <th>Functional Duty Domain</th>
+                                    <th>Timing Segment</th>
+                                    <th>Required Clearances</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>SFT-0902</code></td>
+                                    <td>Offshore Barrier Assembly Crew</td>
+                                    <td>06:00 AM - 11:00 AM</td>
+                                    <td><span class="badge badge-info">Level 2 Safety Swim</span></td>
+                                    <td><a href="404.html" class="btn-action-primary" style="padding:6px 12px; font-size:12px;">Claim Shift</a></td>
+                                </tr>
+                                <tr>
+                                    <td><code>SFT-1492</code></td>
+                                    <td>Eco-Data Tabulation Analyst</td>
+                                    <td>02:00 PM - 05:00 PM</td>
+                                    <td><span class="badge badge-confirmed">No Open Waiver Require</span></td>
+                                    <td><a href="404.html" class="btn-action-primary" style="padding:6px 12px; font-size:12px;">Claim Shift</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="donation-history" class="dashboard-section">
+                <h2 class="section-title">Financial Transparency Ledger</h2>
+                <div class="section-subtitle">Auditable history linking micro-grants directly to procurement logs and specific field programs.</div>
+                
+                <div class="table-card">
+                    <h4>Direct Funding Allocation Tracking Ledger</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Transaction Hash</th>
+                                    <th>Timestamp</th>
+                                    <th>Target Allocation Pool</th>
+                                    <th>Amount (USD)</th>
+                                    <th>Gateway Route</th>
+                                    <th>Tax Audit Slip</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>TXN-99841-A</code></td>
+                                    <td>Jan 14, 2026</td>
+                                    <td>Satellite Tracking Transponders</td>
+                                    <td><strong>$50.00</strong></td>
+                                    <td><span class="badge badge-info">VISA *4412</span></td>
+                                    <td><a href="404.html" class="btn-action-primary" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-file-pdf"></i> Receipt</a></td>
+                                </tr>
+                                <tr>
+                                    <td><code>TXN-88241-K</code></td>
+                                    <td>Mar 02, 2026</td>
+                                    <td>Deep Sea Ghost-Net Recovery</td>
+                                    <td><strong>$120.00</strong></td>
+                                    <td><span class="badge badge-info">UPI Transfer</span></td>
+                                    <td><a href="404.html" class="btn-action-primary" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-file-pdf"></i> Receipt</a></td>
+                                </tr>
+                                <tr>
+                                    <td><code>TXN-71049-M</code></td>
+                                    <td>May 29, 2026</td>
+                                    <td>Automated Reef Siltation Probes</td>
+                                    <td><strong>$35.00</strong></td>
+                                    <td><span class="badge badge-info">Apple Pay</span></td>
+                                    <td><a href="404.html" class="btn-action-primary" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-file-pdf"></i> Receipt</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-truck-ramp-box"></i> Active Supply Procurement Pipeline</div>
+                <div class="table-card target-scroll-reveal">
+                    <div class="pipeline-scroll-container">
+                        <div class="pipeline-wrapper">
+                            <div class="pipeline-step complete"><i class="fa-solid fa-check"></i> Order Approved</div>
+                            <div class="pipeline-step complete"><i class="fa-solid fa-check"></i> Gear Sourced</div>
+                            <div class="pipeline-step"><i class="fa-solid fa-ship"></i> En Route To Hub</div>
+                            <div class="pipeline-step" style="border-color:#5A7383; color:#5A7383;"><i class="fa-solid fa-anchor"></i> Field Deployed</div>
+                        </div>
+                    </div>
+                    <p style="font-size:12px; color:var(--text-muted); text-align:center; margin-top:12px;">Tracking allocation trace for batch: <strong>Marine Containment Boom Units #04-B</strong></p>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-handshake-simple"></i> Corporate Gift Matching Ledger Integration</div>
+                <div class="stat-grid target-scroll-reveal">
+                    <div class="stat-card" style="background:#F8FAFC;">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">LINKED SPONSOR</span>
+                            <div style="font-size:16px; font-weight:700; color:var(--deep-ocean); margin-top:4px;">Apex Corp Systems</div>
+                        </div>
+                        <span class="badge badge-confirmed">1:1 Match Active</span>
+                    </div>
+                    <div class="stat-card" style="background:#F8FAFC;">
+                        <div>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:600;">MATCHED FUND TOTALS</span>
+                            <div style="font-size:16px; font-weight:700; color:var(--deep-ocean); margin-top:4px;">$205.00 USD</div>
+                        </div>
+                        <div class="stat-icon-box icon-aqua" style="width:36px; height:36px; font-size:14px;"><i class="fa-solid fa-plus"></i></div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="certificates-badges" class="dashboard-section">
+                <h2 class="section-title">Credentials Vault</h2>
+                <div class="section-subtitle">Review earned performance titles, community ranks, and printable field operation waivers.</div>
+                
+                <h4 style="margin-bottom: 16px; color: var(--deep-ocean); font-family: var(--font-heading); font-size:16px;">Verified Operational Seals</h4>
+                <div class="credential-container">
+                    <div class="cert-card">
+                        <div class="cert-icon-frame"><i class="fa-solid fa-medal"></i></div>
+                        <div class="cert-info">
+                            <h5>Elite Coastal Conservator</h5>
+                            <p>Logged over 100 kilograms of structural coastal waste retrieval.</p>
+                            <a href="404.html" class="cert-download-link"><i class="fa-solid fa-file-arrow-down"></i> Download PDF</a>
+                        </div>
+                    </div>
+                    <div class="cert-card">
+                        <div class="cert-icon-frame"><i class="fa-solid fa-ribbon"></i></div>
+                        <div class="cert-info">
+                            <h5>Ocean Awareness Vanguard</h5>
+                            <p>Completed academic tracks in baseline hydrological systems.</p>
+                            <a href="404.html" class="cert-download-link"><i class="fa-solid fa-file-arrow-down"></i> Download PDF</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-user-check"></i> Validated Peer Skill Endorsements Matrix</div>
+                <div class="table-card target-scroll-reveal">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Core Technical Skill Profile Segment</th>
+                                    <th>Endorsement Volume</th>
+                                    <th>Primary Attesting Validator Node</th>
+                                    <th>Status Verification Certificate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Deep-Sea Salvage Safety Procedures</strong></td>
+                                    <td>9 Endorsements</td>
+                                    <td>Lead Ranger Chennai Base</td>
+                                    <td><span class="badge badge-confirmed"><i class="fa-solid fa-shield-halved"></i> Active Verified</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bio-Sampling Collection & Log Operations</strong></td>
+                                    <td>4 Endorsements</td>
+                                    <td>Andaman Lead Lab Analyst</td>
+                                    <td><span class="badge badge-confirmed"><i class="fa-solid fa-shield-halved"></i> Active Verified</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 32px; margin-bottom: 16px; color: var(--deep-ocean); font-family: var(--font-heading); font-size:16px;">Community Milestone Badges</h4>
+                <div class="badge-mosaic target-scroll-reveal">
+                    <div class="badge-node">
+                        <i class="fa-solid fa-fish-fins" style="color: var(--clear-aqua);"></i>
+                        <h6>Reef Guardian I</h6>
+                        <p>Logged access inside 3 marine reef sectors.</p>
+                    </div>
+                    <div class="badge-node">
+                        <i class="fa-solid fa-anchor" style="color: var(--coral-accent);"></i>
+                        <h6>Deep Sea Anchor</h6>
+                        <p>Completed 24+ hours of offshore runs.</p>
+                    </div>
+                    <div class="badge-node">
+                        <i class="fa-solid fa-seedling" style="color: #2ECC71;"></i>
+                        <h6>Mangrove Planter</h6>
+                        <p>Successfully deployed 50+ seedlings.</p>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-book-bookmark"></i> CEU Training Credit Summary Transcript</div>
+                <div class="table-card target-scroll-reveal" style="background-color: #F8FAFC; border: 1px dashed var(--border-light);">
+                    <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px;">
+                        <div>
+                            <span style="font-size:12px; font-weight:600; color:var(--text-muted);">CUMULATIVE EDUCATION CREDIT YIELD</span>
+                            <div style="font-size:20px; font-weight:700; color:var(--deep-ocean); margin-top:2px;">4.5 / 6.0 CEU Hours Completed</div>
+                        </div>
+                        <div style="font-size:12px; font-weight:500; color:var(--text-muted);">Next Audit Checkpoint: <strong>Dec 2026</strong></div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="learning-resources" class="dashboard-section">
+                <h2 class="section-title">E-Learning Academy</h2>
+                <div class="section-subtitle">Acquire critical core field training knowledge parameters and clear safety protocols online.</div>
+                
+                <div class="learning-matrix">
+                    <div class="course-card">
+                        <div>
+                            <span class="course-tag">Taxonomy Track</span>
+                            <h4>Marine Vertebrate Morphologies</h4>
+                            <p>Master specific classification frameworks used to track shifting target species populations across coral nodes.</p>
+                            <div class="progress-container">
+                                <div class="progress-label-row"><span>Module Progress</span><span>100% Complete</span></div>
+                                <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 100%; background-color:#27AE60;"></div></div>
+                            </div>
+                        </div>
+                        <a href="404.html" class="btn-action-primary">Review Course Material</a>
+                    </div>
+
+                    <div class="course-card">
+                        <div>
+                            <span class="course-tag">Telemetry Track</span>
+                            <h4>Hydrological Data Acquisition</h4>
+                            <p>Analyze how remote satellite links, acoustic arrays, and surface sensors broadcast active thermal profiles.</p>
+                            <div class="progress-container">
+                                <div class="progress-label-row"><span>Module Progress</span><span>40% Complete</span></div>
+                                <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 40%;"></div></div>
+                            </div>
+                        </div>
+                        <a href="404.html" class="btn-action-primary">Resume Lecture</a>
+                    </div>
+
+                    <div class="course-card">
+                        <div>
+                            <span class="course-tag">Field Operations</span>
+                            <h4>Wildlife Emergency Care</h4>
+                            <p>Safety parameters and standard operating procedures required when encountering distressed coastal birds or mammals.</p>
+                            <div class="progress-container">
+                                <div class="progress-label-row"><span>Module Progress</span><span>0% Complete</span></div>
+                                <div class="progress-bar-track"><div class="progress-bar-fill" style="width: 0%;"></div></div>
+                            </div>
+                        </div>
+                        <a href="404.html" class="btn-action-primary">Begin Course</a>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-headset"></i> Upcoming Live Academic Webinar Presentations</div>
+                <div class="table-card target-scroll-reveal">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Broadcast Topic Header</th>
+                                    <th>Guest Speaker Anchor</th>
+                                    <th>Broadcast Timestamp Node</th>
+                                    <th>Interface Access Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Oceanic Salinity Trends 2026</strong></td>
+                                    <td>Dr. Aris Thorne (Cochin Inst.)</td>
+                                    <td>June 24, 2026 - 15:00 UTC</td>
+                                    <td><a href="404.html" class="btn-action-primary" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-video"></i> Reserve Seat</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Microplastics Tracking via Satellite</strong></td>
+                                    <td>Prof. Mira K. (Sunderbans Array)</td>
+                                    <td>July 11, 2026 - 10:00 UTC</td>
+                                    <td><a href="404.html" class="btn-action-primary" style="padding:4px 8px; font-size:11px;"><i class="fa-solid fa-video"></i> Reserve Seat</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="sub-block-title"><i class="fa-solid fa-folder-open"></i> Technical Reference Documentation Downloads</div>
+                <div class="grid-two-col target-scroll-reveal">
+                    <div class="stat-card" style="border: 1px solid var(--border-light); border-radius: var(--radius); padding:16px;">
+                        <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                            <i class="fa-solid fa-file-pdf" style="font-size:24px; color:#E74C3C; flex-shrink:0;"></i>
+                            <div style="min-width:0; overflow:hidden;">
+                                <h6 style="font-size:13px; font-weight:600; color:var(--deep-ocean); text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">Baseline Water Testing Standards v4.1</h6>
+                                <p style="font-size:11px; color:var(--text-muted);">PDF Format — 4.2 MB</p>
+                            </div>
+                        </div>
+                        <a href="404.html" class="btn-action-primary" style="padding:6px 12px; font-size:11px; flex-shrink:0;"><i class="fa-solid fa-download"></i> Get File</a>
+                    </div>
+                    <div class="stat-card" style="border: 1px solid var(--border-light); border-radius: var(--radius); padding:16px;">
+                        <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                            <i class="fa-solid fa-file-pdf" style="font-size:24px; color:#E74C3C; flex-shrink:0;"></i>
+                            <div style="min-width:0; overflow:hidden;">
+                                <h6 style="font-size:13px; font-weight:600; color:var(--deep-ocean); text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">Mangrove Cultivation Handbook</h6>
+                                <p style="font-size:11px; color:var(--text-muted);">PDF Format — 8.1 MB</p>
+                            </div>
+                        </div>
+                        <a href="404.html" class="btn-action-primary" style="padding:6px 12px; font-size:11px; flex-shrink:0;"><i class="fa-solid fa-download"></i> Get File</a>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Initialize GSAP Core Plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuItems = document.querySelectorAll('.menu-item');
+            const sections = document.querySelectorAll('.dashboard-section');
+            const navHeaderTitle = document.getElementById('navHeaderTitle');
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            function closeSidebarOnMobile() {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('sidebar-active');
+                    sidebarOverlay.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                }
+            }
+
+            // --- GSAP VIEW ANIMATION MODULE ---
+            function animateActiveView(sectionId) {
+                const target = document.getElementById(sectionId);
+                
+                // Clear old ScrollTriggers out safely
+                ScrollTrigger.getAll().forEach(t => t.kill());
+
+                // Set initial visual parameters clean for animation sequence
+                gsap.set(target, { display: 'block', opacity: 0 });
+
+                const tl = gsap.timeline();
+                tl.to(target, { opacity: 1, duration: 0.3, ease: 'power2.out' })
+                  .fromTo(target.querySelectorAll('.section-title, .section-subtitle'), 
+                     { y: -15, opacity: 0 }, 
+                     { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: 'back.out(1.2)' }, "-=0.2")
+                  .fromTo(target.querySelectorAll('.stat-grid > *, .chart-card, .campaign-node, .course-card'), 
+                     { y: 25, opacity: 0 }, 
+                     { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out' }, "-=0.3");
+
+                // Bind modern scroll hooks back into active viewport card arrays
+                target.querySelectorAll('.target-scroll-reveal, .sub-block-title').forEach(element => {
+                    gsap.fromTo(element, 
+                        { opacity: 0, y: 20 },
+                        {
+                            opacity: 1, 
+                            y: 0, 
+                            duration: 0.5, 
+                            ease: 'power2.out',
+                            scrollTrigger: {
+                                trigger: element,
+                                start: 'top 88%',
+                                toggleActions: 'play none none none'
+                            }
+                        }
+                    );
+                });
+            }
+
+            // --- NAVIGATION NAVIGATION HANDLERS ---
+            menuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetViewId = item.getAttribute('data-view');
+                    
+                    if(item.classList.contains('active')) return; // No re-triggering active views
+
+                    closeSidebarOnMobile();
+                    
+                    menuItems.forEach(mi => mi.classList.remove('active'));
+                    sections.forEach(sec => {
+                        sec.classList.remove('active-view');
+                        sec.style.display = 'none'; // Ensure elements don't stack up
+                    });
+                    
+                    item.classList.add('active');
+                    document.getElementById(targetViewId).classList.add('active-view');
+                    
+                    navHeaderTitle.textContent = item.textContent.trim();
+
+                    // RUN ENTRANCE ANIMATION ON SIDEBAR SELECTION CLICK ONLY
+                    animateActiveView(targetViewId);
+                });
+            });
+
+            // Mobile Navigation Toggle Actions
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sidebar.classList.toggle('sidebar-active');
+                sidebarOverlay.classList.toggle('active');
+                document.body.classList.toggle('no-scroll', sidebar.classList.contains('sidebar-active'));
+            });
+
+            sidebarOverlay.addEventListener('click', closeSidebarOnMobile);
+
+            // --- OVERVIEW DASHBOARD GRAPH GENERATION MODULE ---
+            function loadImpactViewAnalyticCharts() {
+                const barCtx = document.getElementById('barChart').getContext('2d');
+                const pieCtx = document.getElementById('pieChart').getContext('2d');
+
+                new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            data: [4, 8, 6, 12, 5, 7],
+                            backgroundColor: '#00A896',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { grid: { color: '#E2EAF0' }, ticks: { color: '#5A7383', font: { family: 'Inter', size: 11 } } },
+                            x: { grid: { display: false }, ticks: { color: '#5A7383', font: { family: 'Inter', size: 11 } } }
+                        }
+                    }
+                });
+
+                new Chart(pieCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Beach Cleans', 'Awareness Ops', 'Fund Pools'],
+                        datasets: [{
+                            data: [55, 25, 20],
+                            backgroundColor: ['#0A324D', '#00A896', '#FF8243'],
+                            borderWidth: 2,
+                            borderColor: '#FFFFFF'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { boxWidth: 10, padding: 10, color: '#5A7383', font: { family: 'Inter', size: 11 } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Run chart configurations instantly
+            loadImpactViewAnalyticCharts();
+            
+            // --- USER PROFILE SESSION REGISTRY ATTACHMENT ---
+            const activeUser = JSON.parse(localStorage.getItem('authenticated_active_user'));
+            if (activeUser) {
+                document.getElementById('sessionRole').textContent = activeUser.role + " Profile Anchor";
+                document.getElementById('sessionEmail').textContent = activeUser.email;
+                if (activeUser.username || activeUser.email) {
+                    const identifier = activeUser.username || activeUser.email;
+                    document.getElementById('profileAvatar').textContent = identifier.charAt(0).toUpperCase();
+                }
+            }
+
+            // --- LOGOUT ROUTER TRIGGER ---
+            const btnLogout = document.getElementById('btnLogout');
+            if (btnLogout) {
+                btnLogout.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('authenticated_active_user');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            // Explicitly set the home view straight into standard layout structures without firing any GSAP code blocks
+            document.getElementById('my-impact').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "marine-image-optimizer",
+  "version": "1.0.0",
+  "description": "Utility script to download, optimize, and replace external image URLs with local compressed WebP images",
+  "main": "download_and_optimize_images.js",
+  "scripts": {
+    "start": "node download_and_optimize_images.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "sharp": "^0.33.4"
+  }
+}

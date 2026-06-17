@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | Stackly Marine Conservation</title>
+    
+    <!-- Typography & Iconography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+    <!-- Animation Frameworks -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --deep-navy: #06283D;
+            --ocean-blue: #0A4D68;
+            --sea-green: #1B9C85;
+            --coral-accent: #FF8C42;
+            --bg-light: #F5FAFC;
+            --text-dark: #1E293B;
+            --text-light: #FFFFFF;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* RESET SYSTEM */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; overflow-x: hidden; background-color: var(--bg-light); color: var(--text-dark); font-family: var(--font-body); line-height: 1.6; }
+        
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; position: relative; }
+        .section-padding { padding: clamp(60px, 9vw, 120px) 0; position: relative; display: block; width: 100%; }
+        
+        h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--deep-navy); }
+
+        /* HEADER GLOBAL SYSTEM */
+        .section-header { text-align: center; max-width: 750px; margin: 0 auto clamp(40px, 6vw, 60px) auto; }
+        .section-header .label { color: var(--sea-green); font-weight: 700; text-transform: uppercase; letter-spacing: 2.5px; font-size: 0.85rem; margin-bottom: 12px; display: block; }
+        .section-header h2 { font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 16px; }
+        .section-header p { color: #64748B; font-size: 1.05rem; }
+
+        /* FALLBACK VISIBILITY MECHANISM */
+        .reveal-up, .reveal-left, .reveal-right, .reveal-scale {
+            opacity: 1;
+            transform: none;
+            visibility: visible;
+        }
+
+        /* PREMIUM GLASSMORPHISM SYSTEM */
+        .glass-panel { background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 10px 30px rgba(6, 40, 61, 0.03); }
+
+        /* BUTTON ARCHITECTURE */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 28px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: var(--transition); border: none; gap: 10px; text-decoration: none; font-size: 0.95rem; }
+        .btn-primary { background: var(--coral-accent); color: white; box-shadow: 0 6px 16px rgba(255, 140, 66, 0.25); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 140, 66, 0.4); }
+        .btn-secondary { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
+        .btn-secondary:hover { background: white; color: var(--deep-navy); transform: translateY(-2px); }
+        .btn-outline { background: transparent; color: var(--ocean-blue); border: 2px solid var(--ocean-blue); }
+        .btn-outline:hover { background: var(--ocean-blue); color: white; transform: translateY(-2px); }
+
+        /* FIXED MATCHING ABOUT-PAGE NAVBAR SYSTEM */
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 24px 0; transition: var(--transition); background: rgba(6, 40, 61, 0.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .navbar.scrolled { padding: 14px 0; background: rgba(6, 40, 61, 0.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; justify-content: flex-start; width: 100%; max-width: 170px; text-decoration: none; }
+        .responsive-logo { width: auto; max-width: 100%; height: 38px; object-fit: contain; }
+        .nav-menu { display: flex; gap: 32px; list-style: none; align-items: center; }
+        .nav-link { color: rgba(255,255,255,0.8); font-weight: 500; font-size: 0.95rem; position: relative; padding: 4px 0; text-decoration: none; transition: var(--transition); }
+        .nav-link:hover, .nav-link.active { color: white; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--coral-accent); transition: var(--transition); }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+        .menu-toggle { display: none; color: white; font-size: 1.5rem; cursor: pointer; z-index: 1001; }
+        @media (max-width: 1023px) {
+            .menu-toggle { display: block; }
+            .nav-menu {
+                position: fixed; top: 0; right: -100%;
+                width: 100%; height: 100vh;
+                background-color: rgba(6, 40, 61, 0.98);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                flex-direction: column; justify-content: center;
+                align-items: center;
+                gap: 40px;
+                transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 1000;
+            }
+            .nav-menu.active { right: 0; }
+        }
+
+        /* SECTION 1: HERO VIEWPORT */
+        .hero { position: relative; min-height: 85vh; display: flex; align-items: center; color: white; background: linear-gradient(rgba(10, 77, 104, 0.8), rgba(6, 40, 61, 0.95)), url('assets/images/marine-wildlife-fish-1551244072.webp') center/cover no-repeat; padding-top: 80px; }
+        .hero-content { max-width: 780px; }
+        .hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); color: white; margin-bottom: 20px; line-height: 1.2; font-weight: 800; }
+        .hero p { font-size: clamp(1.05rem, 2vw, 1.2rem); color: rgba(255,255,255,0.9); margin-bottom: 32px; }
+        .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+
+       /* --- SERVICES HERO BANNER COMPONENT --- */
+ .services-hero-banner {
+     position: relative;
+     width: 100%;
+     min-height: 450px;       /* Increased height profile */
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 120px 24px 80px;
+     box-sizing: border-box;
+     overflow: hidden;
+     
+     /* BACKGROUND GRAPHIC ENGINE */
+     background-image: url('assets/images/scientific-scuba-divers-1544551763.webp');
+     background-size: cover;
+     background-position: center center;
+     background-repeat: no-repeat;
+ }
+
+/* BACKGROUND ACCESSIBILITY TINT OVERLAY */
+.banner-overlay-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(10, 50, 77, 0.93) 0%, rgba(1, 23, 38, 0.82) 100%);
+    z-index: 1;
+}
+
+/* STRUCTURAL CONTAINER */
+.banner-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;     /* Centers all contents inside completely */
+}
+
+/* SERVICES PAGE INDICATOR ELEMENT */
+.page-denotation {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding: 6px 16px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+}
+
+.page-denotation .root-node {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.page-denotation .divider {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.page-denotation .current-page {
+    color: #00A896;          /* Highlights the page status */
+    font-weight: 600;
+}
+
+/* CORE SENTENCE DESIGN */
+.hero-sentence {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    line-height: 1.7;
+    color: #FFFFFF;
+    font-weight: 400;
+}
+
+/* SPECIFIC GREEN TEXT EMPHASIS */
+.hero-sentence .highlight-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #00A896;          /* Replicates the bright color from image_3cd9fe.jpg */
+    letter-spacing: -0.3px;
+}
+
+/* --- ADAPTIVE RESPONSIVE ENGINE --- */
+@media (max-width: 768px) {
+    .services-hero-banner {
+        min-height: 380px;
+        margin-top: 0;
+        padding: 100px 20px 60px;
+    }
+    .hero-sentence {
+        font-size: 18px;
+        line-height: 1.6;
+    }
+    .hero-sentence .highlight-text {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-hero-banner {
+        min-height: 320px;
+        margin-top: 0;
+        padding: 90px 16px 50px;
+    }
+    .page-denotation {
+        font-size: 11px;
+        padding: 4px 12px;
+    }
+    .hero-sentence {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+    .hero-sentence .highlight-text {
+        font-size: 16px;
+    }
+}
+        /* SECTION 2: SERVICE FRAMEWORK OVERVIEW WITH BACKGROUND IMAGE */
+    /* ==========================================================================
+   SPLIT 2-COLUMN SERVICE FRAMEWORK
+   ========================================================================== */
+
+.framework-section {
+    background: var(--bg-light);
+}
+
+.split-framework {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 60px;
+    align-items: center;
+}
+
+@media (max-width: 1024px) {
+    .split-framework {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+.framework-content {
+    max-width: 480px;
+}
+
+.framework-content .label {
+    color: var(--sea-green);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.framework-content h2 {
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.25;
+    color: var(--deep-navy);
+}
+
+.framework-content p {
+    color: #64748B;
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin-bottom: 32px;
+}
+
+.framework-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 576px) {
+    .framework-grid-4 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.framework-card {
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    min-height: 260px;
+    display: flex;
+    align-items: flex-end;
+    border: 1px solid rgba(6, 40, 61, 0.1);
+    box-shadow: 0 10px 30px rgba(6, 40, 61, 0.03);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    background-color: var(--deep-navy);
+}
+
+/* Background images matching original bento/services grid */
+.framework-card.card-cleanup {
+    background: url('assets/images/beautiful-colorful-small-fishes-swimming-tank.webp') center/cover no-repeat;
+}
+.framework-card.card-coral {
+    background: url('assets/images/pexels-cliff-wu-136931749-10248815.webp') center/cover no-repeat;
+}
+.framework-card.card-research {
+    background: url('assets/images/about-stackly-team-researching-coral-reefs-1582967788606.webp') center/cover no-repeat;
+}
+.framework-card.card-education {
+    background: url('assets/images/pexels-sabbythefreeelf-36731992.webp') center/cover no-repeat;
+}
+
+/* Protective Readability Gradient Mask */
+.framework-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to top, 
+        rgba(6, 40, 61, 0.92) 0%, 
+        rgba(6, 40, 61, 0.45) 60%, 
+        rgba(6, 40, 61, 0.15) 100%
+    );
+    z-index: 1;
+    transition: background 0.4s ease;
+}
+
+.framework-card-content {
+    position: relative;
+    z-index: 2;
+    padding: 30px;
+    width: 100%;
+}
+
+.framework-card i {
+    font-size: 2rem;
+    color: var(--coral-accent);
+    margin-bottom: 14px;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
+}
+
+.framework-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0px;
+    font-weight: 700;
+    color: white;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.framework-card p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.90rem;
+    line-height: 1.5;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: 0;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.4s ease, 
+                margin-top 0.4s ease;
+}
+
+/* ==========================================================================
+   TRANSITIONS & HOVER SYSTEM
+   ========================================================================== */
+
+.framework-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(6, 40, 61, 0.3);
+}
+
+.framework-card:hover::before {
+    background: linear-gradient(
+        to top, 
+        rgba(6, 40, 61, 0.95) 0%, 
+        rgba(10, 77, 104, 0.55) 60%, 
+        rgba(10, 77, 104, 0.25) 100%
+    );
+}
+
+.framework-card:hover i {
+    transform: scale(1.15) translateY(-4px);
+   
+}
+
+.framework-card:hover h3 {
+    
+    margin-bottom: 10px;
+}
+
+.framework-card:hover p {
+    max-height: 100px;
+    opacity: 1;
+    margin-top: 12px;
+}
+
+/* Responsive Structural Breakpoints */
+@media (min-width: 768px) {
+    .bento-card.span-8 { grid-column: span 8; }
+    .bento-card.span-4 { grid-column: span 4; }
+    .bento-card.span-6 { grid-column: span 6; }
+}
+        /* SECTION 3: BEACH CLEANUP SPLIT ROW */
+        .split-row { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; padding: 30px; }
+        .split-media img { width: 100%; height: clamp(280px, 40vh, 400px); object-fit: cover; border-radius: var(--radius-lg); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .metrics-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.08); }
+        .metric-unit .num { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; color: var(--ocean-blue); font-family: var(--font-heading); display: block; }
+        .metric-unit .lbl { font-size: 0.8rem; color: #64748B; font-weight: 600; text-transform: uppercase; }
+
+        /* SECTION 4: CORAL REEFrestoration */
+        .coral-panel { background: linear-gradient(135deg, #06283D 0%, #0A4D68 100%); color: white; border-radius: var(--radius-lg); padding: clamp(30px, 5vw, 60px); }
+        .coral-panel h2 { color: white; font-size: clamp(1.6rem, 3.5vw, 2.4rem); margin-bottom: 20px; }
+        .coral-flex { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 36px; }
+        .infocard { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 24px; border-radius: var(--radius-md); }
+        .infocard h4 { color: white; font-size: 1.15rem; margin-bottom: 8px; }
+        .bar-container { background: rgba(255,255,255,0.1); height: 6px; border-radius: 3px; margin-top: 12px; overflow: hidden; }
+        .bar-fill { background: var(--coral-accent); height: 100%; width: 0; transition: width 1.5s ease-out; }
+
+        /* SECTION 5: GRID MATRIX DATA INTELLIGENCE HUBS */
+        .matrix-section { background: #041A26; color: white; }
+        .matrix-section h2, .matrix-section p { color: white; }
+        .matrix-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 40px; }
+        .matrix-card-wrapper { background: transparent; perspective: 1200px; height: 260px; }
+        .matrix-card-inner { position: relative; width: 100%; height: 100%; text-align: left; transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); transform-style: preserve-3d; }
+        .matrix-card-wrapper:hover .matrix-card-inner { transform: rotateY(180deg); }
+        .matrix-card-front, .matrix-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: var(--radius-lg); padding: 36px 28px; box-sizing: border-box; display: flex; flex-direction: column; border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transition: border-color 0.4s ease, box-shadow 0.4s ease; }
+        .matrix-card-front { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); justify-content: center; align-items: center; text-align: center; gap: 18px; }
+        .matrix-card-wrapper:hover .matrix-card-front { border-color: rgba(27, 156, 133, 0.4); box-shadow: 0 20px 40px rgba(27, 156, 133, 0.1); }
+        .matrix-card-back { background: linear-gradient(135deg, rgba(27, 156, 133, 0.15) 0%, rgba(10, 77, 104, 0.35) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-color: rgba(27, 156, 133, 0.4); transform: rotateY(180deg); justify-content: center; align-items: center; text-align: center; box-shadow: 0 20px 40px rgba(27, 156, 133, 0.15); }
+        .matrix-card-front .count-badge { width: 54px; height: 54px; background: rgba(27, 156, 133, 0.15); border: 2px solid var(--sea-green); color: var(--sea-green); display: flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 50%; font-size: 1.25rem; box-shadow: 0 0 15px rgba(27, 156, 133, 0.3); transition: all 0.4s ease; }
+        .matrix-card-wrapper:hover .count-badge { transform: scale(1.08); box-shadow: 0 0 25px rgba(27, 156, 133, 0.5); background: rgba(27, 156, 133, 0.25); }
+        .matrix-card-front h3 { color: white; font-size: 1.4rem; font-weight: 600; letter-spacing: -0.3px; }
+        .matrix-card-front .flip-hint { font-size: 0.8rem; color: rgba(255, 255, 255, 0.35); margin-top: 8px; display: flex; align-items: center; gap: 6px; transition: var(--transition); }
+        .matrix-card-wrapper:hover .flip-hint { color: var(--sea-green); }
+        .matrix-card-back p { color: #F1F5F9; font-size: 0.95rem; line-height: 1.65; font-weight: 400; }
+
+        /* SECTION 6: EDUCATION ZIG-ZAG ARCHITECTURE */
+        .zigzag-item { display: grid; grid-template-columns: 1fr; gap: 30px; margin-bottom: 60px; align-items: center; }
+        .zigzag-item:last-child { margin-bottom: 0; }
+        .zigzag-media img { width: 100%; height: 320px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: 0 10px 20px rgba(0,0,0,0.04); }
+        .zigzag-info h3 { font-size: 1.6rem; margin-bottom: 12px; font-weight: 700; }
+        .zigzag-info p { color: #475569; margin-bottom: 20px; }
+
+        /* SECTION 7: WILDLIFE CARD SET */
+        .wildlife-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .wildlife-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 10px 25px rgba(6, 40, 61, 0.02); border: 1px solid rgba(6, 40, 61, 0.04); transition: var(--transition); }
+        .wildlife-card:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(6, 40, 61, 0.06); }
+        .wildlife-img-container { height: 220px; overflow: hidden; position: relative; }
+        .wildlife-img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .badge { position: absolute; top: 16px; right: 16px; background: rgba(6, 40, 61, 0.9); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+        .badge.danger { background: #DC2626; }
+        .wildlife-body { padding: 24px; }
+        .wildlife-body h4 { font-size: 1.2rem; margin-bottom: 8px; font-weight: 700; }
+        .wildlife-body p { color: #64748B; font-size: 0.9rem; margin-bottom: 20px; }
+
+        /* SECTION 8: SUSTAINABLE FISHING FLOW */
+        .fishing-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
+        .flow-stack { display: flex; flex-direction: column; gap: 16px; }
+        .flow-node { display: flex; gap: 20px; background: white; padding: 24px; border-radius: var(--radius-md); border-left: 4px solid var(--sea-green); box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
+        .flow-node .number { font-size: 1.3rem; font-weight: 800; color: var(--sea-green); }
+        .flow-node h4 { font-size: 1.1rem; margin-bottom: 4px; }
+        .flow-node p { color: #64748B; font-size: 0.9rem; }
+
+        /* SECTION 9: GLOBAL IMPACT BLOCK */
+        .impact-bg { background: linear-gradient(135deg, var(--deep-navy) 0%, var(--ocean-blue) 100%); color: white; padding: 80px 0; text-align: center; }
+        .impact-matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .impact-node .count { font-family: var(--font-heading); font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; color: var(--coral-accent); display: block; margin-bottom: 2px; }
+        .impact-node p { font-size: 0.95rem; color: rgba(255,255,255,0.85); }
+
+        /* SECTION 10: PARTICIPATION GLASS TEMPLATE */
+        .participation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; }
+        .participation-card { border-radius: var(--radius-lg); padding: 40px 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 360px; text-align: center; border: 1px solid rgba(6, 40, 61, 0.06); transition: var(--transition); }
+        .participation-card i { font-size: 2.8rem; color: var(--coral-accent); margin-bottom: 20px; display: block; }
+        .participation-card h3 { font-size: 1.35rem; margin-bottom: 12px; font-weight: 700; }
+        .participation-card p { color: #475569; font-size: 0.95rem; margin-bottom: 30px; }
+        .participation-card:hover { transform: translateY(-5px); background: white; box-shadow: 0 20px 45px rgba(6, 40, 61, 0.05); border-color: rgba(6, 40, 61, 0.12); }
+
+        /* SECTION 11: SUCCESS STORIES CAROUSEL */
+        .slider-view { position: relative; max-width: 800px; margin: 0 auto; overflow: hidden; }
+        .slider-track { display: flex; transition: transform 0.5s ease-in-out; width: 100%; }
+        .slider-slide { min-width: 100%; box-sizing: border-box; padding: 5px; }
+        .story-card { background: white; padding: clamp(30px, 5vw, 50px); border-radius: var(--radius-lg); box-shadow: 0 10px 30px rgba(0,0,0,0.01); border: 1px solid rgba(6, 40, 61, 0.04); text-align: center; }
+        .story-card p { font-size: clamp(1rem, 2vw, 1.2rem); font-style: italic; color: #334155; margin-bottom: 24px; }
+        .story-card h4 { font-size: 1.1rem; color: var(--ocean-blue); font-weight: 700; }
+        .story-card span { font-size: 0.8rem; color: #94A3B8; font-weight: 600; text-transform: uppercase; }
+        .slider-controls { display: flex; justify-content: center; gap: 12px; margin-top: 30px; }
+        .control-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(6, 40, 61, 0.1); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--deep-navy); transition: var(--transition); }
+        .control-arrow:hover { background: var(--deep-navy); color: white; }
+
+        /* SECTION 12: FINAL ACCELERATION PANEL */
+        .action-panel-container { margin-bottom: -60px; position: relative; z-index: 10; }
+        .action-panel { background: linear-gradient(135deg, rgba(6, 40, 61, 0.98) 0%, rgba(10, 77, 104, 0.95) 100%), url('assets/images/pristine-beach-coast-1507525428034-1.webp') center/cover no-repeat; border-radius: var(--radius-lg); padding: clamp(40px, 6vw, 70px) 24px; color: white; text-align: center; box-shadow: 0 20px 50px rgba(6,40,61,0.2); }
+        .action-panel h2 { color: white; font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 16px; font-weight: 800; }
+        .action-panel p { color: rgba(255,255,255,0.85); max-width: 650px; margin: 0 auto 32px auto; font-size: 1.05rem; }
+        .action-panel-container .btn-outline { color: white; border-color: white; }
+        .action-panel-container .btn-outline:hover { background: white; color: var(--deep-navy); }
+        .action-flex-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+        /* FOOTER */
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Newsletter Section */
+        .cta-newsletter { background-color: #0E2938; padding: 80px 40px; color: white; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .cta-box { max-width: 650px; margin: 0 auto; text-align: center; }
+        .cta-box h2 { color: white; font-size: 2.3rem; margin-bottom: 16px; font-family: var(--font-heading); }
+        .cta-box p { color: rgba(255,255,255,0.8); margin-bottom: 30px; }
+        .newsletter-form { display: flex; gap: 12px; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .newsletter-form input { flex: 1; background: transparent; border: none; padding: 12px 16px; color: white; font-size: 1rem; outline: none; }
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 12px; }
+            .newsletter-form { flex-direction: column; background: transparent; border: none; padding: 0; }
+            .newsletter-form input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-sm); margin-bottom: 12px; }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* BACK-TOP CONTROL */
+        .back-top { position: fixed; bottom: 24px; right: 24px; width: 44px; height: 44px; background: var(--coral-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 99; opacity: 0; visibility: hidden; transition: var(--transition); }
+        .back-top.visible { opacity: 1; visibility: visible; }
+
+        /* LAYOUT BREAKPOINTS OVERRIDES */
+        @media (min-width: 768px) {
+            .split-row { grid-template-columns: repeat(2, 1fr); gap: 50px; }
+            .split-row.reverse { direction: rtl; }
+            .split-row.reverse .content-block { direction: ltr; }
+            
+            .coral-flex { grid-template-columns: repeat(2, 1fr); }
+            .zigzag-item { grid-template-columns: repeat(2, 1fr); gap: 60px; }
+            .zigzag-item:nth-child(even) { direction: rtl; }
+            .zigzag-item:nth-child(even) .zigzag-info { direction: ltr; }
+            
+            .impact-matrix { grid-template-columns: repeat(3, 1fr); }
+
+
+        }
+
+        @media (min-width: 1024px) {
+            .impact-matrix { grid-template-columns: repeat(6, 1fr); }
+
+        }
+    
+        /* ==========================================================================
+           STANDARDIZED FOOTER STYLING (MATCHING INDEX.HTML)
+           ========================================================================== */
+        .footer a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .footer a:hover {
+            color: var(--coral-accent);
+        }
+        .footer {
+            background: linear-gradient(to bottom, #041C2B, #020E17);
+            color: rgba(255,255,255,0.7);
+            padding: 80px 0 40px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-about .logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-about p {
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background-color: var(--coral-accent);
+            transform: translateY(-3px);
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a:hover {
+            color: var(--coral-accent);
+            padding-left: 4px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid { 
+                grid-template-columns: 1fr; 
+                text-align: center; 
+                gap: 40px;
+            }
+
+            .footer-about, .footer-links, .footer-about .logo {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .social-icons { justify-content: center; }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+        }
+
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="services.html" class="nav-link active">Services</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="login.html" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">Login</a></li>
+            </ul>
+            <div class="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </nav>
+
+
+       <!-- SECTION 1: HERO -->
+  <header class="services-hero-banner">
+    <div class="banner-overlay-mask"></div>
+    <div class="banner-container">
+        
+        <!-- SERVICE PAGE DENOTATION -->
+        <div class="page-denotation">
+            <span class="root-node">Stackly</span> 
+            <span class="divider">/</span> 
+            <span class="current-page">Services</span>
+        </div>
+        
+        <!-- CENTERED NARRATIVE SENTENCE -->
+        <p class="hero-sentence">
+            Through our <strong class="highlight-text">Operations Framework</strong>, we are creating sustainable solutions for ocean conservation by providing community-driven programs, scientific research, habitat restoration initiatives, and educational services dedicated to protecting marine ecosystems.
+        </p>
+        
+    </div>
+</header>
+
+       <!-- SECTION 3: BEACH CLEANUP INITIATIVES -->
+    <section class="section-padding container" data-aos="fade-up">
+        <div class="split-row">
+            <div class="content-block">
+                <span class="section-header" style="text-align:left; margin-bottom:12px;"><span class="label">Waste Mitigation</span></span>
+                <h3>Tactical Coastal Interception & Debris Deflection</h3>
+                <p>Stackly implements algorithmic staging systems to predict and intercept micro-plastics and synthetic pollutants before structural integration into benthic channels takes place.</p>
+                <div class="metrics-strip">
+                    <div class="metric-unit"><span class="num" data-target="25000">0</span><span class="lbl">Kg Removed</span></div>
+                    <div class="metric-unit"><span class="num" data-target="120">0</span><span class="lbl">Drives Run</span></div>
+                    <div class="metric-unit"><span class="num" data-target="8000">0</span><span class="lbl">Volunteers</span></div>
+                </div>
+            </div>
+            <div class="split-media">
+                <img src="assets/images/WhatsAppImage2026-06-17at9.29.27AM1.webp" alt="Ocean Plastics Sorting Platform">
+            </div>
+        </div>
+    </section>
+
+ 
+
+    <!-- SECTION 2: SERVICES OVERVIEW (Now integrated with deep background image & reactive overlays) -->
+   <section id="overview" class="section-padding framework-section" data-aos="fade-up">
+    <div class="container">
+        
+        <div class="split-framework">
+            <div class="framework-content">
+                <span class="label">Service Framework</span>
+                <h2>Integrated Marine Restoration Services</h2>
+                <p>Our operational framework matches immediate coastal community volunteer needs with global deep-sea ecosystem data tracking.</p>
+                <div style="margin-top: 32px;">
+                    <a href="#participation" class="btn btn-primary">Join the Mission <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="framework-grid-4">
+                <div class="framework-card card-cleanup">
+                    <div class="framework-card-content">
+                        <i class="fa-solid fa-trash-can-arrow-up"></i>
+                        <h3>Coral Restoration</h3>
+                        <p>Mobilizing macro-scale shoreline debris retrieval missions tracking upstream plastic origin signatures.</p>
+                    </div>
+                </div>
+                
+                <div class="framework-card card-coral">
+                    <div class="framework-card-content">
+                        <i class="fa-solid fa-seedling"></i>
+                        <h3>Fishing</h3>
+                        <p>Propagating climate-resilient micro-fragment strains within localized thermal offshore nurseries.</p>
+                    </div>
+                </div>
+                
+                <div class="framework-card card-research">
+                    <div class="framework-card-content">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h3>Marine Research</h3>
+                        <p>Continuous marine biochemical parsing arrays logging dynamic acidification shifts.</p>
+                    </div>
+                </div>
+                
+                <div class="framework-card card-education">
+                    <div class="framework-card-content">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <h3>Ocean Science</h3>
+                        <p>Deploying structured global ocean literacy training programs into high-impact maritime schooling systems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   </section>
+
+ 
+    <!-- SECTION 4: CORAL REEF RESTORATION -->
+    <section class="section-padding container" data-aos="fade-up">
+        <div class="coral-panel">
+            <span class="label" style="color:var(--coral-accent);">Advanced Mariculture</span>
+            <h2>Thermal Stress Tolerant Coral Propagations</h2>
+            <p style="color:rgba(255,255,255,0.8); max-width:650px; margin-bottom:40px;">Accelerating calcification metrics inside micro-nursery arrays to fast-track ecosystem structural normalization layers.</p>
+            <div class="coral-flex">
+                <div class="infocard">
+                    <h4>Micro-Fragmentation Framework</h4>
+                    <p>Dividing valid biological stock lines down to millimeter scales to fast-track baseline generation growth speed metrics by 10x.</p>
+                    <div class="bar-container"><div class="bar-fill" data-progress="94%"></div></div>
+                </div>
+                <div class="infocard">
+                    <h4>Autonomous Reef Matrixing</h4>
+                    <p>Deploying structural substrate grids integrated with active bio-telemetry performance nodes tracking pH indices.</p>
+                    <div class="bar-container"><div class="bar-fill" data-progress="82%"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+      <!-- SECTION 6: EDUCATION & LITERACY (ZIG-ZAG DESIGN) -->
+    <section class="section-padding container" data-aos="fade-up">
+        <div class="section-header">
+            <span class="label">Societal Alignment</span>
+            <h2>Marine Literacy & Youth Advocacy Chains</h2>
+            <p>Sustaining permanent ocean health metrics requires embedding tracking frameworks cleanly inside regional educational networks.</p>
+        </div>
+        
+        <div class="zigzag-item">
+            <div class="zigzag-media"><img src="assets/images/school-instruction-1427504494785.webp" alt="School Instruction"></div>
+            <div class="zigzag-info">
+                <h3>Primary Education Activation Frameworks</h3>
+                <p>Deploying active science kits directly into public school systems along high-risk coastal vectors to familiarize young leaders with marine taxonomy structures.</p>
+                <a href="404.html" class="btn btn-outline">Examine Academic Modules</a>
+            </div>
+        </div>
+
+        <div class="zigzag-item">
+            <div class="zigzag-media"><img src="assets/images/pexels-noz-urbina-129457-11054447.webp" alt="Scientific Diving"></div>
+            <div class="zigzag-info">
+                <h3>Youth Ambassador Science Fellowships</h3>
+                <p>Providing specialized training pathways spanning deep telemetry deployment, ocean policy formulation basics, and open-source validation data management.</p>
+                <a href="404.html" class="btn btn-outline">Access Portal Database</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: GRID MATRIX DATA HUB -->
+    <section class="section-padding matrix-section" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="label">Data Intelligence</span>
+                <h2>Marine Observation & Analytics Network</h2>
+                <p>Instead of single linear tracks, our labs utilize a synchronous matrix system, delivering telemetry instantly from the sea down to international policymakers.</p>
+            </div>
+            
+            <div class="matrix-grid">
+                <div class="matrix-card-wrapper">
+                    <div class="matrix-card-inner">
+                        <div class="matrix-card-front">
+                            <div class="count-badge">01</div>
+                            <h3>Water Quality Analytics</h3>
+                            <div class="flip-hint">Hover to Reveal Info <i class="fa-solid fa-rotate"></i></div>
+                        </div>
+                        <div class="matrix-card-back">
+                            <p>Deploying spectrum-buoy telemetry systems across open harbors to sample pH indices, salinity coefficients, and trace heavy metal configurations instantly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="matrix-card-wrapper">
+                    <div class="matrix-card-inner">
+                        <div class="matrix-card-front">
+                            <div class="count-badge">02</div>
+                            <h3>Benthic Photogrammetry</h3>
+                            <div class="flip-hint">Hover to Reveal Info <i class="fa-solid fa-rotate"></i></div>
+                        </div>
+                        <div class="matrix-card-back">
+                            <p>Mapping complex underwater reef structures using autonomous side-scan sonar drones to produce complete high-definition 3D terrain matrices.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="matrix-card-wrapper">
+                    <div class="matrix-card-inner">
+                        <div class="matrix-card-front">
+                            <div class="count-badge">03</div>
+                            <h3>eDNA Biological Logging</h3>
+                            <div class="flip-hint">Hover to Reveal Info <i class="fa-solid fa-rotate"></i></div>
+                        </div>
+                        <div class="matrix-card-back">
+                            <p>Parsing trace environmental DNA samples directly out of deep marine currents to track the movement, health, and population changes of protected species.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="matrix-card-wrapper">
+                    <div class="matrix-card-inner">
+                        <div class="matrix-card-front">
+                            <div class="count-badge">04</div>
+                            <h3>Open Policy Formulation</h3>
+                            <div class="flip-hint">Hover to Reveal Info <i class="fa-solid fa-rotate"></i></div>
+                        </div>
+                        <div class="matrix-card-back">
+                            <p>Converting compiled environmental analytics datasets directly into actionable compliance reports for international maritime commissions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+
+    <!-- SECTION 7: WILDLIFE TRACKING SYSTEM -->
+    <section class="section-padding" style="background: #EBF4F6;" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="label">Megafauna Guarding</span>
+                <h2>Active Pelagic Sanctuary Protection</h2>
+                <p>Securing vital indicator species lines through coordinated telemetry grids and commercial acoustic boundary mitigation protocols.</p>
+            </div>
+            <div class="wildlife-grid">
+                <div class="wildlife-card">
+                    <div class="wildlife-img-container">
+                        <span class="badge danger">Critical</span>
+                        <img src="assets/images/pexels-arias-bima-1052975357-20443161.webp" alt="Sea Turtle">
+                    </div>
+                    <div class="wildlife-body">
+                        <h4>Sea Turtles (Cheloniidae)</h4>
+                        <p>Protecting delicate nesting perimeter tracks and executing tracking arrays across global shipping lane boundaries.</p>
+                        <a href="404.html" class="btn btn-outline" style="width:100%;">View Telemetry Stream</a>
+                    </div>
+                </div>
+                <div class="wildlife-card">
+                    <div class="wildlife-img-container">
+                        <span class="badge">Protected</span>
+                        <img src="assets/images/pexels-andromeda99-9004434.webp" alt="Cetacean Pod">
+                    </div>
+                    <div class="wildlife-body">
+                        <h4>Cetacean Pod Formations</h4>
+                        <p>Deploying hydro-acoustic listening grids across calving sectors to shield migrations from high-frequency commercial sonar arrays.</p>
+                        <a href="404.html" class="btn btn-outline" style="width:100%;">Access Acoustic Files</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+  
+
+    <!-- SECTION 10: HOW YOU CAN PARTICIPATE -->
+    <section id="participation" class="section-padding container" data-aos="fade-up">
+        <div class="section-header">
+            <span class="label">Call to Action Paths</span>
+            <h2>Systemic Engagement Parameters</h2>
+            <p>Select your vector of operational acceleration. Every logged field contribution stabilizes active marine tracking sectors.</p>
+        </div>
+        <div class="participation-grid">
+            <div class="participation-card glass-panel">
+                <div>
+                    <i class="fa-solid fa-person-swimming"></i>
+                    <h3>Volunteer Matrix</h3>
+                    <p>Enlist directly into shoreline cleaning arrays, micro-plastic recovery programs, or field verification logistics grids.</p>
+                </div>
+                <button class="btn btn-outline">Register for Field Work</button>
+            </div>
+            <div class="participation-card glass-panel">
+                <div>
+                    <i class="fa-solid fa-vault"></i>
+                    <h3>Capital Allocation</h3>
+                    <p>Directly fund critical laboratory analytics equipment arrays, autonomous nursery vessels, and tracking network setups.</p>
+                </div>
+                <button class="btn btn-primary">Deploy Funding Capital</button>
+            </div>
+            <div class="participation-card glass-panel">
+                <div>
+                    <i class="fa-solid fa-building-user"></i>
+                    <h3>Corporate Alliances</h3>
+                    <p>Integrate your commercial enterprise metrics directly with verified ocean restoration carbon-offset loops.</p>
+                </div>
+                <button class="btn btn-outline">Initiate Integration Brief</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 11: SUCCESS STORIES CAROUSEL -->
+    <section class="section-padding" style="background: #EBF4F6;" data-aos="fade-up">
+        <div class="container">
+            <div class="section-header">
+                <span class="label">Field Records</span>
+                <h2>Validated Conservation Milestones</h2>
+            </div>
+            <div class="slider-view">
+                <div class="slider-track">
+                    <div class="slider-slide">
+                        <div class="story-card">
+                            <p>"Integrating Stackly's autonomous tracking scales helped our artisanal fleet maintain perfect balance, preventing over-extraction while increasing our margins by 24%."</p>
+                            <h4>Chief Operator Carlos Mendoza</h4>
+                            <span>Regional Fishing Fleet Syndicate Leader</span>
+                        </div>
+                    </div>
+                    <div class="slider-slide">
+                        <div class="story-card">
+                            <p>"The nursery micro-fragment tracking sequences executed across Sector 4 recorded a 92% structural survival rating over all standard restoration benchmarks."</p>
+                            <h4>Dr. Aris Thorne</h4>
+                            <span>Senior Mariculture Scientist</span>
+                        </div>
+                    </div>
+                    <div class="slider-slide">
+                        <div class="story-card">
+                            <p>"Deploying Stackly's structured marine curriculum across local school networks has empowered over 5,000 students to actively monitor coastal water quality indexes."</p>
+                            <h4>Chief Operator Priya Patel</h4>
+                            <span>EcoStream Alliance Director</span>
+                        </div>
+                    </div>
+                    <div class="slider-slide">
+                        <div class="story-card">
+                            <p>"The coral nursery telemetry grids showed a remarkable 88% propagation success rate, proving that community-led restoration can yield industrial-scale scientific results."</p>
+                            <h4>Dr. Marcus Thorne</h4>
+                            <span>Chief Biologist & Nursery Lead</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <button class="control-arrow left-arrow"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="control-arrow right-arrow"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="404.html" class="logo">
+                        <img src="assets/logo.webp" alt="Stackly Logo" class="responsive-logo">
+                    </a>
+                    <p>Stackly is a registered international non-profit organization dedicated to deploying scalable scientific strategies, direct cleanup action loops, and strict policy protection Frameworks across major global marine coordinates.</p>
+                    <div class="social-icons">
+                        <a href="404.html" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+
+                        <a href="404.html" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="social-icon" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Get Involved</h4>
+                    <ul>
+                        <li><a href="404.html">Volunteer Network</a></li>
+                        <li><a href="404.html">Donation Portal</a></li>
+                        <li><a href="404.html">Corporate Packages</a></li>
+                        <li><a href="404.html">Media Kit Access</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Global Head Office</h4>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-location-dot" style="margin-right: 8px;"></i> 742 Marine Boulevard, Suite 100, San Francisco, CA</p>
+                    <p style="margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-phone" style="margin-right: 8px;"></i> +1 (800) 555-BLUE</p>
+                    <p style="font-size: 0.95rem;"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> actions@stacklyconservation.org</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Stackly Marine Conservation. All Rights Reserved across global territories.</p>
+                <div style="display:flex; gap: 20px;">
+                    <a href="404.html">Privacy Framework</a>
+                    <a href="404.html">Terms of Deployment</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BACK-TOP -->
+    <div class="back-top"><i class="fa-solid fa-chevron-up"></i></div>
+
+    <!-- SCRIPT INFRASTRUCTURE ENGINE -->
+    <script>
+        // Synchronous Navigation & Scroll State management
+        const navbar = document.querySelector('.navbar');
+        const backTop = document.querySelector('.back-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 500) backTop.classList.add('visible');
+            else backTop.classList.remove('visible');
+        });
+        backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // Mobile Navigation Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        if (menuToggle && navMenu) {
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-xmark');
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) { icon.classList.add('fa-bars'); icon.classList.remove('fa-xmark'); }
+                });
+            });
+        }
+
+        // Testimonial Simple Carousel Slider Logic
+        const track = document.querySelector('.slider-track');
+        const slides = Array.from(track.children);
+        const rightArrow = document.querySelector('.right-arrow');
+        const leftArrow = document.querySelector('.left-arrow');
+        let slideIdx = 0;
+
+        function renderSlidePosition() { track.style.transform = `translateX(-${slideIdx * 100}%)`; }
+        rightArrow.addEventListener('click', () => { slideIdx = (slideIdx + 1) % slides.length; renderSlidePosition(); });
+        leftArrow.addEventListener('click', () => { slideIdx = (slideIdx - 1 + slides.length) % slides.length; renderSlidePosition(); });
+
+        // CLEAN PROGRESSIVE GSAP SYSTEM
+        window.addEventListener('load', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Clean, non-pinning reveal scroll triggers
+            gsap.utils.toArray('.framework-card, .matrix-card-wrapper, .wildlife-card, .participation-card').forEach(card => {
+                gsap.fromTo(card, 
+                    { opacity: 0, y: 30 },
+                    { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' }}
+                );
+            });
+
+            // Trigger Progress Bars dynamically on visibility
+            ScrollTrigger.create({
+                trigger: '.coral-panel',
+                start: 'top 80%',
+                onEnter: () => {
+                    document.querySelectorAll('.bar-fill').forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-progress');
+                    });
+                }
+            });
+
+            // Fast, reliable Intersecting Count Up Engine
+            const numericNodes = document.querySelectorAll('.num, .count');
+            const observeMetrics = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const finalLimit = parseInt(element.getAttribute('data-target'), 10);
+                        let incrementVal = 0;
+                        const stepDelta = finalLimit / 30;
+
+                        const countRunner = setInterval(() => {
+                            incrementVal += stepDelta;
+                            if (incrementVal >= finalLimit) {
+                                element.innerText = finalLimit.toLocaleString() + "+";
+                                clearInterval(countRunner);
+                            } else {
+                                element.innerText = Math.floor(incrementVal).toLocaleString() + "+";
+                            }
+                        }, 25);
+                        observeMetrics.unobserve(element);
+                    }
+                });
+            }, { threshold: 0.1 });
+            numericNodes.forEach(node => observeMetrics.observe(node));
+        });
+    </script>
+
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-quad'
+        });
+    </script>
+</body>
+</html>
