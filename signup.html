@@ -192,8 +192,12 @@
 
         /* Hide Microsoft Edge / IE default reveal and clear buttons */
         input::-ms-reveal,
-        input::-ms-clear {
-            display: none;
+        input::-ms-clear,
+        input[type="password"]::-ms-reveal,
+        input[type="password"]::-ms-clear {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
         }
 
         .form-control.is-invalid {
